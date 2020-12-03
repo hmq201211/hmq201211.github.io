@@ -1,5 +1,6 @@
-# title: Effective Java Note
-
+---
+title: Effective Java Note
+---
 # **考虑使用静态工厂方法替代构造器**  
 
 * 静态工厂VS构造器优点:
