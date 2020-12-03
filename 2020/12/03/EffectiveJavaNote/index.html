@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="考虑使用静态工厂方法替代构造器 静态工厂VS构造器优点: 它们有名称   不必再每次调用时都创建对象   可以返回原类型的任何子类型对象   简化代码     静态工厂VS构造器缺点: 类如果没有public或者default的构造器, 子类将不会被实例化   它们与其它静态方法没有区别, 不会像构造器那样被标注出来      遇到多个构造器参数时要考虑使用构建器(建造者模式)JavaBeans的">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-03T13:23:56.068Z">
-<meta property="article:modified_time" content="2020-12-03T13:23:56.068Z">
+<meta property="article:published_time" content="2020-12-03T16:15:45.279Z">
+<meta property="article:modified_time" content="2020-12-03T16:15:45.279Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -103,7 +103,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%9B%BF%E4%BB%A3%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">考虑使用静态工厂方法替代构造器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%99%A8-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">遇到多个构造器参数时要考虑使用构建器(建造者模式)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%88%96%E8%80%85%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%8C%96Singleton%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">用私有构造器或者枚举类型强化Singleton属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%9D%A5%E5%BC%BA%E5%8C%96%E4%B8%8D%E5%8F%AF%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-number">4.</span> <span class="toc-text">通过私有构造器来强化不可实例化的能力</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">避免创建不必要的对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E9%99%A4%E8%BF%87%E6%9C%9F%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">消除过期对象引用</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%9B%BF%E4%BB%A3%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">考虑使用静态工厂方法替代构造器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%99%A8-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">遇到多个构造器参数时要考虑使用构建器(建造者模式)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%88%96%E8%80%85%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%8C%96Singleton%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">用私有构造器或者枚举类型强化Singleton属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%9D%A5%E5%BC%BA%E5%8C%96%E4%B8%8D%E5%8F%AF%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-number">4.</span> <span class="toc-text">通过私有构造器来强化不可实例化的能力</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">避免创建不必要的对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E9%99%A4%E8%BF%87%E6%9C%9F%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">消除过期对象引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8%E7%BB%88%E7%BB%93%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">避免使用终结方法</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -127,7 +127,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-03T13:23:56.068Z" itemprop="datePublished">2020-12-03</time>
+        <time datetime="2020-12-03T16:15:45.279Z" itemprop="datePublished">2020-12-03</time>
         
       
     </div>
@@ -176,6 +176,16 @@
 <li>缓存的时候 使用weakhashmap 当key的引用为空的时候 该key value会被删除</li>
 <li>注册监听器的时候使用弱引用</li>
 </ul>
+<h1 id="避免使用终结方法"><a href="#避免使用终结方法" class="headerlink" title="避免使用终结方法"></a>避免使用终结方法</h1><ol>
+<li>不可预测</li>
+<li>非常严重的性能损失</li>
+<li>使用场景</li>
+</ol>
+<ul>
+<li>作为最后一道安全网</li>
+<li>终止非关键的本地资源</li>
+<li>如果使用了finalize方法记得调用super.finalize方法；或者使用终结方法守卫者（私有的Object对象，只覆写了finalize方法）来保证调用到</li>
+</ul>
 
   </div>
   <div>
@@ -207,7 +217,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%9B%BF%E4%BB%A3%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">考虑使用静态工厂方法替代构造器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%99%A8-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">遇到多个构造器参数时要考虑使用构建器(建造者模式)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%88%96%E8%80%85%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%8C%96Singleton%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">用私有构造器或者枚举类型强化Singleton属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%9D%A5%E5%BC%BA%E5%8C%96%E4%B8%8D%E5%8F%AF%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-number">4.</span> <span class="toc-text">通过私有构造器来强化不可实例化的能力</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">避免创建不必要的对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E9%99%A4%E8%BF%87%E6%9C%9F%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">消除过期对象引用</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%9B%BF%E4%BB%A3%E6%9E%84%E9%80%A0%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">考虑使用静态工厂方法替代构造器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%99%A8%E5%8F%82%E6%95%B0%E6%97%B6%E8%A6%81%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%99%A8-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">遇到多个构造器参数时要考虑使用构建器(建造者模式)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%88%96%E8%80%85%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%8C%96Singleton%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">用私有构造器或者枚举类型强化Singleton属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%9D%A5%E5%BC%BA%E5%8C%96%E4%B8%8D%E5%8F%AF%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E8%83%BD%E5%8A%9B"><span class="toc-number">4.</span> <span class="toc-text">通过私有构造器来强化不可实例化的能力</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">避免创建不必要的对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E9%99%A4%E8%BF%87%E6%9C%9F%E5%AF%B9%E8%B1%A1%E5%BC%95%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">消除过期对象引用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8%E7%BB%88%E7%BB%93%E6%96%B9%E6%B3%95"><span class="toc-number">7.</span> <span class="toc-text">避免使用终结方法</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
