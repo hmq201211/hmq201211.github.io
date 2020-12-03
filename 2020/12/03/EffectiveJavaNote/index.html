@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="静态工厂VS构造器优点: 它们有名称 不必再每次调用时都创建对象 可以返回原类型的任何子类型对象 简化代码">
+    <meta name="description" content="静态工厂VS构造器优点: 它们有名称 不必再每次调用时都创建对象 可以返回原类型的任何子类型对象 简化代码  静态工厂VS构造器缺点: 类如果没有public或者default的构造器, 子类将不会被实例化 它们与其它静态方法没有区别, 不会像构造器那样被标注出来">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Java Note">
 <meta property="og:url" content="http://example.com/2020/12/03/EffectiveJavaNote/index.html">
 <meta property="og:site_name" content="Notes">
-<meta property="og:description" content="静态工厂VS构造器优点: 它们有名称 不必再每次调用时都创建对象 可以返回原类型的任何子类型对象 简化代码">
+<meta property="og:description" content="静态工厂VS构造器优点: 它们有名称 不必再每次调用时都创建对象 可以返回原类型的任何子类型对象 简化代码  静态工厂VS构造器缺点: 类如果没有public或者default的构造器, 子类将不会被实例化 它们与其它静态方法没有区别, 不会像构造器那样被标注出来">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-03T07:34:51.462Z">
-<meta property="article:modified_time" content="2020-12-03T07:34:51.462Z">
+<meta property="article:published_time" content="2020-12-03T07:39:56.115Z">
+<meta property="article:modified_time" content="2020-12-03T07:39:56.115Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -103,7 +103,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E4%BC%98%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">静态工厂VS构造器优点:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E4%BC%98%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">静态工厂VS构造器优点:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E7%BC%BA%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">静态工厂VS构造器缺点:</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -127,7 +127,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-03T07:34:51.462Z" itemprop="datePublished">2020-12-03</time>
+        <time datetime="2020-12-03T07:39:56.115Z" itemprop="datePublished">2020-12-03</time>
         
       
     </div>
@@ -142,14 +142,16 @@
   
 
   <div class="content" itemprop="articleBody">
-    <hr>
-<h1 id="静态工厂VS构造器优点"><a href="#静态工厂VS构造器优点" class="headerlink" title="静态工厂VS构造器优点:"></a>静态工厂VS构造器优点:</h1><ol>
+    <h1 id="静态工厂VS构造器优点"><a href="#静态工厂VS构造器优点" class="headerlink" title="静态工厂VS构造器优点:"></a>静态工厂VS构造器优点:</h1><ol>
 <li>它们有名称</li>
 <li>不必再每次调用时都创建对象</li>
 <li>可以返回原类型的任何子类型对象</li>
 <li>简化代码</li>
 </ol>
-<hr>
+<h1 id="静态工厂VS构造器缺点"><a href="#静态工厂VS构造器缺点" class="headerlink" title="静态工厂VS构造器缺点:"></a>静态工厂VS构造器缺点:</h1><ol>
+<li>类如果没有public或者default的构造器, 子类将不会被实例化</li>
+<li>它们与其它静态方法没有区别, 不会像构造器那样被标注出来</li>
+</ol>
 
   </div>
   <div>
@@ -181,7 +183,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E4%BC%98%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">静态工厂VS构造器优点:</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E4%BC%98%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">静态工厂VS构造器优点:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82VS%E6%9E%84%E9%80%A0%E5%99%A8%E7%BC%BA%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">静态工厂VS构造器缺点:</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
