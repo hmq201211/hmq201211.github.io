@@ -45,3 +45,29 @@ JavaBeans的多个set模式, 无法保证对象处于一致的状态, 也就无�
   * 终止非关键的本地资源
   * 如果使用了finalize方法记得调用super.finalize方法；或者使用终结方法守卫者（私有的Object对象，只覆写了finalize方法）来保证调用到
 
+# 覆盖equals方法时遵守约定
+* 以下不需要覆写
+  1. 类的每个实例本质本质就是唯一的
+  2. 并不关心类是否提供了逻辑相等
+  3. 超类已经覆写了equals，从超类继承的行为对于子类也是合适的
+  4. 类是私有的，或者包级私有的， 这种情况下equals方法永远不会被调用
+  5. 单例模式不需要覆写
+* 覆写需要满足的约定
+  1. 自反性 x equals x = true
+  2. 对称性 x equals y = true y equals x = true
+  3. 传递性 x equals y = true y equals z = true x equals z = true
+  4. 一致性 x equals y = true equals方法里面的信息没有被修改 多次调用始终成立
+  5. null x euqals null = false
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
