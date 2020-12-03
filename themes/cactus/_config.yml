@@ -26,9 +26,9 @@ nav:
 # only 'mail' is an exception.
 social_links:
   github: https://github.com/hmq201211
-  # twitter: /
-  # facebook: /
-  # linkedin: /
+  twitter: /
+  facebook: /
+  linkedin: /
   mail: mailto:hmqhmq201211@gmail.com
 
 # Customize the overview with displaying a tagcloud on the index page.
@@ -62,7 +62,7 @@ post:
 # Customize the copyright years
 # Note: if start_year/end_year not provided, will use current year.
 copyright:
-  start_year: 2016
+  start_year: 2020
   end_year:
 
 ##############################################################################
