@@ -1,0 +1,3 @@
+---
+title: Effective Java Note
+---
