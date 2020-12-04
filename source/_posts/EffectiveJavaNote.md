@@ -99,7 +99,9 @@ try(资源)catch(Exception)
 如果类的成员变量全是final的，考虑使用volatile和懒加载将hashcode的值缓存起来
 
 # 12.始终要覆盖toString方法
+
 # 13.谨慎地覆盖clone（不要使用）X
+最好使用clone来复制Array
   
   
   
