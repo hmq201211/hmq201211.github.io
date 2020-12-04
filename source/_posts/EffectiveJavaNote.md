@@ -58,6 +58,11 @@ JavaBeans的多个set模式, 无法保证对象处于一致的状态, 也就无�
   3. 传递性 x equals y = true y equals z = true x equals z = true
   4. 一致性 x equals y = true equals方法里面的信息没有被修改 多次调用始终成立
   5. null x euqals null = false
+* 在子类继承破坏了传递性的时候的解决措施
+  1. getClass来判断运行时类信息, 不一致直接false
+  2. 使用组合来代替继承, 适时返回view对象(要比较的对象)
+  3. 父类没必要实例化的时候可以是abstract类
+  
   
   
   
