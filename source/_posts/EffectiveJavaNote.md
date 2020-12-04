@@ -62,7 +62,17 @@ JavaBeans的多个set模式, 无法保证对象处于一致的状态, 也就无�
   1. getClass来判断运行时类信息, 不一致直接false
   2. 使用组合来代替继承, 适时返回view对象(要比较的对象)
   3. 父类没必要实例化的时候可以是abstract类
-  
+* equals方法高质量诀窍：
+  1. 性能优化 使用==来检查参数是否是this本身
+  2. 使用instanceof操作符来检查参数是否是正确的类型
+  3. 把参数转换成正确的类型
+  4. 对该类中每个关键的域，检查参数中的域与该对象的域是否匹配
+    1. double使用Double.compare
+    2. float使用Float.compare
+    3. 对于数组域使用Arrays.equals方法
+    4. 避免NPE （field == null ? o.field == null : field.equals(o.field))  或者 （field == o.field ||(field != null && field.equals(o.field)))
+    5. 优先比较最有可能不一致的域或者开销最低的域
+  5. 编写结束后进行单元测试
   
   
   
