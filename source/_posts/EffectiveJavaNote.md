@@ -76,9 +76,12 @@ JavaBeans的多个set模式, 无法保证对象处于一致的状态, 也就无�
       1. 覆盖equals方法时总要覆盖hashcode方法
       2. 不要企图让equals方法过于智能
       3. 不要更改Object类型为别的 （此操作为重载， 非覆写）
-    
-  
-  
+      
+# 覆盖equals方法时总要覆盖hashcode方法
+如果类的成员变量全是final的，考虑使用volatile和懒加载将hashcode的值缓存起来
+
+# 始终要覆盖toString方法
+# 谨慎地覆盖clone（不要使用）X
   
   
   
