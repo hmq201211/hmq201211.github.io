@@ -73,6 +73,10 @@ JavaBeans的多个set模式, 无法保证对象处于一致的状态, 也就无�
     4. 避免NPE （field == null ? o.field == null : field.equals(o.field))  或者 （field == o.field ||(field != null && field.equals(o.field)))
     5. 优先比较最有可能不一致的域或者开销最低的域
   5. 编写结束后进行单元测试
+    1. 覆盖equals方法时总要覆盖hashcode方法
+    2. 不要企图让equals方法过于智能
+    3. 不要更改Object类型为别的 （此操作为重载， 非覆写）
+    
   
   
   
