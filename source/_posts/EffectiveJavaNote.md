@@ -59,11 +59,11 @@ public class SpellChecke ｛
   * 终止非关键的本地资源
   * 如果使用了finalize方法记得调用super.finalize方法；或者使用终结方法守卫者（私有的Object对象，只覆写了finalize方法）来保证调用到
 
-# 9. try-with-resources优先于try-finally
+# 9.try-with-resources优先于try-finally
 try(资源)catch(Exception)
 使代码更简洁, 清晰 ,资源自动释放(前提是资源实现了AutoCloseable接口)
 
-# 覆盖equals方法时遵守约定
+# 10.覆盖equals方法时遵守约定
 * 以下不需要覆写
   1. 类的每个实例本质本质就是唯一的
   2. 并不关心类是否提供了逻辑相等
@@ -95,11 +95,11 @@ try(资源)catch(Exception)
       2. 不要企图让equals方法过于智能
       3. 不要更改Object类型为别的 （此操作为重载， 非覆写）
       
-# 覆盖equals方法时总要覆盖hashcode方法
+# 11.覆盖equals方法时总要覆盖hashcode方法
 如果类的成员变量全是final的，考虑使用volatile和懒加载将hashcode的值缓存起来
 
-# 始终要覆盖toString方法
-# 谨慎地覆盖clone（不要使用）X
+# 12.始终要覆盖toString方法
+# 13.谨慎地覆盖clone（不要使用）X
   
   
   
