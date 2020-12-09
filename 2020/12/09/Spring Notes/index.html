@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的声明周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-09T09:39:31.594Z">
-<meta property="article:modified_time" content="2020-12-09T09:39:31.594Z">
+<meta property="article:published_time" content="2020-12-09T09:43:54.174Z">
+<meta property="article:modified_time" content="2020-12-09T09:43:54.174Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -129,7 +129,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-09T09:39:31.594Z" itemprop="datePublished">2020-12-09</time>
+        <time datetime="2020-12-09T09:43:54.174Z" itemprop="datePublished">2020-12-09</time>
         
       
     </div>
@@ -213,19 +213,14 @@
 </li>
 <li><p>创建第三方Bean: 在@Configuration的类中的方法上使用@Bean注解来返回bean</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@ComponentScan</span><br><span class="line">public class AppConfig &#123;</span><br><span class="line">  &#x2F;&#x2F; 创建一个Bean:</span><br><span class="line">  @Bean</span><br><span class="line">  ZoneId createZoneId() &#123;</span><br><span class="line">    return ZoneId.of(&quot;Z&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>初始化和销毁</p>
-</li>
-<li><p>导入javax.annotation-api</p>
-</li>
-<li><p>初始化@postconstruct</p>
+<li><p>初始化和销毁  </p>
 <ol>
+<li>导入javax.annotation-api</li>
+<li>初始化@postconstruct</li>
 <li>构造方法构建bean实例</li>
 <li>依赖注入</li>
 <li>调用被标注的无参方法</li>
-</ol>
-</li>
-<li><p>销毁@predestory</p>
-<ol>
+<li>销毁@predestory</li>
 <li>销毁时 优先调用被标注的无参方法</li>
 </ol>
 </li>
