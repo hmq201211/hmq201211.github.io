@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-09T13:37:42.802Z">
-<meta property="article:modified_time" content="2020-12-09T13:37:42.802Z">
+<meta property="article:published_time" content="2020-12-09T14:30:34.020Z">
+<meta property="article:modified_time" content="2020-12-09T14:30:34.020Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -129,7 +129,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-09T13:37:42.802Z" itemprop="datePublished">2020-12-09</time>
+        <time datetime="2020-12-09T14:30:34.020Z" itemprop="datePublished">2020-12-09</time>
         
       
     </div>
@@ -235,7 +235,16 @@
 <li>或者使用@Primary注解来表明主要bean 如果注入时没有声明则自动注入主要的bean</li>
 </ol>
 </li>
+<li><p>使用factorybean</p>
+<ol>
+<li>实际调用getObject方法返回注册的对象</li>
+<li>getObjectType来确定注册的对象的类型</li>
 </ol>
+</li>
+</ol>
+</li>
+<li><p>使用Resource<br>@Value(“classpath:/logo.txt”) private Resource resource; resource中可以获取到文件流对象</p>
+<p>  tip：var 关键字 jdk 10 新特性 可以用在局部变量或者for循环中 预测编译后的对象类型</p>
 </li>
 </ul>
 
