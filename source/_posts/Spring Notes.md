@@ -69,10 +69,18 @@ title: Spring学习笔记
      1. 注册bean时 @bean("name") 或者@bean @qualifier("name")
      2. 注入bean时 @autowired @qualifier("name")
      3. 或者使用@Primary注解来表明主要bean 如果注入时没有声明则自动注入主要的bean
-    
- 
- 
- 
- 
- 
- 
+  7. 使用factorybean
+     1. 实际调用getObject方法返回注册的对象
+     2. getObjectType来确定注册的对象的类型
+* 使用Resource
+@Value("classpath:/logo.txt") private Resource resource; resource中可以获取到文件流对象
+
+    tip：var 关键字 jdk 10 新特性 可以用在局部变量或者for循环中 预测编译后的对象类型
+
+
+
+
+
+
+
+
