@@ -11,7 +11,7 @@ title: Spring学习笔记
   * 以及集成JMS、JavaMail、JMX、缓存等其他模块。
   
 # IOC容器 
-管理所有的轻量级JavaBean组件, 支持组件的声明周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务  
+管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务  
 * 传统new的方式有以下缺点:
   1. 实力化一个组件很难, 很多组件可能涉及到配置解析, 费时费力
   2. 没必要分别创建公用的组件, 但是不好管理
@@ -33,8 +33,8 @@ title: Spring学习笔记
 * XML装配bean
   1. Bean的类文件, 值依赖, 对象依赖
   2. 编写application.xml配置文件
-      1. bean要有id作为唯一标识
-      2. 对象引用要用property name ref 值引用要用property name value
+     1. bean要有id作为唯一标识
+     2. 对象引用要用property name ref 值引用要用property name value
   3. new ClassPathXmlApplicationContext("application.xml") 或者 new XmlBeanFactory(new ClassPathResource("application.xml"));  区别在于BeanFactory不主动加载, 而ApplicationContext会一次性创建所有的Bean(ApplicationContext继承自BeanFactory)
 * Annotation装配bean
   1. @component注解及其子注解配置在要注入的bean上
@@ -66,7 +66,7 @@ title: Spring学习笔记
      3. 销毁@predestory
          1. 销毁时 优先调用被标注的无参方法
   6. 使用别名
-    
+     1. 
     
  
  
