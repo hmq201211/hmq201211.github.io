@@ -83,7 +83,22 @@ title: Spring学习笔记
   4. 也可以先把配置读取到javaBean中，然后通过#{smtpConfig.host}来调用smtpConfig这个bean的getHost方法来注入值
      
          这样做的好处是只需要在这个javaBean中一处修改（例如更换数据源），其他的依赖的这个javaBean的@Value 不需要修改
-
+* 使用条件装配
+  1. @Profile注解
+     1. JVM启动时加参数-Dspring.profiles.active=test,master来指定以test和master环境来启动
+     2. @Bean @Profile({ "test", "master" })（同时满足test和master才自动装配该bean） 或者@Bean @Profile("!test") （不是test环境才自动装配该bean）
+  2. @Conditional注解
+     1. @Conditional(OnSmtpEnvCondition.class)
+     2. 实现Condition接口
+     ```
+     public class OnSmtpEnvCondition implements Condition {
+       public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+          return "true".equalsIgnoreCase(System.getenv("smtp"));
+       }
+     }
+     ```
+     3. 只有Condition这个类返回true时才会加载bean
+  
 
 
 
