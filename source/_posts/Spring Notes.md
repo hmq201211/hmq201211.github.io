@@ -35,7 +35,7 @@ title: Spring学习笔记
   2. 编写application.xml配置文件
      1. bean要有id作为唯一标识
      2. 对象引用要用property name ref 值引用要用property name value
-  3. new ClassPathXmlApplicationContext("application.xml") 或者 new XmlBeanFactory(new ClassPathResource("application.xml"));  区别在于BeanFactory不主动加载, 而ApplicationContext会一次性创建所有的Bean(ApplicationContext继承自BeanFactory)
+  3. new ClassPathXmlApplicationContext("application.xml")或者new XmlBeanFactory(new ClassPathResource("application.xml"));区别在于BeanFactory不主动加载, 而ApplicationContext会一次性创建所有的Bean(ApplicationContext继承自BeanFactory)
 * Annotation装配bean
   1. @component注解及其子注解配置在要注入的bean上
   2. @autowired注解来自动注入依赖
@@ -66,7 +66,9 @@ title: Spring学习笔记
      3. 销毁@predestory
          1. 销毁时 优先调用被标注的无参方法
   6. 使用别名
-     1. 
+     1. 注册bean时 @bean("name") 或者@bean @qualifier("name")
+     2. 注入bean时 @autowired @qualifier("name")
+     3. 或者使用@Primary注解来表明主要bean 如果注入时没有声明则自动注入主要的bean
     
  
  
