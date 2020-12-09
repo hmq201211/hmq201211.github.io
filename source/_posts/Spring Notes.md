@@ -37,5 +37,30 @@ title: Spring学习笔记
       2. 对象引用要用property name ref 值引用要用property name value
   3. new ClassPathXmlApplicationContext("application.xml") 或者 new XmlBeanFactory(new ClassPathResource("application.xml"));  区别在于BeanFactory不主动加载, 而ApplicationContext会一次性创建所有的Bean(ApplicationContext继承自BeanFactory)
 * Annotation装配bean
-  1. 
-  
+  1. @component注解及其子注解配置在要注入的bean上
+  2. @autowired注解来自动注入依赖
+  3. @configuration和@componentscan注解来配置当前文件为配置文件, 且@componentscan自动扫描当前类所在的包及其子包
+* 定制bean
+  1. @Scope 可以配置单例模式和原型模式(每次都获取一个新的实例)
+  2. 注入List @Autowired List<Validator> validators; @component @order(1) 来保证有序  
+  3. 可选注入 @Autowired(required = false)
+  4. 创建第三方Bean: 在@Configuration的类中的方法上使用@Bean注解来返回bean
+   
+    ```
+    @Configuration
+    @ComponentScan
+    public class AppConfig {
+    // 创建一个Bean:
+      @Bean
+      ZoneId createZoneId() {
+          return ZoneId.of("Z");
+      }
+    }
+    ```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
