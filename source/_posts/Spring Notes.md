@@ -57,13 +57,13 @@ title: Spring学习笔记
       }
     }
     ```
-  5. 初始化和销毁
-    1. 导入javax.annotation-api
-    2. 初始化@postconstruct
+  5. 初始化和销毁  
+     1. 导入javax.annotation-api
+     2. 初始化@postconstruct
        1. 构造方法构建bean实例
        2. 依赖注入
        3. 调用被标注的无参方法
-    3. 销毁@predestory
+     3. 销毁@predestory
        1. 销毁时 优先调用被标注的无参方法
   6. 使用别名
     
