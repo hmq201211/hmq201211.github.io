@@ -76,8 +76,13 @@ title: Spring学习笔记
 @Value("classpath:/logo.txt") private Resource resource; resource中可以获取到文件流对象
 
     tip：var 关键字 jdk 10 新特性 可以用在局部变量或者for循环中 预测编译后的对象类型
-
-
+* 注入配置
+  1. @propertySource读取到的配置是针对IOC全局的，任何bean都可以读取已经读取到的配置文件
+  2. @PropertySource("app.properties") 来读取classpath下的配置文件
+  3. @Value("${app.zone:Z}")来注入属性为app.zone的值 如果不存在 则这个值为Z
+  4. 也可以先把配置读取到javaBean中，然后通过#{smtpConfig.host}来调用smtpConfig这个bean的getHost方法来注入值
+     
+         这样做的好处是只需要在这个javaBean中一处修改（例如更换数据源），其他的依赖的这个javaBean的@Value 不需要修改
 
 
 
