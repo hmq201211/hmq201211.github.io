@@ -27,4 +27,15 @@ title: Spring学习笔记
   2. 共享组件变得十分简单
   3. 注入的组件更自由, 测试更简单
 * **IOC使组件的创建+配置与组件的使用分离, 由IOC容器来负责组件的声明周期的管理**
+* ***无侵入式容器***
+  1. 既可以在spring容器中运行 也可以自行创建对象
+  2. 测试的时候可以并不依赖spring容器, 进行单独测试, 提高开发效率
+* XML装配bean
+  1. Bean的类文件, 值依赖, 对象依赖
+  2. 编写application.xml配置文件
+      1. bean要有id作为唯一标识
+      2. 对象引用要用property name ref 值引用要用property name value
+  3. new ClassPathXmlApplicationContext("application.xml") 或者 new XmlBeanFactory(new ClassPathResource("application.xml"));  区别在于BeanFactory不主动加载, 而ApplicationContext会一次性创建所有的Bean(ApplicationContext继承自BeanFactory)
+* Annotation装配bean
+  1. 
   
