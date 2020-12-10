@@ -116,7 +116,53 @@ title: Spring学习笔记
     2. 代理流程
        1. 定义执行方法, 并在方法注解上, 使用AspectJ注解定义在何处调用此方法
        2. 在定义执行方法的类上加上@component注解和@aspect注解
-       3. 在@configuration的类上加上@enable
+       3. 在@configuration的类上加上@enableAspectJAutoProxy注解
+    3. 拦截器类型：
+       1. @Before 注解: 先执行拦截方法 再执行目标代码，要是拦截方法抛出异常，则目标方法不执行
+       2. @After 注解：先执行目标方法 不管其是否抛出异常 拦截方法都执行
+       3. @AfterReturing 与 after不同的是 只有正常返回时拦截方法才会执行
+       4. @AfterThrowing 与 after不同的是 只有在抛出异常时拦截方法才会执行
+       5. @Around 完全控制目标代码是否执行，并在执行前后 抛出异常前后执行任意拦截代码
+   * 使用自定义注解来进行装配aop
+     1. 自定义注解类
+     ```
+     @Target(METHOD)
+     @Retention(RUNTIME)
+     public @interface MetricTime {
+         String value();
+     }
+     ```
+     2. 被拦截的方法上加上注解
+     ```
+     @Component
+     public class UserService {
+         // 监控register()方法性能:
+         @MetricTime("register")
+         public User register(String email, String password, String name) {
+             ...
+         }
+         ...
+     }
+     ```
+     3. 编写执行方法
+     ```
+     @Aspect
+     @Component
+     public class MetricAspect {
+         @Around("@annotation(metricTime)")
+         public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable {
+             String name = metricTime.value();
+             long start = System.currentTimeMillis();
+             try {
+                 return joinPoint.proceed();
+             } finally {
+                 long t = System.currentTimeMillis() - start;
+                 // 写入日志或发送至JMX:
+                 System.err.println("[Metrics] " + name + ": " + t + "ms");
+             }
+         }
+     }
+     ```
 
 
 
