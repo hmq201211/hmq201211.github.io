@@ -123,46 +123,48 @@ title: Spring学习笔记
        3. @AfterReturing 与 after不同的是 只有正常返回时拦截方法才会执行
        4. @AfterThrowing 与 after不同的是 只有在抛出异常时拦截方法才会执行
        5. @Around 完全控制目标代码是否执行，并在执行前后 抛出异常前后执行任意拦截代码
-   * 使用自定义注解来进行装配aop
-     1. 自定义注解类
-     ```
-     @Target(METHOD)
-     @Retention(RUNTIME)
-     public @interface MetricTime {
-         String value();
-     }
-     ```
-     2. 被拦截的方法上加上注解
-     ```
-     @Component
-     public class UserService {
-         // 监控register()方法性能:
-         @MetricTime("register")
-         public User register(String email, String password, String name) {
-             ...
-         }
-         ...
-     }
-     ```
-     3. 编写执行方法
-     ```
-     @Aspect
-     @Component
-     public class MetricAspect {
-         @Around("@annotation(metricTime)")
-         public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable {
-             String name = metricTime.value();
-             long start = System.currentTimeMillis();
-             try {
-                 return joinPoint.proceed();
-             } finally {
-                 long t = System.currentTimeMillis() - start;
-                 // 写入日志或发送至JMX:
-                 System.err.println("[Metrics] " + name + ": " + t + "ms");
-             }
-         }
-     }
-     ```
-
+  * 使用自定义注解来进行装配aop
+    1. 自定义注解类
+    ```
+    @Target(METHOD)
+    @Retention(RUNTIME)
+    public @interface MetricTime {
+        String value();
+    }
+    ```
+    2. 被拦截的方法上加上注解
+    ```
+    @Component
+    public class UserService {
+        // 监控register()方法性能:
+        @MetricTime("register")
+        public User register(String email, String password, String name) {
+            ...
+        }
+        ...
+    }
+    ```
+    3. 编写执行方法
+    ```
+    @Aspect
+    @Component
+    public class MetricAspect {
+        @Around("@annotation(metricTime)")
+        public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable {
+            String name = metricTime.value();
+            long start = System.currentTimeMillis();
+            try {
+                return joinPoint.proceed();
+            } finally {
+                long t = System.currentTimeMillis() - start;
+                // 写入日志或发送至JMX:
+                System.err.println("[Metrics] " + name + ": " + t + "ms");
+            }
+        }
+    }
+    ```
+  * **Spring通过CGLIB创建的代理类，不会初始化代理类自身继承的任何成员变量，包括final类型的成员变量！**
+    1. 访问被注入的Bean时，总是调用方法而非直接访问字段；即要调用访问方法
+    2. 编写bean的时候, 如果这个类可能被代理, 那么就要避免使用public final来修饰
 
 
