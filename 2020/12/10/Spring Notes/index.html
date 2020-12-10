@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-10T07:41:11.656Z">
-<meta property="article:modified_time" content="2020-12-10T07:41:11.656Z">
+<meta property="article:published_time" content="2020-12-10T10:10:47.618Z">
+<meta property="article:modified_time" content="2020-12-10T10:10:47.618Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -129,7 +129,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-10T07:41:11.656Z" itemprop="datePublished">2020-12-10</time>
+        <time datetime="2020-12-10T10:10:47.618Z" itemprop="datePublished">2020-12-10</time>
         
       
     </div>
@@ -309,11 +309,12 @@
 <li>使用自定义注解来进行装配aop<ol>
 <li>自定义注解类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(METHOD)</span><br><span class="line">@Retention(RUNTIME)</span><br><span class="line">public @interface MetricTime &#123;</span><br><span class="line">    String value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>被拦截的方法上加上注解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class UserService &#123;</span><br><span class="line">    &#x2F;&#x2F; 监控register()方法性能:</span><br><span class="line">    @MetricTime(&quot;register&quot;)</span><br><span class="line">    public User register(String email, String password, String name) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>编写执行方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class MetricAspect &#123;</span><br><span class="line">    @Around(&quot;@annotation(metricTime)&quot;)</span><br><span class="line">    public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable &#123;</span><br><span class="line">        String name &#x3D; metricTime.value();</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        try &#123;</span><br><span class="line">            return joinPoint.proceed();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            long t &#x3D; System.currentTimeMillis() - start;</span><br><span class="line">            &#x2F;&#x2F; 写入日志或发送至JMX:</span><br><span class="line">            System.err.println(&quot;[Metrics] &quot; + name + &quot;: &quot; + t + &quot;ms&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
+<li>编写执行方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class MetricAspect &#123;</span><br><span class="line">    @Around(&quot;@annotation(metricTime)&quot;)</span><br><span class="line">    public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable &#123;</span><br><span class="line">        String name &#x3D; metricTime.value();</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        try &#123;</span><br><span class="line">            return joinPoint.proceed();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            long t &#x3D; System.currentTimeMillis() - start;</span><br><span class="line">            &#x2F;&#x2F; 写入日志或发送至JMX:</span><br><span class="line">            System.err.println(&quot;[Metrics] &quot; + name + &quot;: &quot; + t + &quot;ms&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
 </li>
+<li><strong>Spring通过CGLIB创建的代理类，不会初始化代理类自身继承的任何成员变量，包括final类型的成员变量！</strong><ol>
+<li>访问被注入的Bean时，总是调用方法而非直接访问字段；即要调用访问方法</li>
+<li>编写bean的时候, 如果这个类可能被代理, 那么就要避免使用public final来修饰</li>
 </ol>
 </li>
 </ul>
