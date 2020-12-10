@@ -9,12 +9,12 @@
     <meta name="description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring学习笔记">
-<meta property="og:url" content="http://example.com/2020/12/09/Spring%20Notes/index.html">
+<meta property="og:url" content="http://example.com/2020/12/10/Spring%20Notes/index.html">
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-09T15:45:46.371Z">
-<meta property="article:modified_time" content="2020-12-09T15:45:46.371Z">
+<meta property="article:published_time" content="2020-12-10T03:32:23.912Z">
+<meta property="article:modified_time" content="2020-12-10T03:32:23.912Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -76,7 +76,7 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2020/12/09/EffectiveJavaNote/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/10/EffectiveJavaNote/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
@@ -90,22 +90,22 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/09/Spring%20Notes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/09/Spring%20Notes/&text=Spring学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/09/Spring%20Notes/&is_video=false&description=Spring学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Spring学习笔记&body=Check out this article: http://example.com/2020/12/09/Spring%20Notes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/09/Spring%20Notes/&name=Spring学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/09/Spring%20Notes/&t=Spring学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/10/Spring%20Notes/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/10/Spring%20Notes/&text=Spring学习笔记"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/10/Spring%20Notes/&is_video=false&description=Spring学习笔记"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring学习笔记&body=Check out this article: http://example.com/2020/12/10/Spring%20Notes/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/10/Spring%20Notes/&name=Spring学习笔记&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/10/Spring%20Notes/&t=Spring学习笔记"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-framework%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">spring framework支持几个模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IOC%E5%AE%B9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">IOC容器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-framework%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">spring framework支持几个模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IOC%E5%AE%B9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">IOC容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOP"><span class="toc-number">3.</span> <span class="toc-text">AOP</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -129,7 +129,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-09T15:45:46.371Z" itemprop="datePublished">2020-12-09</time>
+        <time datetime="2020-12-10T03:32:23.912Z" itemprop="datePublished">2020-12-10</time>
         
       
     </div>
@@ -275,6 +275,30 @@
 </ol>
 </li>
 </ul>
+<h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>为了解决权限检查，日志记录，事务管理的重复代码而设计的面向切面编程技术<br>原理：基于jvm的动态代理，要是实现了接口，就可以使用jdk动态代理，要是没有可以使用CGLIB来实现</p>
+<ul>
+<li>装配AOP<ol>
+<li>基本概念:<ol>
+<li>Aspect 切面, 即一个横跨多个核心逻辑的功能,即系统的关切点</li>
+<li>JoinPoint 连接点, 即定义在应用程序的何时, 插入切面的执行</li>
+<li>PointCut 切入点 即一组连接点的组合</li>
+<li>Advice 增强, 即在特定连接点上的执行的动作</li>
+<li>Introduction 引介, 即为一个已有的java对象动态地增加新的接口</li>
+<li>Weaving 织入, 将切面织入到应用程序的流程中</li>
+<li>Interceptor 拦截器, 一种实现增强的方式</li>
+<li>Target Object  目标对象, 即真正执行业务的核心逻辑对象</li>
+<li>AOP Proxy 代理对象, 客户端所持有的增强后的代理对象</li>
+</ol>
+</li>
+<li>代理流程<ol>
+<li>定义执行方法, 并在方法注解上, 使用AspectJ注解定义在何处调用此方法</li>
+<li>在定义执行方法的类上加上@component注解和@aspect注解</li>
+<li>在@configuration的类上加上@enable</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
 
   </div>
   <div>
@@ -306,22 +330,22 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-framework%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">spring framework支持几个模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IOC%E5%AE%B9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">IOC容器</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-framework%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E6%A8%A1%E5%9D%97"><span class="toc-number">1.</span> <span class="toc-text">spring framework支持几个模块</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IOC%E5%AE%B9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">IOC容器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#AOP"><span class="toc-number">3.</span> <span class="toc-text">AOP</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/09/Spring%20Notes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/09/Spring%20Notes/&text=Spring学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/09/Spring%20Notes/&is_video=false&description=Spring学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Spring学习笔记&body=Check out this article: http://example.com/2020/12/09/Spring%20Notes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/09/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/09/Spring%20Notes/&name=Spring学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/09/Spring%20Notes/&t=Spring学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/10/Spring%20Notes/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/10/Spring%20Notes/&text=Spring学习笔记"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/10/Spring%20Notes/&is_video=false&description=Spring学习笔记"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Spring学习笔记&body=Check out this article: http://example.com/2020/12/10/Spring%20Notes/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/10/Spring%20Notes/&title=Spring学习笔记"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/10/Spring%20Notes/&name=Spring学习笔记&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/10/Spring%20Notes/&t=Spring学习笔记"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
