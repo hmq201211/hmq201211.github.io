@@ -13,8 +13,8 @@
 <meta property="og:site_name" content="Notes">
 <meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-10T03:32:23.912Z">
-<meta property="article:modified_time" content="2020-12-10T03:32:23.912Z">
+<meta property="article:published_time" content="2020-12-10T07:41:11.656Z">
+<meta property="article:modified_time" content="2020-12-10T07:41:11.656Z">
 <meta property="article:author" content="hmq">
 <meta name="twitter:card" content="summary">
     
@@ -129,7 +129,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-10T03:32:23.912Z" itemprop="datePublished">2020-12-10</time>
+        <time datetime="2020-12-10T07:41:11.656Z" itemprop="datePublished">2020-12-10</time>
         
       
     </div>
@@ -293,8 +293,26 @@
 <li>代理流程<ol>
 <li>定义执行方法, 并在方法注解上, 使用AspectJ注解定义在何处调用此方法</li>
 <li>在定义执行方法的类上加上@component注解和@aspect注解</li>
-<li>在@configuration的类上加上@enable</li>
+<li>在@configuration的类上加上@enableAspectJAutoProxy注解</li>
 </ol>
+</li>
+<li>拦截器类型：<ol>
+<li>@Before 注解: 先执行拦截方法 再执行目标代码，要是拦截方法抛出异常，则目标方法不执行</li>
+<li>@After 注解：先执行目标方法 不管其是否抛出异常 拦截方法都执行</li>
+<li>@AfterReturing 与 after不同的是 只有正常返回时拦截方法才会执行</li>
+<li>@AfterThrowing 与 after不同的是 只有在抛出异常时拦截方法才会执行</li>
+<li>@Around 完全控制目标代码是否执行，并在执行前后 抛出异常前后执行任意拦截代码</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>使用自定义注解来进行装配aop<ol>
+<li>自定义注解类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(METHOD)</span><br><span class="line">@Retention(RUNTIME)</span><br><span class="line">public @interface MetricTime &#123;</span><br><span class="line">    String value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>被拦截的方法上加上注解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class UserService &#123;</span><br><span class="line">    &#x2F;&#x2F; 监控register()方法性能:</span><br><span class="line">    @MetricTime(&quot;register&quot;)</span><br><span class="line">    public User register(String email, String password, String name) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>编写执行方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class MetricAspect &#123;</span><br><span class="line">    @Around(&quot;@annotation(metricTime)&quot;)</span><br><span class="line">    public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable &#123;</span><br><span class="line">        String name &#x3D; metricTime.value();</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        try &#123;</span><br><span class="line">            return joinPoint.proceed();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            long t &#x3D; System.currentTimeMillis() - start;</span><br><span class="line">            &#x2F;&#x2F; 写入日志或发送至JMX:</span><br><span class="line">            System.err.println(&quot;[Metrics] &quot; + name + &quot;: &quot; + t + &quot;ms&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 </li>
 </ol>
 </li>
