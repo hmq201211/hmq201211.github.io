@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="代码链接 第一章 软件架构设计原则 开闭原则 对拓展开放, 对修改关闭  依赖倒置原则 高层模块不应该依赖底层模块, 二者都应该依赖其抽象 抽象不应该依赖细节, 细节应该依赖抽象  传参方式注入 构造器方式注入 setter方式注入">
+    <meta name="description" content="代码链接 第一章 软件架构设计原则 开闭原则 对拓展开放, 对修改关闭  依赖倒置原则 高层模块不应该依赖底层模块, 二者都应该依赖其抽象 抽象不应该依赖细节, 细节应该依赖抽象  传参方式注入 构造器方式注入 setter方式注入   单一职责原则  类或者接口拆分 方法拆分   接口隔离原则 动物会飞会跑会吃东西, 分别设置3个接口  迪米特原则一个对象应该对其他对象保持最少的了解  里氏替换">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring5核心原理">
 <meta property="og:url" content="http://example.com/2020/12/11/Spirng%205%20Core%20Principle/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="代码链接 第一章 软件架构设计原则 开闭原则 对拓展开放, 对修改关闭  依赖倒置原则 高层模块不应该依赖底层模块, 二者都应该依赖其抽象 抽象不应该依赖细节, 细节应该依赖抽象  传参方式注入 构造器方式注入 setter方式注入">
+<meta property="og:description" content="代码链接 第一章 软件架构设计原则 开闭原则 对拓展开放, 对修改关闭  依赖倒置原则 高层模块不应该依赖底层模块, 二者都应该依赖其抽象 抽象不应该依赖细节, 细节应该依赖抽象  传参方式注入 构造器方式注入 setter方式注入   单一职责原则  类或者接口拆分 方法拆分   接口隔离原则 动物会飞会跑会吃东西, 分别设置3个接口  迪米特原则一个对象应该对其他对象保持最少的了解  里氏替换">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-12-11T08:34:50.110Z">
-<meta property="article:modified_time" content="2020-12-11T08:34:50.110Z">
+<meta property="article:published_time" content="2020-12-11T09:21:17.820Z">
+<meta property="article:modified_time" content="2020-12-11T09:21:17.820Z">
 <meta property="article:author" content="HMQ">
 <meta name="twitter:card" content="summary">
     
@@ -131,7 +131,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-12-11T08:34:50.110Z" itemprop="datePublished">2020-12-11</time>
+        <time datetime="2020-12-11T09:21:17.820Z" itemprop="datePublished">2020-12-11</time>
         
       
     </div>
@@ -160,7 +160,34 @@
 <li>setter方式注入</li>
 </ol>
 </li>
+<li><p>单一职责原则</p>
+<ol>
+<li>类或者接口拆分</li>
+<li>方法拆分</li>
 </ol>
+</li>
+<li><p>接口隔离原则</p>
+<pre><code>动物会飞会跑会吃东西, 分别设置3个接口</code></pre>
+</li>
+<li><p>迪米特原则<br>一个对象应该对其他对象保持最少的了解</p>
+</li>
+<li><p>里氏替换原则</p>
+</li>
+</ol>
+<ul>
+<li>子类可以拓展父类的功能, 单不能改变父类原有的功能:<ol>
+<li>子类可以实现父类的抽象方法, 但是不能覆盖父类的非抽象方法</li>
+<li>子类可以增加自己特有的方法</li>
+<li>当子类重载父类的方法时, 方法的前置条件(入参)要比父类的输入参数更宽松</li>
+<li>当子类实现父类的方法时(重写 重载 实现抽象方法) 方法的后置条件要比父类的更严格或者一样</li>
+</ol>
+</li>
+<li>优点:<ol>
+<li>约束继承泛滥</li>
+<li>加强程序的健壮性, 变更的同时, 保证很好的兼容性, 提高程序的可维护性和扩展性, 降低需求变更时引入的风险</li>
+</ol>
+</li>
+</ul>
 
   </div>
   <div>
