@@ -29,4 +29,4 @@ categories:
 
 
 
-[1]: picture/Broker与集群.png
+[1]: ../../../../images/picture/Broker与集群.png
