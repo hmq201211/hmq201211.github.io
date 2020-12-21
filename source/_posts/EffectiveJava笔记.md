@@ -1,5 +1,11 @@
 ---
-title: EffectiveJava笔记
+title: EffectiveJava笔记  
+date: 2020-12-21  
+tags:
+- Java
+
+categories:
+- Java
 ---
 
 # 1.考虑使用静态工厂方法替代构造器

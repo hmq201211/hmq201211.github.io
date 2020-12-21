@@ -1,5 +1,11 @@
 ---
-title: kafka
+title: kafka  
+date: 2020-12-21  
+tags:
+- Kafka  
+
+categories:
+- Kafka
 ---
 
 # 优势
@@ -23,4 +29,4 @@ title: kafka
 
 
 
-[1]: ../source/_picture/Broker与集群.png
+[1]: picture/Broker与集群.png

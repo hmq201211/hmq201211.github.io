@@ -1,5 +1,12 @@
 ---
-title: SpringInAction笔记
+title: SpringInAction笔记  
+date: 2020-12-21  
+tags:
+- Java  
+- Spring
+
+categories:
+- Spring
 ---
 
 # 第一章 Java之旅

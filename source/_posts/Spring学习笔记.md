@@ -1,5 +1,12 @@
 ---
-title: Spring学习笔记
+title: Spring学习笔记  
+date: 2020-12-21  
+tags:
+- Java
+- Spring
+
+categories:
+- Spring
 ---
 
 # spring framework支持几个模块
