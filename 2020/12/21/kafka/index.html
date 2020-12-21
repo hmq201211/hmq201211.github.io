@@ -6,16 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="优势 天生支持分布式 磁盘存储数据 持久化 流处理模式  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者: 拉取消息 偏移量: 每个分区消费到的index 消费群组: 每个分区只能被消费群组的一个消费者消费, 但是一个消费者可以消费多个分区. 如果消费者down了, 则由其他的">
+    <meta name="description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka">
 <meta property="og:url" content="http://example.com/2020/12/21/kafka/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="优势 天生支持分布式 磁盘存储数据 持久化 流处理模式  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者: 拉取消息 偏移量: 每个分区消费到的index 消费群组: 每个分区只能被消费群组的一个消费者消费, 但是一个消费者可以消费多个分区. 如果消费者down了, 则由其他的">
+<meta property="og:description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-21T14:28:57.476Z">
+<meta property="article:modified_time" content="2020-12-21T14:50:49.289Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">基础部分</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">为什么选择：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">应用场景：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">基础部分</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -161,8 +161,21 @@
   <div class="content" itemprop="articleBody">
     <h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><ol>
 <li>天生支持分布式</li>
-<li>磁盘存储数据 持久化</li>
+<li>磁盘存储数据 持久化（但是有保存策略，包括时间和空间）</li>
 <li>流处理模式</li>
+</ol>
+<h1 id="为什么选择："><a href="#为什么选择：" class="headerlink" title="为什么选择："></a>为什么选择：</h1><ol>
+<li>多生产者和多消费者模式</li>
+<li>天生持久化</li>
+<li>高伸缩性</li>
+<li>高性能</li>
+</ol>
+<h1 id="应用场景："><a href="#应用场景：" class="headerlink" title="应用场景："></a>应用场景：</h1><ol>
+<li>活动追踪</li>
+<li>传递消息</li>
+<li>收集指标和日志</li>
+<li>提交日志</li>
+<li>流处理</li>
 </ol>
 <h1 id="基础部分"><a href="#基础部分" class="headerlink" title="基础部分"></a>基础部分</h1><ol>
 <li>消息: 字符数组</li>
@@ -207,7 +220,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">基础部分</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.</span> <span class="toc-text">优势</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">为什么选择：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">应用场景：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E9%83%A8%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">基础部分</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
