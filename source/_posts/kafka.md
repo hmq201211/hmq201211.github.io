@@ -124,7 +124,9 @@ categories:
      3. none topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常
   - enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true
   - max.poll.records 每次拉取返回的记录数量 默认500
-  
+  - partition.assignment.strategy 分区分给消费者的策略
+    1. Range 连续分区分给同一个消费者 默认生效
+    2. RoundRobin 你一个我一个 随机轮询
   
   
   
