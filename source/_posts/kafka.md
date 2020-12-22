@@ -69,9 +69,29 @@ categories:
 ![生产者JavaAPI][2]
 失败重试机制：
   1. 连接错误
-  2. 首领down了
+  2. 首领down了  
+  
 非失败重试的情况，直接返回异常
 
+发送的方式：
+  1. 发送并忘记（还是会重试，但是有时候会丢失消息）
+  2. 同步发送
+  3. 异步发送
+
+- acks：消息确认机制：
+  - 1 必须首领也确认
+  - 0 不需要确认
+  - all 需要首领确认，从机也确认
+- batch.size: 批次大小 默认为16384  
+- linger.ms: 批次发送前的等待时间，默认为0
+- max.request.size: 生产者默认发送请求的最大大小，不能超过message.max.bytes, 否则发送数据丢失
+- max.in.flight.requests.per.connection: 由于失败重试机制导致的消息顺序不能保证，将此值设置为1时，可以确保失败重试时，其他消息不能发送  
+*严重损耗生产者性能，除非非要保证消息顺序一致性*
+- bufffer.memory: 生产者内存缓冲区大小  
+- retries：失败重试次数，默认为Integer的最大值
+- request.timeout.ms: 客户端等待请求响应的最大时间  
+- max.block.ms: 最长阻塞时间，超过则抛出异常
+- compression.type: 压缩类型 none gzip snappy 默认无压缩
 
 
 [1]: ../../../../images/picture/Broker与集群.png
