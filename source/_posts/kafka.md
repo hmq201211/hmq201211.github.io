@@ -60,6 +60,19 @@ categories:
 - message.max.bytes 消息的最大字节数 消费者和生产者要保持一致, 切不要大于fetch.message.max.bytes.
 - fetch.message.max.bytes 消费者所能获取的最大字节数
 
+# 负载均衡
+- 消息带key，按照key值来取模均衡
+- key值固定，不负载均衡
+- key为空，分区器散列
+
+# 生产者Java API
+![生产者JavaAPI][2]
+失败重试机制：
+  1. 连接错误
+  2. 首领down了
+非失败重试的情况，直接返回异常
+
 
 
 [1]: ../../../../images/picture/Broker与集群.png
+[2]: ../../../../images/picture/生产者JavaApi.png
