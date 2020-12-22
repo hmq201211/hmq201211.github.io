@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-22T12:32:13.666Z">
+<meta property="article:modified_time" content="2020-12-22T13:04:33.419Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -258,6 +258,32 @@
 <li>消费速率的问题 消费者往往比生产者慢</li>
 </ol>
 <p>消费者群组订阅规则:<br><img src="../../../../images/picture/KafkaConsumerGroup.png" alt="消费者群组"></p>
+<ol>
+<li>每个分区只能被一个消费者消费</li>
+<li>要是消费者比分区多, 没订阅的消费者会得不到信息</li>
+<li>要是有消费者down了, 没订阅的消费者会替代down了消费者</li>
+<li>多个群组分开看, 互不干扰</li>
+</ol>
+<p><strong>消费者多线程不安全</strong></p>
+<p>分区和再均衡:</p>
+<ol>
+<li><p>消费者发生了变化, down了的消费者会被等待的消费者替代</p>
+<pre><code>涉及到群主概念, 第一个加入消费者群组的消费者作为群主, 保留全部分区到组里消费者的映射关系</code></pre>
+</li>
+<li><p>主题分区变多了的话, 等待的消费者会分配新的分区</p>
+</li>
+</ol>
+<p>配置：</p>
+<ul>
+<li>auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理<ol>
+<li>latest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据</li>
+<li>earliest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费</li>
+<li>none topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常</li>
+</ol>
+</li>
+<li>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</li>
+<li>max.poll.records 每次拉取返回的记录数量 默认500</li>
+</ul>
 
   </div>
   <div>
