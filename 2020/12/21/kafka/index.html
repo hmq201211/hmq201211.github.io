@@ -14,9 +14,9 @@
 <meta property="og:description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
-<meta property="og:image" content="http://example.com/images/picture/%E7%94%9F%E4%BA%A7%E8%80%85JavaApi.png">
+<meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-22T03:29:44.906Z">
+<meta property="article:modified_time" content="2020-12-22T05:39:06.044Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
 <li>key值固定，不负载均衡</li>
 <li>key为空，分区器散列</li>
 </ul>
-<h1 id="生产者Java-API"><a href="#生产者Java-API" class="headerlink" title="生产者Java API"></a>生产者Java API</h1><p><img src="../../../../images/picture/%E7%94%9F%E4%BA%A7%E8%80%85JavaApi.png" alt="生产者JavaAPI"><br>失败重试机制：</p>
+<h1 id="生产者Java-API"><a href="#生产者Java-API" class="headerlink" title="生产者Java API"></a>生产者Java API</h1><p><img src="../../../../images/picture/KafkaJavaApi.png" alt="生产者JavaAPI"><br>失败重试机制：</p>
 <ol>
 <li>连接错误</li>
 <li>首领down了  </li>
