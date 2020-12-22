@@ -86,8 +86,7 @@ categories:
 - batch.size: 批次大小 默认为16384  
 - linger.ms: 批次发送前的等待时间，默认为0
 - max.request.size: 生产者默认发送请求的最大大小，不能超过message.max.bytes, 否则发送数据丢失
-- max.in.flight.requests.per.connection: 由于失败重试机制导致的消息顺序不能保证，将此值设置为1时，可以确保失败重试时，其他消息不能发送 
-*严重损耗生产者性能，除非非要保证消息顺序一致性*
+- max.in.flight.requests.per.connection: 由于失败重试机制导致的消息顺序不能保证，将此值设置为1时，可以确保失败重试时，其他消息不能发送 *严重损耗生产者性能，除非非要保证消息顺序一致性*
 - bufffer.memory: 生产者内存缓冲区大小  
 - retries：失败重试次数，默认为Integer的最大值
 - request.timeout.ms: 客户端等待请求响应的最大时间  
