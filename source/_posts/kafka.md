@@ -93,6 +93,9 @@ categories:
 - max.block.ms: 最长阻塞时间，超过则抛出异常
 - compression.type: 压缩类型 none gzip snappy 默认无压缩
 
+自定义序列化器和反序列化器:
+- 序列化器需要实现serilizer接口
+- 反序列化器需要实现deserilizer接口
 
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
