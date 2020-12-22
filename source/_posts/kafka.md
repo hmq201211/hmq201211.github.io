@@ -98,5 +98,8 @@ categories:
 - 序列化器需要实现serilizer接口
 - 反序列化器需要实现deserilizer接口
 
+# 消费者
+消费者群组的意义:
+  1. 消费速率的问题 消费者往往比生产者慢
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
