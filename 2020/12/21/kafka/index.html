@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-22T13:04:33.419Z">
+<meta property="article:modified_time" content="2020-12-22T13:20:44.153Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -283,6 +283,11 @@
 </li>
 <li>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</li>
 <li>max.poll.records 每次拉取返回的记录数量 默认500</li>
+<li>partition.assignment.strategy 分区分给消费者的策略<ol>
+<li>Range 连续分区分给同一个消费者 默认生效</li>
+<li>RoundRobin 你一个我一个 随机轮询</li>
+</ol>
+</li>
 </ul>
 
   </div>
