@@ -96,4 +96,4 @@ categories:
 
 
 [1]: ../../../../images/picture/Broker与集群.png
-[2]: ../../../../images/picture/生产者JavaApi.png
+[2]: ../../../../images/picture/KafkaJavaApi.png
