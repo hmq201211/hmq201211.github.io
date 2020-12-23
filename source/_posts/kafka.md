@@ -139,8 +139,31 @@ categories:
     1. 重复消费
     2. 消息丢失
   - 手动提交(同步)
+  ```
+  enable.auto.commit = false
+  consumer.commitSync();
+  ```
   - 手动提交(异步)
+  ```
+  enable.auto.commit = false
+  consumer.commitASync(new OffsetCommitCallback(){
+    public void onComplete(...){
+    ...
+    }
+  );
+  ```
   - 同步和异步组合
+  ```
+  enable.auto.commit = false
+  consumer.commitASync(new OffsetCommitCallback(){
+    public void onComplete(...){
+    ...
+    }
+  );
+  finally{
+  consumer.commitSync();
+  }
+  ```
   - 特定提交
   
   
