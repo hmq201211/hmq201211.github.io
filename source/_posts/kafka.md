@@ -124,6 +124,7 @@ categories:
          再均衡监听器：再均衡开始之前和消费者停止读取消息之后生效
          分区发生变化, 监听器会调用onPartitionsRevoked方法
          消费者被分配之后, 监听器会调用onPartitionsAssigned方法
+         consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量
   
 配置：
   - auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理
@@ -174,6 +175,13 @@ categories:
   consumer.commitSync();
   }
   ```
+独立消费者:
+没有消费者组的概念, 但是需要消费主题和分区
+```
+1. consumer.partitionsFor(TOPIC); 获取主题的分区列表
+2. 选取要消费的主题 放入list
+3. consumer.assign(List<TopicPartition>)
+```
   
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
