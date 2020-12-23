@@ -112,7 +112,7 @@ categories:
 提交和偏移量： 
   从分区copy一份消息，然后消费，然后给特殊的consumer_offsets主题发生偏移量消费消息
   
-**消费者多线程不安全**
+**消费者多线程不安全，需要保证每一个线程中都有一份KafkaConsumer实例**
 
 分区和再均衡:
   1. 消费者发生了变化, down了的消费者会被等待的消费者替代
@@ -133,6 +133,7 @@ categories:
   - partition.assignment.strategy 分区分给消费者的策略
     1. Range 连续分区分给同一个消费者 默认生效
     2. RoundRobin 你一个我一个 随机轮询
+    
   
   
   
