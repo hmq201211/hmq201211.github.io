@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-23T09:00:07.662Z">
+<meta property="article:modified_time" content="2020-12-23T09:06:10.276Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -81,10 +81,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2020/12/21/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/21/SpringInAction%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2020/12/21/%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/21/Spring%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -279,38 +279,31 @@
 </ol>
 <p>配置：</p>
 <ul>
-<li><p>auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理</p>
-<ol>
+<li>auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理<ol>
 <li>latest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据</li>
 <li>earliest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费</li>
 <li>none topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常</li>
 </ol>
 </li>
-<li><p>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</p>
-</li>
-<li><p>max.poll.records 每次拉取返回的记录数量 默认500</p>
-</li>
-<li><p>partition.assignment.strategy 分区分给消费者的策略</p>
-<ol>
+<li>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</li>
+<li>max.poll.records 每次拉取返回的记录数量 默认500</li>
+<li>partition.assignment.strategy 分区分给消费者的策略<ol>
 <li>Range 连续分区分给同一个消费者 默认生效</li>
 <li>RoundRobin 你一个我一个 随机轮询</li>
 </ol>
-<p>提交偏移量的方式:</p>
 </li>
-<li><p>自动提交:</p>
-<ol>
+</ul>
+<p>提交偏移量的方式:</p>
+<ul>
+<li>自动提交:<ol>
 <li>重复消费</li>
 <li>消息丢失</li>
 </ol>
 </li>
-<li><p>手动提交(同步)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitSync();</span><br></pre></td></tr></table></figure></li>
-<li><p>手动提交(异步)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitASync(new OffsetCommitCallback()&#123;</span><br><span class="line">  public void onComplete(...)&#123;</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
-<li><p>同步和异步组合</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitASync(new OffsetCommitCallback()&#123;</span><br><span class="line">  public void onComplete(...)&#123;</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line">finally&#123;</span><br><span class="line">consumer.commitSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>特定提交(处理重复消费和数据丢失)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new一个map&lt;TopicPartition, OffsetAndMetadata&gt;, 然后业务中可以往这个map中put值, 并采用同步或者异步的方式来进行手动提交</span><br><span class="line">在业务结束时,再同步提交一次</span><br><span class="line">finally&#123;</span><br><span class="line">consumer.commitSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>手动提交(同步)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitSync();</span><br></pre></td></tr></table></figure></li>
+<li>手动提交(异步)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitASync(new OffsetCommitCallback()&#123;</span><br><span class="line">  public void onComplete(...)&#123;</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></li>
+<li>同步和异步组合<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">enable.auto.commit &#x3D; false</span><br><span class="line">consumer.commitASync(new OffsetCommitCallback()&#123;</span><br><span class="line">  public void onComplete(...)&#123;</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line">finally&#123;</span><br><span class="line">consumer.commitSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>特定提交(处理重复消费和数据丢失)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">new一个map&lt;TopicPartition, OffsetAndMetadata&gt;, 然后业务中可以往这个map中put值, 并采用同步或者异步的方式来进行手动提交</span><br><span class="line">在业务结束时,再同步提交一次</span><br><span class="line">finally&#123;</span><br><span class="line">consumer.commitSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
