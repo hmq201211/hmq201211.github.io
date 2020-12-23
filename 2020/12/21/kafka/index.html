@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-23T07:55:03.260Z">
+<meta property="article:modified_time" content="2020-12-23T08:02:06.874Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -264,6 +264,7 @@
 <li>要是有消费者down了, 没订阅的消费者会替代down了消费者</li>
 <li>多个群组分开看, 互不干扰</li>
 </ol>
+<p>提交和偏移量：<br>  从分区copy一份消息，然后消费，然后给特殊的consumer_offsets主题发生偏移量消费消息</p>
 <p><strong>消费者多线程不安全</strong></p>
 <p>分区和再均衡:</p>
 <ol>
