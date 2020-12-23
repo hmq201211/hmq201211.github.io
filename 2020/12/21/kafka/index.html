@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-23T08:55:05.796Z">
+<meta property="article:modified_time" content="2020-12-23T09:00:07.662Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -272,7 +272,9 @@
 <pre><code>群组协调器：涉及到群主概念, 第一个加入消费者群组的消费者作为群主, 保留全部分区到组里消费者的映射关系</code></pre>
 </li>
 <li><p>主题分区变多了的话, 等待的消费者会分配新的分区 会发生Stop The World </p>
-<pre><code>再均衡监听器：再均衡开始之前和消费者停止读取消息之后生效</code></pre>
+<pre><code>再均衡监听器：再均衡开始之前和消费者停止读取消息之后生效
+分区发生变化, 监听器会调用onPartitionsRevoked方法
+消费者被分配之后, 监听器会调用onPartitionsAssigned方法</code></pre>
 </li>
 </ol>
 <p>配置：</p>
