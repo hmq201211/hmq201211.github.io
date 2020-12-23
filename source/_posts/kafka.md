@@ -176,12 +176,12 @@ categories:
   }
   ```
 独立消费者:
-没有消费者组的概念, 但是需要消费主题和分区
-```
-1. consumer.partitionsFor(TOPIC); 获取主题的分区列表
-2. 选取要消费的主题 放入list
-3. consumer.assign(List<TopicPartition>)
-```
+  没有消费者组的概念, 但是需要消费主题和分区
+  ```
+  1. consumer.partitionsFor(TOPIC); 获取主题的分区列表
+  2. 选取要消费的主题 放入list
+  3. consumer.assign(List<TopicPartition>)
+  ```
   
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
