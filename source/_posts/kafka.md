@@ -135,8 +135,8 @@ categories:
   - partition.assignment.strategy 分区分给消费者的策略
     1. Range 连续分区分给同一个消费者 默认生效
     2. RoundRobin 你一个我一个 随机轮询
-    
- 提交偏移量的方式:
+ 
+提交偏移量的方式:
   - 自动提交:
     1. 重复消费
     2. 消息丢失
