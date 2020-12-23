@@ -122,6 +122,8 @@ categories:
   2. 主题分区变多了的话, 等待的消费者会分配新的分区 会发生Stop The World 
   
          再均衡监听器：再均衡开始之前和消费者停止读取消息之后生效
+         分区发生变化, 监听器会调用onPartitionsRevoked方法
+         消费者被分配之后, 监听器会调用onPartitionsAssigned方法
   
 配置：
   - auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理
