@@ -164,8 +164,14 @@ categories:
   consumer.commitSync();
   }
   ```
-  - 特定提交
-  
+  - 特定提交(处理重复消费和数据丢失)
+  ```
+  new一个map<TopicPartition, OffsetAndMetadata>, 然后业务中可以往这个map中put值, 并采用同步或者异步的方式来进行手动提交
+  在业务结束时,再同步提交一次
+  finally{
+  consumer.commitSync();
+  }
+  ```
   
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
