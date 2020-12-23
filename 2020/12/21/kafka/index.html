@@ -17,7 +17,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-23T08:04:48.872Z">
+<meta property="article:modified_time" content="2020-12-23T08:18:15.695Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -271,24 +271,43 @@
 <li><p>消费者发生了变化, down了的消费者会被等待的消费者替代</p>
 <pre><code>群组协调器：涉及到群主概念, 第一个加入消费者群组的消费者作为群主, 保留全部分区到组里消费者的映射关系</code></pre>
 </li>
-<li><p>主题分区变多了的话, 等待的消费者会分配新的分区</p>
+<li><p>主题分区变多了的话, 等待的消费者会分配新的分区 会发生Stop The World </p>
 <pre><code>再均衡监听器：再均衡开始之前和消费者停止读取消息之后生效</code></pre>
 </li>
 </ol>
 <p>配置：</p>
 <ul>
-<li>auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理<ol>
+<li><p>auto.offset.reset 消费者在读取到一个没有偏移量或者偏移量无效的分区的情况下，如何处理</p>
+<ol>
 <li>latest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，消费新产生的该分区下的数据</li>
 <li>earliest 当各分区下有已提交的offset时，从提交的offset开始消费；无提交的offset时，从头开始消费</li>
 <li>none topic各分区都存在已提交的offset时，从offset后开始消费；只要有一个分区不存在已提交的offset，则抛出异常</li>
 </ol>
 </li>
-<li>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</li>
-<li>max.poll.records 每次拉取返回的记录数量 默认500</li>
-<li>partition.assignment.strategy 分区分给消费者的策略<ol>
+<li><p>enable.auto.commit 消费者每次拉取是否自动提交偏移量 默认true</p>
+</li>
+<li><p>max.poll.records 每次拉取返回的记录数量 默认500</p>
+</li>
+<li><p>partition.assignment.strategy 分区分给消费者的策略</p>
+<ol>
 <li>Range 连续分区分给同一个消费者 默认生效</li>
 <li>RoundRobin 你一个我一个 随机轮询</li>
 </ol>
+<p>提交偏移量的方式:</p>
+</li>
+<li><p>自动提交:</p>
+<ol>
+<li>重复消费</li>
+<li>消息丢失</li>
+</ol>
+</li>
+<li><p>手动提交(同步)</p>
+</li>
+<li><p>手动提交(异步)</p>
+</li>
+<li><p>同步和异步组合</p>
+</li>
+<li><p>特定提交</p>
 </li>
 </ul>
 
