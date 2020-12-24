@@ -208,8 +208,11 @@ categories:
   - ISR列表: zk维护了一个跟leader信息一致的follower的列表， 用于leader选举
   ![ISR][5]
   ISR加ACKS=all 保证消息不丢失，但是损失效率
-  - 消息格式
+  - 消息格式 推荐使用压缩
   ![消息格式][6]
+  - 索引：普通索引和时间戳索引，Kafka自己不维护
+  - 超时数据清理(压缩)
+  同一个key对于的不同value, 在压缩之后只保留这个key的最新value
  
  
 [1]: ../../../../images/picture/Broker与集群.png
