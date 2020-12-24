@@ -207,8 +207,9 @@ categories:
   - 生产者批量发送，消费者也是批量消费，或者指定的等待时间到了也会拉取
   - ISR列表: zk维护了一个跟leader信息一致的follower的列表， 用于leader选举
   ![ISR][5]
-  - ISR加ACKS=all 保证消息不丢失，但是损失效率
- 
+  ISR加ACKS=all 保证消息不丢失，但是损失效率
+  - 消息格式
+  ![消息格式][6]
  
  
 [1]: ../../../../images/picture/Broker与集群.png
@@ -216,3 +217,4 @@ categories:
 [3]: ../../../../images/picture/KafkaConsumerGroup.png
 [4]: ../../../../images/picture/Kafka集群.png
 [5]: ../../../../images/picture/ISR.png
+[6]: ../../../../images/picture/MessageFormat.png
