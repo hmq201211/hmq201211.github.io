@@ -61,6 +61,7 @@ categories:
 - fetch.message.max.bytes 消费者所能获取的最大字节数
 - delete.topic.enable 主题是否能被删除
 - unclean.leader.election.enable 是否运行非完全选举(从机数据不全) 
+- min.insync.replicas 最小同步副本数 只要有这个数字的同步副本数的时候才会写数据 一般设置为(all/2)
 
 # 负载均衡
 - 消息带key，按照key值来取模均衡
