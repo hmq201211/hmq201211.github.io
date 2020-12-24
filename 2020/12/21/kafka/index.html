@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
 <meta property="og:image" content="http://example.com/images/picture/Kafka%E9%9B%86%E7%BE%A4.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-24T08:13:19.254Z">
+<meta property="article:modified_time" content="2020-12-24T08:44:18.580Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -319,14 +319,18 @@ consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量</code></
 </li>
 <li><p>优先副本 首领down了之后 该副本会优先成为首领</p>
 <pre><code>auto.leader.rebalance.enable</code></pre>
-<p>工作机制：</p>
 </li>
+</ul>
+<p>工作机制：</p>
+<ul>
 <li><p>同步副本： 跟首领副本保持一致，最新，保证数据不丢失</p>
 </li>
 <li><p>请求队列和响应队列：使用NIO的通信模式</p>
 </li>
 <li><p>生产者和消费者与集群进行消息发送和消费之前，会先从任意Broker里面获取元数据，并缓存起来，以后发生数据到首领副本所在的Broker</p>
 <pre><code>metadata.max.age 元数据最长缓存时间，超过后会刷新 默认30s</code></pre>
+</li>
+<li><p>生产者批量发送，消费者也是批量消费，或者指定的等待时间到了也会拉取</p>
 </li>
 </ul>
 
