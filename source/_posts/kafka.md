@@ -185,10 +185,25 @@ categories:
 消费者优雅退出:
   其他的线程调用消费者的wakeup方法
  
- 
+# 集群
+![集群][4]
+
+控制器：
+  多个Broker的管理者
+复制相关：
+  - 首领副本 集群的某个分区的管理者，对接生产者和消费者 分配首领遵循最少使用原则
+  - 跟随副本 非首领副本，获取首领副本的拷贝
+  - 优先副本 首领down了之后 该副本会优先成为首领
+    
+        auto.leader.rebalance.enable
+工作机制：
+  - 同步副本 跟首领副本保持一致，最新，保证数据不丢失
+  - 
+  
  
  
  
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
 [3]: ../../../../images/picture/KafkaConsumerGroup.png
+[4]: ../../../../images/picture/Kafka集群.png
