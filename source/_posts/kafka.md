@@ -205,7 +205,9 @@ categories:
   
         metadata.max.age 元数据最长缓存时间，超过后会刷新 默认30s
   - 生产者批量发送，消费者也是批量消费，或者指定的等待时间到了也会拉取
-  
+  - ISR列表: zk维护了一个跟leader信息一致的follower的列表， 用于leader选举
+  ![ISR][5]
+  - ISR加ACKS=all 保证消息不丢失，但是损失效率
  
  
  
@@ -213,3 +215,4 @@ categories:
 [2]: ../../../../images/picture/KafkaJavaApi.png
 [3]: ../../../../images/picture/KafkaConsumerGroup.png
 [4]: ../../../../images/picture/Kafka集群.png
+[5]: ../../../../images/picture/ISR.png
