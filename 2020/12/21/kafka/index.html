@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://example.com/images/picture/ISR.png">
 <meta property="og:image" content="http://example.com/images/picture/MessageFormat.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-24T09:57:16.782Z">
+<meta property="article:modified_time" content="2020-12-24T10:07:26.768Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Kafka">
 <meta name="twitter:card" content="summary">
@@ -215,6 +215,7 @@
 <li>message.max.bytes 消息的最大字节数 消费者和生产者要保持一致, 切不要大于fetch.message.max.bytes.</li>
 <li>fetch.message.max.bytes 消费者所能获取的最大字节数</li>
 <li>delete.topic.enable 主题是否能被删除</li>
+<li>unclean.leader.election.enable 是否运行非完全选举(从机数据不全) </li>
 </ul>
 <h1 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h1><ul>
 <li>消息带key，按照key值来取模均衡</li>
