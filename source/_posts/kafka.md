@@ -59,6 +59,7 @@ categories:
 - log.retention.check.interval.ms 检查间隔
 - message.max.bytes 消息的最大字节数 消费者和生产者要保持一致, 切不要大于fetch.message.max.bytes.
 - fetch.message.max.bytes 消费者所能获取的最大字节数
+- delete.topic.enable 主题是否能被删除
 
 # 负载均衡
 - 消息带key，按照key值来取模均衡
@@ -197,8 +198,12 @@ categories:
     
         auto.leader.rebalance.enable
 工作机制：
-  - 同步副本 跟首领副本保持一致，最新，保证数据不丢失
-  - 
+  - 同步副本： 跟首领副本保持一致，最新，保证数据不丢失
+  - 请求队列和响应队列：使用NIO的通信模式
+  - 生产者和消费者与集群进行消息发送和消费之前，会先从任意Broker里面获取元数据，并缓存起来，以后发生数据到首领副本所在的Broker
+  
+        metadata.max.age 元数据最长缓存时间，超过后会刷新 默认30s
+  
   
  
  
