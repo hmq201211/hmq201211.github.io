@@ -182,7 +182,13 @@ categories:
   2. 选取要消费的主题 放入list
   3. consumer.assign(List<TopicPartition>)
   ```
-  
+消费者优雅退出:
+  其他的线程调用消费者的wakeup方法
+ 
+ 
+ 
+ 
+ 
 [1]: ../../../../images/picture/Broker与集群.png
 [2]: ../../../../images/picture/KafkaJavaApi.png
 [3]: ../../../../images/picture/KafkaConsumerGroup.png
