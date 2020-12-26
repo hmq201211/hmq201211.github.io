@@ -14,6 +14,16 @@ Linux 为系统内核 加 文件系统
 Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器  
 Docker 容器使用的是最小定制 例如有ls 但是没有ll
 
+# 概念：
+镜像是楼层的概念：
+  4. cmd命令
+  3. nginx文件
+  2. 常用命令
+  1. linux文件
+  
+这样导致很多镜像的楼层下载的时候可以复用
+
+
 # 组件：
   - Images： 
   Docker的镜像 用来生成Docker容器的模版
@@ -66,6 +76,7 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
   - docker rm -fv +容器名称或者id 删除容器
     - f 强制删除
     - v 附带的数据也删除
+  - docker rmi 删除镜像
   - docker exec -it 容器的名称或者id /bin/bash 进入容器 ctrl+shift+p+q 退出交互但容器不关闭
     - i 即使没有附加, 也保持stdin打开
     - t 分配一个伪终端
