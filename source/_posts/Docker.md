@@ -47,6 +47,11 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
     - name 容器名称
     - 再加 镜像名称：版本
     - v 宿主机目录：要替代的容器内部文件目录
+    - nginx 独有配置
+      - p 宿主机暴露端口：容器端口
+    - mysql 独有配置
+      - p 宿主机暴露端口：容器端口
+      - e MYSQL_ROOT_PASSWORD=123456 root用户密码
   - docker images 查看已有的镜像
   - docker ps 查看容器状态
   - docker info 查看docker信息
@@ -55,10 +60,11 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
   - docker rm -fv +容器名称或者id 删除容器
     - f 强制删除
     - v 附带的数据也删除
-  - docker exec -it 容器的名称或者id /bin/bash
+  - docker exec -it 容器的名称或者id /bin/bash 进入容器
     - i 即使没有附加, 也保持stdin打开
     - t 分配一个伪终端
     - d 分离模式, 在后台运行
     - exit 退出
+  - docker cp 源容器name或id：路径 目标路径 复制文件
   
   [1]: ../../../../images/picture/DockerFramework.png
