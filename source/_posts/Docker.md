@@ -44,6 +44,7 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
 # docker 安装:
   - yum仓库配置路径: /etc/yum.repos.d/
   - wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+  - yum clean all && yum makecache fast
   - yum install docker-ce-18.09.9 docker-ce-cli-18.09.9 containerd.io -y
 
 # docker 命令：
