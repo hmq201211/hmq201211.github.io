@@ -15,7 +15,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/picture/DockerFramework.png">
 <meta property="article:published_time" content="2020-12-25T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-26T07:23:33.737Z">
+<meta property="article:modified_time" content="2020-12-26T08:01:34.176Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="容器">
 <meta property="article:tag" content="虚拟化">
@@ -185,7 +185,12 @@
 <li>d 后台运行</li>
 <li>name 容器名称</li>
 <li>再加 镜像名称：版本</li>
-<li>v 宿主机目录：要替代的容器内部文件目录</li>
+<li>v 宿主机目录：要替代的容器内部文件目录<br>挂载规则：<ol>
+<li>容器的配置文件，放在宿主机进行挂载</li>
+<li>生产的业务数据，放在宿主机挂载，防止误删除容器</li>
+<li>进行生产的日志文件，放在宿主机进行挂载</li>
+</ol>
+</li>
 <li>nginx 独有配置<ul>
 <li>p 宿主机暴露端口：容器端口</li>
 </ul>
@@ -195,10 +200,14 @@
 <li>e MYSQL_ROOT_PASSWORD=123456 root用户密码</li>
 </ul>
 </li>
+<li>要是加上自己的命令，则会把默认命令覆盖掉， 如echo 111</li>
 </ul>
 </li>
 <li>docker images 查看已有的镜像</li>
-<li>docker ps 查看容器状态</li>
+<li>docker ps 查看容器状态(alive)<ul>
+<li>a all 所有的</li>
+</ul>
+</li>
 <li>docker info 查看docker信息</li>
 <li>docker version 查看docker版本</li>
 <li>docker inspect +容器名称或者id 查看容器信息</li>
@@ -207,7 +216,7 @@
 <li>v 附带的数据也删除</li>
 </ul>
 </li>
-<li>docker exec -it 容器的名称或者id /bin/bash 进入容器<ul>
+<li>docker exec -it 容器的名称或者id /bin/bash 进入容器 ctrl+shift+p+q 退出交互但容器不关闭<ul>
 <li>i 即使没有附加, 也保持stdin打开</li>
 <li>t 分配一个伪终端</li>
 <li>d 分离模式, 在后台运行</li>
@@ -215,6 +224,8 @@
 </ul>
 </li>
 <li>docker cp 源容器name或id：路径 目标路径 复制文件</li>
+<li>docker logs 容器name或者id 查看容器日志</li>
+<li>docker search 镜像名 查找镜像</li>
 </ul>
 
   </div>
