@@ -30,12 +30,24 @@ Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚�
 # 架构：
 ![架构][1]
 
+# docker 安装:
+  - yum仓库配置路径: /etc/yum.repos.d/
+  - wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+  - yum install docker-ce-18.09.9 docker-ce-cli-18.09.9 containerd.io -y
+
 # docker 命令：
+  - systemctl start docker 启动docker
+  - systemctl enable docker 开机自动启动docker
   - docker pull 从仓库拉去镜像
   - docker run 启动一个容器 
     - d 后台运行
     - name 容器名称
     - 再加 镜像名称：版本
+  - docker images 查看已有的镜像
+  - docker ps 查看容器状态
+  - docker info 查看docker信息
+  - docker version 查看docker版本
+  - docker 
   
   
   
