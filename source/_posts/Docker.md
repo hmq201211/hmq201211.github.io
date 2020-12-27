@@ -98,9 +98,14 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
     - t 镜像名称：版本号
     - 加.表示当前目录下的DockerFile
   - docker history 查看容器楼层
+  - docker tag 镜像:版本 ip:port/镜像:版本 创建分支用于push到仓库
+  - docker push ip:port/镜像:版本 把镜像推送到仓库
   
 # DockerFile: 构建自定义镜像
 ![DockerFile][2]
+
+# Docker 仓库
+需要启动一个registry服务 来管理镜像默认端口5000
     
     
     
