@@ -16,7 +16,7 @@
 <meta property="og:image" content="http://example.com/images/picture/DockerFramework.png">
 <meta property="og:image" content="http://example.com/images/picture/DockerFile.png">
 <meta property="article:published_time" content="2020-12-27T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-27T07:09:53.864Z">
+<meta property="article:modified_time" content="2020-12-27T07:32:06.745Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="容器">
 <meta property="article:tag" content="虚拟化">
@@ -110,7 +110,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">思想：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">组件：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">docker 安装:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">docker 命令：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerFile-%E6%9E%84%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-number">7.</span> <span class="toc-text">DockerFile: 构建自定义镜像</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">思想：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">组件：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">docker 安装:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">docker 命令：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerFile-%E6%9E%84%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-number">7.</span> <span class="toc-text">DockerFile: 构建自定义镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-%E4%BB%93%E5%BA%93"><span class="toc-number">8.</span> <span class="toc-text">Docker 仓库</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -253,8 +253,11 @@
 </ul>
 </li>
 <li>docker history 查看容器楼层</li>
+<li>docker tag 镜像:版本 ip:port/镜像:版本 创建分支用于push到仓库</li>
+<li>docker push ip:port/镜像:版本 把镜像推送到仓库</li>
 </ul>
 <h1 id="DockerFile-构建自定义镜像"><a href="#DockerFile-构建自定义镜像" class="headerlink" title="DockerFile: 构建自定义镜像"></a>DockerFile: 构建自定义镜像</h1><p><img src="../../../../images/picture/DockerFile.png" alt="DockerFile"></p>
+<h1 id="Docker-仓库"><a href="#Docker-仓库" class="headerlink" title="Docker 仓库"></a>Docker 仓库</h1><p>需要启动一个registry服务 来管理镜像默认端口5000</p>
 
   </div>
   <div>
@@ -286,7 +289,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">思想：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">组件：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">docker 安装:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">docker 命令：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerFile-%E6%9E%84%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-number">7.</span> <span class="toc-text">DockerFile: 构建自定义镜像</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%9D%E6%83%B3%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">思想：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">组件：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="toc-number">5.</span> <span class="toc-text">docker 安装:</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#docker-%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="toc-number">6.</span> <span class="toc-text">docker 命令：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#DockerFile-%E6%9E%84%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="toc-number">7.</span> <span class="toc-text">DockerFile: 构建自定义镜像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-%E4%BB%93%E5%BA%93"><span class="toc-number">8.</span> <span class="toc-text">Docker 仓库</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
