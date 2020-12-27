@@ -99,9 +99,11 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
     - 加.表示当前目录下的DockerFile
   - docker history 查看容器楼层
   
-# DockerFile 
+# DockerFile: 构建自定义镜像
+![DockerFile][2]
     
     
     
     
   [1]: ../../../../images/picture/DockerFramework.png
+  [2]: ../../../../images/picture/DockerFile.png
