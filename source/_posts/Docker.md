@@ -1,6 +1,6 @@
 ---
 title: Docker  
-date: 2020-12-25  
+date: 2020-12-27  
 tags: 
 - 容器
 - 虚拟化
@@ -40,6 +40,9 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
   
 # 架构：
 ![架构][1]
+  - LowerDir: 镜像的文件目录 只读的
+  - MergedDir：层叠文件目录
+  - UpperDir：容器文件目录
 
 # docker 安装:
   - yum仓库配置路径: /etc/yum.repos.d/
@@ -86,5 +89,19 @@ Docker 容器使用的是最小定制 例如有ls 但是没有ll
   - docker cp 源容器name或id：路径 目标路径 复制文件
   - docker logs 容器name或者id 查看容器日志
   - docker search 镜像名 查找镜像
+  - docker commit 将容器转换为镜像
+    - a author 作者
+    - m 备注
+    - 加上容器名称
+    - 加上镜像名称：版本
+  - docker build 创建镜像
+    - t 镜像名称：版本号
+    - 加.表示当前目录下的DockerFile
+  - docker history 查看容器楼层
   
+# DockerFile 
+    
+    
+    
+    
   [1]: ../../../../images/picture/DockerFramework.png
