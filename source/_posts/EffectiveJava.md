@@ -1,5 +1,5 @@
 ---
-title: EffectiveJava笔记  
+title: EffectiveJava  
 date: 2020-12-21  
 tags:
 - Java
