@@ -1,5 +1,5 @@
 ---
-title: 分库分表知识点  
+title: DatabaseSharding  
 date: 2020-12-21  
 tags:
 - Database
