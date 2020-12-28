@@ -255,8 +255,90 @@ categories:
     - set 保证了唯一性
     - 给每个value赋予了score作为排序权重，保证了有序性
     - set的最后一个value被移除后，数据结构自动删除，内存回收
+  
+    ```
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>zadd books 9.0 java
+    "1"
+    101.200.121.40:0>zadd books 8.9 python
+    "1"
+    101.200.121.40:0>zadd books 8.8 golang
+    "1"
+    101.200.121.40:0>zrange books 0 1 // 按score排序 参数区间为排名范围
+    1) "golang"
+    2) "python"
+    101.200.121.40:0>zrange books 0 0
+    1) "golang"
+    101.200.121.40:0>zrange books -1 -1
+    1) "java"
+    101.200.121.40:0>zrevrange books 0 -1 // 按score逆序排序 参数区间为排名范围
+    1) "java"
+    2) "python"
+    3) "golang"
+    101.200.121.40:0>zcard books
+    "3"
+    101.200.121.40:0>zscore books java // 获取value的分数
+    "9"
+    101.200.121.40:0>zrank  books java // 获取value的排名
+    "2"
+    101.200.121.40:0>zrangebyscore books 8.88 9.0 // 根据分数的区间来遍历zset
+    1) "python"
+    2) "java"
+    101.200.121.40:0>zrangebyscore books -inf 9.0 withscores // 根据分数区间遍历zset 同时返回分数值
+    1) "golang"
+    2) "8.8000000000000007"
+    3) "python"
+    4) "8.9000000000000004"
+    5) "java"
+    6) "9"
+    101.200.121.40:0>zrem books java // 删除value
+    "1"
+    101.200.121.40:0>zrange books 0 -1
+    1) "golang"
+    2) "python"
+    101.200.121.40:0>
+    ```
+    > 跳跃列表：列表分成多层，所以每个元素可能身兼数职，通过层级的帮助定位来快速查找
     
+  - 容器型数据结构（list set hash zset）规则：
+    1. create if not exists
+    2. drop if no elements
+  - 过期时间：
+    1. 以对象为单位，而不是以key为单位
+    2. 如果字符串设置了过期时间，然后通过set方法修改了，则过期时间消失
     
+    ```
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>set codehole yoyo
+    "OK"
+    101.200.121.40:0>expire codehole 600
+    "1"
+    101.200.121.40:0>ttl codehole // 生存时间值
+    "595"
+    101.200.121.40:0>set codehole yoyo
+    "OK"
+    101.200.121.40:0>ttl codehole
+    "-1"
+    101.200.121.40:0>
+    ```
     
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
     
     
