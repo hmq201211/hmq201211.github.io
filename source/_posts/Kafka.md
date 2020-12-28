@@ -2,7 +2,7 @@
 title: kafka  
 date: 2020-12-21  
 tags:
-- Kafka  
+- 中间件  
 - 消息队列
 categories:
 - 中间件
