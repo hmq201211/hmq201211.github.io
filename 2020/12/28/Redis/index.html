@@ -14,7 +14,7 @@
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-28T09:29:53.089Z">
+<meta property="article:modified_time" content="2020-12-28T09:53:39.928Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="数据库">
@@ -343,6 +343,40 @@ null
 <li>给每个value赋予了score作为排序权重，保证了有序性</li>
 <li>set的最后一个value被移除后，数据结构自动删除，内存回收</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">连接中...</span><br><span class="line">已连接。</span><br><span class="line">101.200.121.40:0&gt;zadd books 9.0 java</span><br><span class="line">&quot;1&quot;</span><br><span class="line">101.200.121.40:0&gt;zadd books 8.9 python</span><br><span class="line">&quot;1&quot;</span><br><span class="line">101.200.121.40:0&gt;zadd books 8.8 golang</span><br><span class="line">&quot;1&quot;</span><br><span class="line">101.200.121.40:0&gt;zrange books 0 1 &#x2F;&#x2F; 按score排序 参数区间为排名范围</span><br><span class="line">1) &quot;golang&quot;</span><br><span class="line">2) &quot;python&quot;</span><br><span class="line">101.200.121.40:0&gt;zrange books 0 0</span><br><span class="line">1) &quot;golang&quot;</span><br><span class="line">101.200.121.40:0&gt;zrange books -1 -1</span><br><span class="line">1) &quot;java&quot;</span><br><span class="line">101.200.121.40:0&gt;zrevrange books 0 -1 &#x2F;&#x2F; 按score逆序排序 参数区间为排名范围</span><br><span class="line">1) &quot;java&quot;</span><br><span class="line">2) &quot;python&quot;</span><br><span class="line">3) &quot;golang&quot;</span><br><span class="line">101.200.121.40:0&gt;zcard books</span><br><span class="line">&quot;3&quot;</span><br><span class="line">101.200.121.40:0&gt;zscore books java &#x2F;&#x2F; 获取value的分数</span><br><span class="line">&quot;9&quot;</span><br><span class="line">101.200.121.40:0&gt;zrank  books java &#x2F;&#x2F; 获取value的排名</span><br><span class="line">&quot;2&quot;</span><br><span class="line">101.200.121.40:0&gt;zrangebyscore books 8.88 9.0 &#x2F;&#x2F; 根据分数的区间来遍历zset</span><br><span class="line">1) &quot;python&quot;</span><br><span class="line">2) &quot;java&quot;</span><br><span class="line">101.200.121.40:0&gt;zrangebyscore books -inf 9.0 withscores &#x2F;&#x2F; 根据分数区间遍历zset 同时返回分数值</span><br><span class="line">1) &quot;golang&quot;</span><br><span class="line">2) &quot;8.8000000000000007&quot;</span><br><span class="line">3) &quot;python&quot;</span><br><span class="line">4) &quot;8.9000000000000004&quot;</span><br><span class="line">5) &quot;java&quot;</span><br><span class="line">6) &quot;9&quot;</span><br><span class="line">101.200.121.40:0&gt;zrem books java &#x2F;&#x2F; 删除value</span><br><span class="line">&quot;1&quot;</span><br><span class="line">101.200.121.40:0&gt;zrange books 0 -1</span><br><span class="line">1) &quot;golang&quot;</span><br><span class="line">2) &quot;python&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>跳跃列表：列表分成多层，所以每个元素可能身兼数职，通过层级的帮助定位来快速查找</p>
+</blockquote>
+</li>
+<li><p>容器型数据结构（list set hash zset）规则：</p>
+<ol>
+<li>create if not exists</li>
+<li>drop if no elements</li>
+</ol>
+</li>
+<li><p>过期时间：</p>
+<ol>
+<li>以对象为单位，而不是以key为单位</li>
+<li>如果字符串设置了过期时间，然后通过set方法修改了，则过期时间消失</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">连接中...</span><br><span class="line">已连接。</span><br><span class="line">101.200.121.40:0&gt;set codehole yoyo</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;expire codehole 600</span><br><span class="line">&quot;1&quot;</span><br><span class="line">101.200.121.40:0&gt;ttl codehole &#x2F;&#x2F; 生存时间值</span><br><span class="line">&quot;595&quot;</span><br><span class="line">101.200.121.40:0&gt;set codehole yoyo</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;ttl codehole</span><br><span class="line">&quot;-1&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </li>
 </ul>
 
