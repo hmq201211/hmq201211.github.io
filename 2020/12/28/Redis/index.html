@@ -14,7 +14,7 @@
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-28T07:53:50.408Z">
+<meta property="article:modified_time" content="2020-12-28T07:58:37.138Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="数据库">
@@ -320,6 +320,10 @@ null
 <blockquote>
 <p>快速列表</p>
 </blockquote>
+<pre><code>在列表元素比较少的情况下，使用连续内存，即ziplist，压缩列表  
+数据量多的时候改成quicklist，就是链表和ziplist的结合</code></pre>
+</li>
+<li><p>hash：无序字典</p>
 </li>
 </ul>
 
