@@ -190,7 +190,7 @@ categories:
     "1"
     101.200.121.40:0>hset books python "python cookbook"
     "1"
-    101.200.121.40:0>hgetall books
+    101.200.121.40:0>hgetall books // 获取所有的key value
     1) "java"
     2) "thinking in java"
     3) "golang"
@@ -205,7 +205,7 @@ categories:
     "0"
     101.200.121.40:0>hget books golang
     "learn go programming"
-    101.200.121.40:0>hmset books java "effective java" python "learning python" golang "modern golang programming"
+    101.200.121.40:0>hmset books java "effective java" python "learning python" golang "modern golang programming" // 批量set
     "OK"
     101.200.121.40:0>hgetall books
     1) "java"
@@ -218,8 +218,36 @@ categories:
     "1"
     101.200.121.40:0>hincrby user age
     "ERR wrong number of arguments for 'hincrby' command"
-    101.200.121.40:0>hincrby user age 1
+    101.200.121.40:0>hincrby user age 1 // 对hashmap的键值对的数字value自增
     "20"
+    101.200.121.40:0>
+    ```
+  - set：
+    - 无序 唯一
+    - 相当于hashmap 但是所有的value都是null
+    - 最后一个元素被移除，数据结构自动删除，内存回收
+    ```
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>sadd books python
+    "1"
+    101.200.121.40:0>sadd books python
+    "0"
+    101.200.121.40:0>sadd books java golang
+    "2"
+    101.200.121.40:0>smembers books // 获取所有元素
+    1) "golang"
+    2) "java"
+    3) "python"
+    101.200.121.40:0>sismember books java // 元素是否在set中
+    "1"
+    101.200.121.40:0>SISMEMBER books rust
+    "0"
+    101.200.121.40:0>scard books // 获取set的长度
+    "3"
+    101.200.121.40:0>spop books // 弹出一个
+    "golang"
     101.200.121.40:0>
     ```
 
