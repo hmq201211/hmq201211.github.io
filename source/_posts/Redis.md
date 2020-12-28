@@ -142,7 +142,7 @@ categories:
     > 慢操作
     > > lindex 相当于Java链表的get（int index） 进行了列表遍历  
     > > ltrim 保留start_index和end_index之间的值  
-    > > lrange 获取范围元素  
+    > > lrange 获取范围元素
     
         RDM Redis Console
         连接中...
