@@ -226,6 +226,7 @@ categories:
     - 无序 唯一
     - 相当于hashmap 但是所有的value都是null
     - 最后一个元素被移除，数据结构自动删除，内存回收
+    
     ```
     RDM Redis Console
     连接中...
