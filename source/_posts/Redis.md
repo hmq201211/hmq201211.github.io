@@ -121,4 +121,52 @@ categories:
         101.200.121.40:0>lpop books
         null
         101.200.121.40:0>
+    
+    > 右进右出 栈
+    
+        RDM Redis Console
+        连接中...
+        已连接。
+        101.200.121.40:0>rpush books java python golang
+        "3"
+        101.200.121.40:0>rpop books
+        "golang"
+        101.200.121.40:0>rpop books
+        "python"
+        101.200.121.40:0>rpop books
+        "java"
+        101.200.121.40:0>rpop books
+        null
+        101.200.121.40:0>
+    
+    > 慢操作
+    > > lindex 相当于Java链表的get（int index） 进行了列表遍历
+    > > ltrim 保留start_index和end_index之间的值
+    > > lrange 获取范围元素
+    
+        RDM Redis Console
+        连接中...
+        已连接。
+        101.200.121.40:0>rpush books python java golang
+        "3"
+        101.200.121.40:0>lindex books 1
+        "java"
+        101.200.121.40:0>lrange books 0 -1
+        1) "python"
+        2) "java"
+        3) "golang"
+        101.200.121.40:0>ltrim books 1 -1
+        "OK"
+        101.200.121.40:0>lrange books 0 -1
+        1) "java"
+        2) "golang"
+        101.200.121.40:0>ltrim books 1 0 // 清空了整个列表 因为区间长度为负数了
+        "OK"
+        101.200.121.40:0>lrange books 0 -1
 
+        101.200.121.40:0>llen books // 获取列表的长度
+        "0"
+        101.200.121.40:0>
+      
+    > 快速列表
+        
