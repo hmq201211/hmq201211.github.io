@@ -2,10 +2,10 @@
 title: DatabaseSharding  
 date: 2020-12-21  
 tags:
-- Database
+- 数据库
 
 categories:
-- Database
+- 数据库
 ---
 
 # 垂直分表
