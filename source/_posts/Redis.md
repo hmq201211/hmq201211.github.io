@@ -173,5 +173,52 @@ categories:
         在列表元素比较少的情况下，使用连续内存，即ziplist，压缩列表  
         数据量多的时候改成quicklist，就是链表和ziplist的结合
   
-  - hash：无序字典
-        
+  - hash：
+    1. 无序字典，字典的值只能是字符串，rehash的过程中，redis为了追求性能采用了渐进式rehash，即同时保留两个hash结构，在后续的定时任务和hash指令的操作中一点点迁移数据，完成后新的hash结构取代老的hash结构
+    2. 移除hash最后一个元素后，数据结构自动删除，内存回收
+    3. 缺点是浪费网路流量和存储消耗
+    ```
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>hset books java "thinking in java"
+    "1"
+    101.200.121.40:0>hse
+    "ERR unknown command 'hse'"
+    101.200.121.40:0>hset books golang "concurrency in go"
+    "1"
+    101.200.121.40:0>hset books python "python cookbook"
+    "1"
+    101.200.121.40:0>hgetall books
+    1) "java"
+    2) "thinking in java"
+    3) "golang"
+    4) "concurrency in go"
+    5) "python"
+    6) "python cookbook"
+    101.200.121.40:0>hlen books
+    "3"
+    101.200.121.40:0>hget books java
+    "thinking in java"
+    101.200.121.40:0>hset books golang "learn go programming"
+    "0"
+    101.200.121.40:0>hget books golang
+    "learn go programming"
+    101.200.121.40:0>hmset books java "effective java" python "learning python" golang "modern golang programming"
+    "OK"
+    101.200.121.40:0>hgetall books
+    1) "java"
+    2) "effective java"
+    3) "golang"
+    4) "modern golang programming"
+    5) "python"
+    6) "learning python"
+    101.200.121.40:0>hset user age 19
+    "1"
+    101.200.121.40:0>hincrby user age
+    "ERR wrong number of arguments for 'hincrby' command"
+    101.200.121.40:0>hincrby user age 1
+    "20"
+    101.200.121.40:0>
+    ```
+
