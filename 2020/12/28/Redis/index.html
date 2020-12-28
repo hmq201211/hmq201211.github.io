@@ -14,7 +14,7 @@
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console连接中…已连接。101.200.121.40:0&gt;set name codehole“OK”101.200.121.40:0&gt;get name“codehole”101.200.121.40:0&gt;exists nam">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-28T07:04:29.184Z">
+<meta property="article:modified_time" content="2020-12-28T07:18:35.333Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="缓存">
 <meta property="article:tag" content="数据库">
@@ -165,6 +165,27 @@
 <blockquote>
 <p>批量键值对</p>
 </blockquote>
+<p>RDM Redis Console<br>连接中…<br>已连接。<br>101.200.121.40:0&gt;set name codehole<br>“OK”<br>101.200.121.40:0&gt;set name1 holycoder<br>“OK”<br>101.200.121.40:0&gt;mget name name1 name2</p>
+<ol>
+<li>“codehole”</li>
+<li>“holycoder”</li>
+<li>null</li>
+</ol>
+<p>101.200.121.40:0&gt;mset name1 boy name2 girl name3 unknown<br>“OK”<br>101.200.121.40:0&gt;mget name1 name2 name3</p>
+<ol>
+<li>“boy”</li>
+<li>“girl”</li>
+<li>“unknown”</li>
+</ol>
+<p>101.200.121.40:0&gt;</p>
+<blockquote>
+<p>过期和set命令拓展</p>
+</blockquote>
+<p>RDM Redis Console<br>连接中…<br>已连接。<br>101.200.121.40:0&gt;set name codehole<br>“OK”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;expire name 5<br>“1”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;get name<br>null<br>101.200.121.40:0&gt;setex name 5 codehole<br>“OK”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;get name<br>null<br>101.200.121.40:0&gt;setnx name codehole<br>“1”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;setnx name holycoer<br>“0”<br>101.200.121.40:0&gt;get name<br>“codehole”<br>101.200.121.40:0&gt;</p>
+<blockquote>
+<p>计数 如果value是整数 可以对他进行自增操作， 范围是 signed long</p>
+</blockquote>
+<p>RDM Redis Console<br>连接中…<br>已连接。<br>101.200.121.40:0&gt;set age 30<br>“OK”<br>101.200.121.40:0&gt;incr age<br>“31”<br>101.200.121.40:0&gt;incrby age 50<br>“81”<br>101.200.121.40:0&gt;incrby age -55<br>“26”<br>101.200.121.40:0&gt;set codehole 9223372036854775807<br>“OK”<br>101.200.121.40:0&gt;incr codehole<br>“ERR increment or decrement would overflow”<br>101.200.121.40:0&gt;</p>
 </li>
 </ul>
 
