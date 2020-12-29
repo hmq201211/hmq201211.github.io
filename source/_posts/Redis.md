@@ -336,7 +336,7 @@ categories:
          setnx lock true
          expire lock time
          setnx和expire是非原子操作，要是expire也没有执行，则也会造成死锁
- 3. redis2.8以后加入set lock true ex time nx 命令来保证了原子性
+ 3. redis2.8以后加入set lock true ex time nx 命令来保证了原子性 但是超时问题还是存在
  
 
 
