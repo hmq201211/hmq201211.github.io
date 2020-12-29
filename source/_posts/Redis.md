@@ -343,7 +343,7 @@ categories:
     2. sleep一会，然后重试
     3. 请求转移到消息队列，然后等一会再重试
   
-# 延时队列
+# 消息队列
   redis的list或者zset都可以拿来作单组消费者的消息队列，但是需要注意，没有ack等机制的保证
   ```shell
   RDM Redis Console
@@ -378,15 +378,17 @@ categories:
   101.200.121.40:0>
   ```
   问题：
-    1. 队列空了：需要线程sleeo
-    2. 阻塞读取 blpop/brpop key timeout
+    1. 队列空了：需要线程sleep
+    2. sleep导致消息延迟增大->阻塞读取 blpop/brpop key timeout
       ```
       101.200.121.40:0>blpop fruit 1000
       1) "fruit"
       2) "apple"
       101.200.121.40:0>
       ```
-    3. 
+  延时队列：
+    通过zset来实现，消息序列化为一个字符串，作为value，到期处理时间作为score  
+    同时使用多个线程来处理，为了保证可用性，关键点在于zrem
 
 
 
