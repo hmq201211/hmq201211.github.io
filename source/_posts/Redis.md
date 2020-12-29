@@ -329,19 +329,69 @@ categories:
     ```
     
 # 分布式锁
- 常用于解决逻辑处理的并发问题（多个线程的非原子性操作，例如get ++ set）
- 1. setnx lock true 当lock不存在时候来占坑，业务执行完成释放锁，但是可能有问题，即删除指令没有执行，造成死锁
- 2.  
-         
+  常用于解决逻辑处理的并发问题（多个线程的非原子性操作，例如get ++ set）
+  1. setnx lock true 当lock不存在时候来占坑，业务执行完成释放锁，但是可能有问题，即删除指令没有执行，造成死锁
+  2.  
+
          setnx lock true
          expire lock time
          setnx和expire是非原子操作，要是expire也没有执行，则也会造成死锁
- 3. redis2.8以后加入set lock true ex time nx 命令来保证了原子性 但是超时问题还是存在
- 
-
-
-
+  3. redis2.8以后加入set lock true ex time nx 命令来保证了原子性 但是超时问题还是存在
+  4. 可重入锁，对set方法，并引入threadlocal变量存储当前线程的持有锁的计数
+  5. 锁冲突问题：
+    1. 直接抛出异常，用户来决定什么时候来重试
+    2. sleep一会，然后重试
+    3. 请求转移到消息队列，然后等一会再重试
   
+# 延时队列
+  redis的list或者zset都可以拿来作单组消费者的消息队列，但是需要注意，没有ack等机制的保证
+  ```shell
+  RDM Redis Console
+  连接中...
+  已连接。
+  101.200.121.40:0>llen fruit
+  "3"
+  101.200.121.40:0>rpush fruit orange 
+  "4"
+  101.200.121.40:0>llen fruit
+  "4"
+  101.200.121.40:0>lpop fruit
+  "apple"
+  101.200.121.40:0>llen fruit
+  "3"
+  101.200.121.40:0>lpop fruit
+  "banana"
+  101.200.121.40:0>llen fruit
+  "2"
+  101.200.121.40:0>lpop fruit
+  "pear"
+  101.200.121.40:0>llen fruit
+  "1"
+  101.200.121.40:0>lpop fruit
+  "orange"
+  101.200.121.40:0>llen fruit
+  "0"
+  101.200.121.40:0>lpop fruit
+  null
+  101.200.121.40:0>llen fruit
+  "0"
+  101.200.121.40:0>
+  ```
+  问题：
+    1. 队列空了：需要线程sleeo
+    2. 阻塞读取 blpop/brpop key timeout
+      ```
+      101.200.121.40:0>blpop fruit 1000
+      1) "fruit"
+      2) "apple"
+      101.200.121.40:0>
+      ```
+    3. 
+
+
+
+
+
   
   
   
