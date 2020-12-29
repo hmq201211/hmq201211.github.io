@@ -328,8 +328,19 @@ categories:
     101.200.121.40:0>
     ```
     
-  
-  
+# 分布式锁
+ 常用于解决逻辑处理的并发问题（多个线程的非原子性操作，例如get ++ set）
+ 1. setnx lock true 当lock不存在时候来占坑，业务执行完成释放锁，但是可能有问题，即删除指令没有执行，造成死锁
+ 2.  
+         
+         setnx lock true
+         expire lock time
+         setnx和expire是非原子操作，要是expire也没有执行，则也会造成死锁
+ 3. redis2.8以后加入set lock true ex time nx 命令来保证了原子性
+ 
+
+
+
   
   
   
