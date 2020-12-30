@@ -613,7 +613,7 @@ categories:
   ```python
   import redis
 
-  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="Hmq123hmq,.")
+  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="*********")
 
   for i in range(1000):
       client.pfadd("user_count", "user-%d" % i)
