@@ -640,7 +640,39 @@ categories:
     2. nosql数据库过滤不存在的row
     3. 邮箱的垃圾邮件
   
+# 简单限流：
+  定宽的滑动窗口，设置key为userId加Action，value为唯一性就行，score为时间戳，获取窗口内的次数，如果超过了max则限流
+  ```python
+  import time
+  import redis
+
+  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="********")
+
+
+  def is_action_allowed(user_id, action_id, period, limits):
+      key = 'history:%s:%s' % (user_id, action_id)
+      now_ts = int(time.time() * 1000)
+      with client.pipeline() as pip:
+          pip.zadd(key, {now_ts: now_ts})
+          pip.zremrangebyscore(key, 0, now_ts - period * 1000)
+          pip.zcard(key)
+          pip.expire(key, period + 1)
+          _, _, count, _ = pip.execute()
+      return count <= limits
+
+
+  for _ in range(200):
+      print(is_action_allowed("user1", "get", 60, 10))
+  ```
   
+  
+  
+  
+  
+  
+  
+  
+
   
   
   
