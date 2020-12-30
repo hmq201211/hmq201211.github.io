@@ -596,6 +596,32 @@ categories:
     1) null
     101.200.121.40:0>
     ```
+# HyperLogLog
+  提供不精确的去重计数方案，标准误差0.81%
+  ```shell
+  RDM Redis Console
+  连接中...
+  已连接。
+  101.200.121.40:0>pfadd count user1
+  "1"
+  101.200.121.40:0>pfadd count user2
+  "1"
+  101.200.121.40:0>pfcount count
+  "2"
+  101.200.121.40:0>
+  ```
+  ```python
+  import redis
+
+  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="Hmq123hmq,.")
+
+  for i in range(1000):
+      client.pfadd("user_count", "user-%d" % i)
+      total = client.pfcount("user_count")
+      if total != i + 1:
+          print(total, i + 1)
+          break
+  ```
   
   
   
