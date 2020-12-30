@@ -483,7 +483,71 @@ categories:
     "9"
     101.200.121.40:0>
     ```
-  - 魔法指令bitfield
+  - 魔法指令bitfield 一次操作多个位
+    有三个子指令 get、set、incrby 但是只能最多处理64个位 超过64位只能使用多个子指令
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>set w hello
+    "OK"
+    101.200.121.40:0>bitfield w get u4 0  // 从index0开始取4位作为无符号数
+    1) "6"
+    101.200.121.40:0>bitfield w get u3 2 // 从index2开始取3位作为无符号数
+    1) "5"
+    101.200.121.40:0>bitfield w get i4 0 // 从index0开始取4位作为有符号数
+    1) "6"
+    101.200.121.40:0>bitfield w get i3 3 // 从index3开始取3位作为有符号数
+    1) "2"
+    101.200.121.40:0>bitfield w get i3 2 // 从index2开始取3位作为有符号数
+    1) "-3"
+    101.200.121.40:0>
+    ```
+    > 一次执行多个子指令
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>bitfield w get u4 0 get u3 2 get i4 0 get i3 2
+    1) "6"
+    2) "5"
+    3) "6"
+    4) "-3"
+    101.200.121.40:0>
+    ```
+    > 使用set子指令来将第二个字符改成a
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>bitfield w set u8 8 97 // 从index8开始将97的无符号数替换接下来的8个位置
+    1) "101"
+    101.200.121.40:0>get w
+    "hallo"
+    101.200.121.40:0>
+    ```
+    > incrby 指定范围自增，默认溢出策略是折返，即将溢出的符号位丢掉
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>set w hello
+    "OK"
+    101.200.121.40:0>bitfield w incrby u4 2 1
+    1) "11"
+    101.200.121.40:0>bitfield w incrby u4 2 1
+    1) "12"
+    101.200.121.40:0>bitfield w incrby u4 2 1
+    1) "13"
+    101.200.121.40:0>bitfield w incrby u4 2 1
+    1) "14"
+    101.200.121.40:0>bitfield w incrby u4 2 1
+    1) "15"
+    101.200.121.40:0>bitfield w incrby u4 2 1 // 这里溢出了
+    1) "0"
+    101.200.121.40:0>get w
+    "@ello"
+    101.200.121.40:0>
   
   
   
