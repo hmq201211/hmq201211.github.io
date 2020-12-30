@@ -623,12 +623,21 @@ categories:
           break
   ```
   - pfmerge destination-key source-keys 合并多个pf计数器
-  
-  
-  
-  
-  
-  
+
+# Bloom Filter 布隆过滤器
+  说某个值存在时，这个值可能不存在；说某个值不存在时，这个值一定不存在
+  - bf.add key memeber 向过滤器中添加元素 bf.madd 添加多个
+  - bf.exists 查看元素是否存在 bf.mexists 检查多个是否存在
+  - bf.reserve 可以在add之前就创建自定义布隆过滤器
+    - key 布隆过滤器的key
+    - error_rate 错误率 设置的越低，需要的空间越大
+    - initial_size 预计存入的数量，实际数量超过预设的时候，误判率会升高；但是设置的过大会浪费存储空间
+  - add流程，多个hash方程，value值对这几个hash计算后取数组长度的模，然后在数组相应的几个位置设置成1
+  - exist流程 同样计算数组的这几个位置，要是存在0的，那一定不存在；要是都是1，那么有可能不存在，因为可能其他的value把这些位置设置成了1
+  - 应用场景：
+    1. 爬虫
+    2. nosql数据库过滤不存在的row
+    3. 邮箱的垃圾邮件
   
   
   
