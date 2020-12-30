@@ -548,6 +548,54 @@ categories:
     101.200.121.40:0>get w
     "@ello"
     101.200.121.40:0>
+    ```
+    > overflow子指令 可以选自溢出行为 默认为wrap折返，可选fail失败不执行、sat饱和截断（保持最大值），命令只生效一次，下一次就变成了默认的wrap  
+    > sat
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>set w hello
+    "OK"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "11"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "12"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "13"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "14"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "15"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1
+    1) "15"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1 // 截断 保持最大值
+    1) "15"
+    101.200.121.40:0>bitfield w overflow sat incrby u4 2 1 // 截断 保持最大值
+    1) "15"
+    101.200.121.40:0>
+    ```
+    > fail
+    ```shell
+    RDM Redis Console
+    连接中...
+    已连接。
+    101.200.121.40:0>set w hello
+    "OK"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1
+    1) "11"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1
+    1) "12"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1
+    1) "13"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1
+    1) "14"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1
+    1) "15"
+    101.200.121.40:0>bitfield w overflow fail incrby u4 2 1 // 失败 不执行
+    1) null
+    101.200.121.40:0>
+    ```
   
   
   
