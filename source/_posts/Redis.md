@@ -622,6 +622,7 @@ categories:
           print(total, i + 1)
           break
   ```
+  - pfmerge destination-key source-keys 合并多个pf计数器
   
   
   
