@@ -665,7 +665,61 @@ categories:
       print(is_action_allowed("user1", "get", 60, 10))
   ```
   
+# 漏斗限流
+  - capacity 漏斗的总容量
+  - capacity_left 漏斗的可用容量
+  - losing_rate 漏斗的水流失速率
+  - last_check_time 上次检查时间
+  - 主要思想是漏斗一直漏水，要是空出来的剩余空间可以支持一次请求，那么这次请求被允许，要是不够，这次请求就会被拒绝
   
+  ```python
+  import time
+  
+  class Funnel:
+      def __init__(self, capacity, losing_rate):
+          self.capacity = capacity
+          self.capacity_left = capacity
+          self.losing_rate = losing_rate
+          self.last_check_time = time.time()
+
+      def make_space(self):
+          now_time = time.time()
+          time_passed = now_time - self.last_check_time
+          capacity_lost = self.losing_rate * time_passed
+          if capacity_lost < 1:
+              return
+          self.capacity_left += capacity_lost
+          self.last_check_time = now_time
+          if self.capacity_left > self.capacity:
+              self.capacity_left = self.capacity
+
+      def watering(self, volume):
+          self.make_space()
+          print('capacity_left:{%s}, volume:{%s}' % (self.capacity_left, volume))
+          if self.capacity_left >= volume:
+              self.capacity_left -= volume
+              return True
+          return False
+
+
+  gateway = {}
+
+  fixed_capacity = 10
+  fixed_losing_rate = 10000
+
+
+  def is_action_allowed(user_id, api, volume):
+      key = '%s:%s' % (user_id, api)
+      funnel = gateway.get(key)
+      if not funnel:
+          funnel = Funnel(fixed_capacity, fixed_losing_rate)
+          gateway[key] = funnel
+      return funnel.watering(volume)
+
+
+  for _ in range(1000):
+      print(is_action_allowed("user", "get", 1))
+  ```
   
   
   
