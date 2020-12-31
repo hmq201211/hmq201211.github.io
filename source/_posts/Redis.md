@@ -721,6 +721,22 @@ categories:
       print(is_action_allowed("user", "get", 1))
   ```
   
+  - Redis4.0新指令 cl.throttle 原子性的限流指令 
+  - cl.throttle user:get 15 30 60 1
+    - user:get 是key
+    - 15 初始容量
+    - 30 多少词操作
+    - 60 多少时间
+    - 30次和60s构成了漏水速率
+    - 1 是volume，每次操作占用的空间
+  - 返回值
+    - 0 0表示允许，1表示拒绝
+    - 15 漏斗容量
+    - 14 漏斗剩余容量
+    - -1 如果被拒绝了，需要多少时间重试
+    - 2 多少时间后漏斗完全空出来
+  
+# GeoHash 地理位置
   
   
   
