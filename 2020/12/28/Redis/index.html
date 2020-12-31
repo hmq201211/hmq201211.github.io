@@ -14,7 +14,7 @@
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-30T08:53:39.880Z">
+<meta property="article:modified_time" content="2020-12-31T07:41:41.301Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -109,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -445,6 +445,60 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
 </li>
 </ul>
 <h1 id="简单限流："><a href="#简单限流：" class="headerlink" title="简单限流："></a>简单限流：</h1><p>  定宽的滑动窗口，设置key为userId加Action，value为唯一性就行，score为时间戳，获取窗口内的次数，如果超过了max则限流<br>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;********&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_action_allowed</span>(<span class="params">user_id, action_id, period, limits</span>):</span></span><br><span class="line">    key = <span class="string">&#x27;history:%s:%s&#x27;</span> % (user_id, action_id)</span><br><span class="line">    now_ts = <span class="built_in">int</span>(time.time() * <span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">with</span> client.pipeline() <span class="keyword">as</span> pip:</span><br><span class="line">        pip.zadd(key, &#123;now_ts: now_ts&#125;)</span><br><span class="line">        pip.zremrangebyscore(key, <span class="number">0</span>, now_ts - period * <span class="number">1000</span>)</span><br><span class="line">        pip.zcard(key)</span><br><span class="line">        pip.expire(key, period + <span class="number">1</span>)</span><br><span class="line">        _, _, count, _ = pip.execute()</span><br><span class="line">    <span class="keyword">return</span> count &lt;= limits</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">200</span>):</span><br><span class="line">    print(is_action_allowed(<span class="string">&quot;user1&quot;</span>, <span class="string">&quot;get&quot;</span>, <span class="number">60</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure></p>
+<h1 id="漏斗限流"><a href="#漏斗限流" class="headerlink" title="漏斗限流"></a>漏斗限流</h1><ul>
+<li><p>capacity 漏斗的总容量</p>
+</li>
+<li><p>capacity_left 漏斗的可用容量</p>
+</li>
+<li><p>losing_rate 漏斗的水流失速率</p>
+</li>
+<li><p>last_check_time 上次检查时间</p>
+</li>
+<li><p>主要思想是漏斗一直漏水，要是空出来的剩余空间可以支持一次请求，那么这次请求被允许，要是不够，这次请求就会被拒绝</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Funnel</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, capacity, losing_rate</span>):</span></span><br><span class="line">        self.capacity = capacity</span><br><span class="line">        self.capacity_left = capacity</span><br><span class="line">        self.losing_rate = losing_rate</span><br><span class="line">        self.last_check_time = time.time()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">make_space</span>(<span class="params">self</span>):</span></span><br><span class="line">        now_time = time.time()</span><br><span class="line">        time_passed = now_time - self.last_check_time</span><br><span class="line">        capacity_lost = self.losing_rate * time_passed</span><br><span class="line">        <span class="keyword">if</span> capacity_lost &lt; <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        self.capacity_left += capacity_lost</span><br><span class="line">        self.last_check_time = now_time</span><br><span class="line">        <span class="keyword">if</span> self.capacity_left &gt; self.capacity:</span><br><span class="line">            self.capacity_left = self.capacity</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">watering</span>(<span class="params">self, volume</span>):</span></span><br><span class="line">        self.make_space()</span><br><span class="line">        print(<span class="string">&#x27;capacity_left:&#123;%s&#125;, volume:&#123;%s&#125;&#x27;</span> % (self.capacity_left, volume))</span><br><span class="line">        <span class="keyword">if</span> self.capacity_left &gt;= volume:</span><br><span class="line">            self.capacity_left -= volume</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gateway = &#123;&#125;</span><br><span class="line"></span><br><span class="line">fixed_capacity = <span class="number">10</span></span><br><span class="line">fixed_losing_rate = <span class="number">10000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_action_allowed</span>(<span class="params">user_id, api, volume</span>):</span></span><br><span class="line">    key = <span class="string">&#x27;%s:%s&#x27;</span> % (user_id, api)</span><br><span class="line">    funnel = gateway.get(key)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> funnel:</span><br><span class="line">        funnel = Funnel(fixed_capacity, fixed_losing_rate)</span><br><span class="line">        gateway[key] = funnel</span><br><span class="line">    <span class="keyword">return</span> funnel.watering(volume)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000</span>):</span><br><span class="line">    print(is_action_allowed(<span class="string">&quot;user&quot;</span>, <span class="string">&quot;get&quot;</span>, <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
+</ul>
 
   </div>
   <div>
@@ -476,7 +530,7 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
