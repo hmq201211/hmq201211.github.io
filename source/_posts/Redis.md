@@ -739,10 +739,117 @@ categories:
 # GeoHash 地理位置
   - 用来解决数据库保存地理位置带来的查询，排序慢的问题
   - 基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了
-    - 
+    - 以常见的二刀法为例
+      1. 第一次二刀将平面分成四份分别编号00，01，10，11
+      2. 取左上角00块为例子，继续二刀切分，那么这就细分为0000，0001，0010，0011
+      3. 其他的区块也是这么细分，最终每个点都可以近似表示成一个定长的整数
+      4. 从而完成了从二维坐标转成一维数字的过程
+    - GeoHash还会对这个整数做一次base32编码（0-9，a-z，去除a,i,l,o)
+    - 在redis里面使用52位整数进行编码，放入zset里面，value是元素的key，score是元素的geohash52位整数值
+  - geoadd +集合名称 +经度 +维度 +member 向集合名称中添加元素
   
+  ```shell
+  List of unsupported commands: DUMP, RESTORE, AUTH 
+  Connecting ...
+
+  Connected.
+  101.200.121.40:0>geoadd company 116.48 39.99 juejin
+  "1"
+
+  101.200.121.40:0>geoadd company 116.51 39.90 ireader
+  "1"
+
+  101.200.121.40:0>geoadd company 116.49 40.00 meituan
+  "1"
+
+  101.200.121.40:0>geoadd company 116.56 39.78 jd 116.33 40.02 xiaomi
+  "2"
+
+  101.200.121.40:0>zrange company 0 -1
+   1)  "jd"
+   2)  "xiaomi"
+   3)  "ireader"
+   4)  "juejin"
+   5)  "meituan"
+  101.200.121.40:0>
+  ```
   
+  - geodist 查询集合中的元素之间的距离 携带集合名称 两个元素名称 和距离单位(m,km,ml,ft)
   
+  ```shell
+  101.200.121.40:0>geodist company xiaomi jd km
+  "33.1323"
+
+  101.200.121.40:0>
+  ```
+  
+  - geopos可以获取经纬度坐标
+  
+  ```shell
+  101.200.121.40:0>geopos company jd
+   1)    1)   "116.55999809503555298"
+    2)   "39.77999878782433285"
+
+  101.200.121.40:0>geopos company xiaomi ireader
+   1)    1)   "116.3299986720085144"
+    2)   "40.01999886079634194"
+
+   2)    1)   "116.51000171899795532"
+    2)   "39.90000009167092543"
+
+  101.200.121.40:0>
+  ```
+  
+  - geohash可以获取hash值, 解码地址:http://geohash.org/${hash}
+  
+  ```shell
+  101.200.121.40:0>geohash company jd
+   1)  "wx4fk3srkc0"
+  101.200.121.40:0>
+  ```
+  
+  - georadiusbymember
+  ```shell
+  101.200.121.40:0>georadiusbymember company ireader 20 km count 3 asc // company集合中在20km中里ireader最近的3个公司，包括了自己，按距离正排
+   1)  "ireader"
+   2)  "juejin"
+   3)  "meituan"
+  101.200.121.40:0>georadiusbymember company ireader 20 km count 3 desc // company集合中在20km中里ireader最远的3个公司，按距离倒排
+   1)  "jd"
+   2)  "meituan"
+   3)  "juejin"
+  101.200.121.40:0>georadiusbymember company ireader 20 km count 3 desc withhash
+   1)    1)   "jd"
+    2)   "4069153314994473"
+
+   2)    1)   "meituan"
+    2)   "4069887165561330"
+
+   3)    1)   "juejin"
+    2)   "4069886973713703"
+
+  101.200.121.40:0>georadiusbymember company ireader 20 km count 3 desc withhash withdist withcoord // 三个附加参数，分别是带hash，带距离，带坐标
+   1)    1)   "jd"
+    2)   "14.0136"
+    3)   "4069153314994473"
+    4)      1)    "116.55999809503555298"
+     2)    "39.77999878782433285"
+
+
+   2)    1)   "meituan"
+    2)   "11.2526"
+    3)   "4069887165561330"
+    4)      1)    "116.48999780416488647"
+     2)    "39.99999991084916218"
+
+
+   3)    1)   "juejin"
+    2)   "10.3322"
+    3)   "4069886973713703"
+    4)      1)    "116.47999852895736694"
+     2)    "39.99000043587556519"
+   ```
+
   
   
   
