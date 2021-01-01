@@ -14,7 +14,7 @@
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-01T02:23:47.734Z">
+<meta property="article:modified_time" content="2021-01-01T03:08:48.926Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -109,7 +109,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GeoHash-%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE"><span class="toc-number">9.</span> <span class="toc-text">GeoHash 地理位置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF%E6%98%AF%E6%8A%8A%E4%BA%8C%E7%BB%B4%E5%9D%90%E6%A0%87%E6%98%A0%E5%B0%84%E5%88%B0%E4%B8%80%E7%BB%B4%E5%9D%90%E6%A0%87%E4%B8%8A%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%BF%99%E6%9D%A1%E7%BA%BF%E6%9D%A5%E6%9F%A5%E6%89%BE%E6%9C%80%E8%BF%91%E7%9A%84%E7%82%B9%E5%B0%B1%E5%8F%AF%E4%BB%A5%E4%BA%86"><span class="toc-number">9.1.</span> <span class="toc-text">基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GeoHash-%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE"><span class="toc-number">9.</span> <span class="toc-text">GeoHash 地理位置</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -480,8 +480,79 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
 </li>
 </ul>
 <h1 id="GeoHash-地理位置"><a href="#GeoHash-地理位置" class="headerlink" title="GeoHash 地理位置"></a>GeoHash 地理位置</h1><ul>
-<li>用来解决数据库保存地理位置带来的查询，排序慢的问题</li>
-<li><h2 id="基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了"><a href="#基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了" class="headerlink" title="基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了"></a>基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了</h2></li>
+<li><p>用来解决数据库保存地理位置带来的查询，排序慢的问题</p>
+</li>
+<li><p>基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了</p>
+<ul>
+<li>以常见的二刀法为例<ol>
+<li>第一次二刀将平面分成四份分别编号00，01，10，11</li>
+<li>取左上角00块为例子，继续二刀切分，那么这就细分为0000，0001，0010，0011</li>
+<li>其他的区块也是这么细分，最终每个点都可以近似表示成一个定长的整数</li>
+<li>从而完成了从二维坐标转成一维数字的过程</li>
+</ol>
+</li>
+<li>GeoHash还会对这个整数做一次base32编码（0-9，a-z，去除a,i,l,o)</li>
+<li>在redis里面使用52位整数进行编码，放入zset里面，value是元素的key，score是元素的geohash52位整数值</li>
+</ul>
+</li>
+<li><p>geoadd +集合名称 +经度 +维度 +member 向集合名称中添加元素</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">List of unsupported commands: DUMP, RESTORE, AUTH </span><br><span class="line">Connecting ...</span><br><span class="line"></span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;geoadd company 116.48 39.99 juejin</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;geoadd company 116.51 39.90 ireader</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;geoadd company 116.49 40.00 meituan</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;geoadd company 116.56 39.78 jd 116.33 40.02 xiaomi</span><br><span class="line">&quot;2&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;zrange company 0 -1</span><br><span class="line"> 1)  &quot;jd&quot;</span><br><span class="line"> 2)  &quot;xiaomi&quot;</span><br><span class="line"> 3)  &quot;ireader&quot;</span><br><span class="line"> 4)  &quot;juejin&quot;</span><br><span class="line"> 5)  &quot;meituan&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>geodist 查询集合中的元素之间的距离 携带集合名称 两个元素名称 和距离单位(m,km,ml,ft)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;geodist company xiaomi jd km</span><br><span class="line">&quot;33.1323&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>geopos可以获取经纬度坐标</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;geopos company jd</span><br><span class="line"> 1)    1)   &quot;116.55999809503555298&quot;</span><br><span class="line">  2)   &quot;39.77999878782433285&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;geopos company xiaomi ireader</span><br><span class="line"> 1)    1)   &quot;116.3299986720085144&quot;</span><br><span class="line">  2)   &quot;40.01999886079634194&quot;</span><br><span class="line"></span><br><span class="line"> 2)    1)   &quot;116.51000171899795532&quot;</span><br><span class="line">  2)   &quot;39.90000009167092543&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>geohash可以获取hash值, 解码地址:<a target="_blank" rel="noopener" href="http://geohash.org/$%7Bhash%7D">http://geohash.org/${hash}</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;geohash company jd</span><br><span class="line"> 1)  &quot;wx4fk3srkc0&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>georadiusbymember</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;georadiusbymember company ireader 20 km count 3 asc // company集合中在20km中里ireader最近的3个公司，包括了自己，按距离正排</span><br><span class="line"> 1)  &quot;ireader&quot;</span><br><span class="line"> 2)  &quot;juejin&quot;</span><br><span class="line"> 3)  &quot;meituan&quot;</span><br><span class="line">101.200.121.40:0&gt;georadiusbymember company ireader 20 km count 3 desc // company集合中在20km中里ireader最远的3个公司，按距离倒排</span><br><span class="line"> 1)  &quot;jd&quot;</span><br><span class="line"> 2)  &quot;meituan&quot;</span><br><span class="line"> 3)  &quot;juejin&quot;</span><br><span class="line">101.200.121.40:0&gt;georadiusbymember company ireader 20 km count 3 desc withhash</span><br><span class="line"> 1)    1)   &quot;jd&quot;</span><br><span class="line">  2)   &quot;4069153314994473&quot;</span><br><span class="line"></span><br><span class="line"> 2)    1)   &quot;meituan&quot;</span><br><span class="line">  2)   &quot;4069887165561330&quot;</span><br><span class="line"></span><br><span class="line"> 3)    1)   &quot;juejin&quot;</span><br><span class="line">  2)   &quot;4069886973713703&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;georadiusbymember company ireader 20 km count 3 desc withhash withdist withcoord // 三个附加参数，分别是带hash，带距离，带坐标</span><br><span class="line"> 1)    1)   &quot;jd&quot;</span><br><span class="line">  2)   &quot;14.0136&quot;</span><br><span class="line">  3)   &quot;4069153314994473&quot;</span><br><span class="line">  4)      1)    &quot;116.55999809503555298&quot;</span><br><span class="line">   2)    &quot;39.77999878782433285&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> 2)    1)   &quot;meituan&quot;</span><br><span class="line">  2)   &quot;11.2526&quot;</span><br><span class="line">  3)   &quot;4069887165561330&quot;</span><br><span class="line">  4)      1)    &quot;116.48999780416488647&quot;</span><br><span class="line">   2)    &quot;39.99999991084916218&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> 3)    1)   &quot;juejin&quot;</span><br><span class="line">  2)   &quot;10.3322&quot;</span><br><span class="line">  3)   &quot;4069886973713703&quot;</span><br><span class="line">  4)      1)    &quot;116.47999852895736694&quot;</span><br><span class="line">   2)    &quot;39.99000043587556519&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</li>
 </ul>
 
   </div>
@@ -514,7 +585,7 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GeoHash-%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE"><span class="toc-number">9.</span> <span class="toc-text">GeoHash 地理位置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF%E6%98%AF%E6%8A%8A%E4%BA%8C%E7%BB%B4%E5%9D%90%E6%A0%87%E6%98%A0%E5%B0%84%E5%88%B0%E4%B8%80%E7%BB%B4%E5%9D%90%E6%A0%87%E4%B8%8A%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%BF%99%E6%9D%A1%E7%BA%BF%E6%9D%A5%E6%9F%A5%E6%89%BE%E6%9C%80%E8%BF%91%E7%9A%84%E7%82%B9%E5%B0%B1%E5%8F%AF%E4%BB%A5%E4%BA%86"><span class="toc-number">9.1.</span> <span class="toc-text">基本思路是把二维坐标映射到一维坐标上，然后通过这条线来查找最近的点就可以了</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E7%A7%8D%E5%9F%BA%E7%A1%80%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">5种基础的数据结构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="toc-number">2.</span> <span class="toc-text">分布式锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="toc-number">3.</span> <span class="toc-text">消息队列</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%8D%E5%9B%BEBitmap%EF%BC%9A"><span class="toc-number">4.</span> <span class="toc-text">位图Bitmap：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HyperLogLog"><span class="toc-number">5.</span> <span class="toc-text">HyperLogLog</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bloom-Filter-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Bloom Filter 布隆过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E9%99%90%E6%B5%81%EF%BC%9A"><span class="toc-number">7.</span> <span class="toc-text">简单限流：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BC%8F%E6%96%97%E9%99%90%E6%B5%81"><span class="toc-number">8.</span> <span class="toc-text">漏斗限流</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GeoHash-%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE"><span class="toc-number">9.</span> <span class="toc-text">GeoHash 地理位置</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
