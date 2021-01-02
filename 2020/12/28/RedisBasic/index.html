@@ -8,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis">
-<meta property="og:url" content="http://example.com/2020/12/28/Redis/index.html">
+<meta property="og:title" content="RedisBasic">
+<meta property="og:url" content="http://example.com/2020/12/28/RedisBasic/index.html">
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="5种基础的数据结构： string：内部表示为一个字符数组，而且是动态的字符串，可以修改的，字符串最大长度为512MB  键值对  RDM Redis Console 连接中... 已连接。 101.200.121.40:0&gt;set name codehole &quot;OK&quot; 101.200.121.40:0&gt;get name &quot;codehole&quot; 1">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-28T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-02T03:47:59.791Z">
+<meta property="article:modified_time" content="2021-01-02T06:00:49.855Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -40,7 +40,7 @@
       
     
     <!-- title -->
-    <title>Redis</title>
+    <title>RedisBasic</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -94,17 +94,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/28/Redis/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/28/Redis/&text=Redis"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/28/Redis/&is_video=false&description=Redis"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redis&body=Check out this article: http://example.com/2020/12/28/Redis/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/28/Redis/&name=Redis&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/28/Redis/&t=Redis"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/28/RedisBasic/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/28/RedisBasic/&text=RedisBasic"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/28/RedisBasic/&is_video=false&description=RedisBasic"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RedisBasic&body=Check out this article: http://example.com/2020/12/28/RedisBasic/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/28/RedisBasic/&name=RedisBasic&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/28/RedisBasic/&t=RedisBasic"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -121,7 +121,7 @@
   <header>
     
     <h1 class="posttitle" itemprop="name headline">
-        Redis
+        RedisBasic
     </h1>
 
 
@@ -543,17 +543,32 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;scan 0 match key99* count 1000 // 第一次遍历 cursor的值为0， 直到返回的cursor值为0时结束遍历</span><br><span class="line">1) &quot;408&quot;</span><br><span class="line">2) 1) &quot;key9991&quot;</span><br><span class="line">   2) &quot;key9903&quot;</span><br><span class="line">   3) &quot;key9992&quot;</span><br><span class="line">   4) &quot;key9948&quot;</span><br><span class="line">   5) &quot;key999&quot;</span><br><span class="line">   6) &quot;key9978&quot;</span><br><span class="line">   7) &quot;key9902&quot;</span><br><span class="line">   8) &quot;key9936&quot;</span><br><span class="line">   9) &quot;key9962&quot;</span><br><span class="line">......</span><br><span class="line">101.200.121.40:0&gt;scan 4051 match key99* count 1000</span><br><span class="line">1) &quot;3175&quot;</span><br><span class="line">2) 1)  &quot;key9935&quot;</span><br><span class="line">   2)  &quot;key9985&quot;</span><br><span class="line">   3)  &quot;key9914&quot;</span><br><span class="line">   4)  &quot;key9901&quot;</span><br><span class="line">   5)  &quot;key9906&quot;</span><br><span class="line">   6)  &quot;key9971&quot;</span><br><span class="line">   7)  &quot;key9942&quot;</span><br><span class="line">   8)  &quot;key9954&quot;</span><br><span class="line">   9)  &quot;key9941&quot;</span><br><span class="line">   10) &quot;key9924&quot;</span><br><span class="line">   11) &quot;key9940&quot;</span><br><span class="line">   12) &quot;key9994&quot;</span><br><span class="line">   13) &quot;key991&quot;</span><br><span class="line">   14) &quot;key9928&quot;</span><br><span class="line">   15) &quot;key9987&quot;</span><br><span class="line">   16) &quot;key9943&quot;</span><br><span class="line">   17) &quot;key9966&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;scan 3175 match key99* count 1000</span><br><span class="line">1) &quot;14335&quot;</span><br><span class="line">2) 1)  &quot;key993&quot;</span><br><span class="line">   2)  &quot;key9989&quot;</span><br><span class="line">   3)  &quot;key9918&quot;</span><br><span class="line">   4)  &quot;key9931&quot;</span><br><span class="line">   5)  &quot;key9945&quot;</span><br><span class="line">   6)  &quot;key9980&quot;</span><br><span class="line">   7)  &quot;key9905&quot;</span><br><span class="line">   8)  &quot;key9976&quot;</span><br><span class="line">   9)  &quot;key994&quot;</span><br><span class="line">   10) &quot;key9969&quot;</span><br><span class="line">   11) &quot;key9909&quot;</span><br><span class="line">   12) &quot;key9946&quot;</span><br><span class="line">   13) &quot;key9963&quot;</span><br><span class="line">   14) &quot;key9988&quot;</span><br><span class="line">   15) &quot;key9957&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;scan 14335 match key99* count 1000 // 返回的cursor为0了 结束遍历</span><br><span class="line">1) &quot;0&quot;</span><br><span class="line">2) null</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li></li>
+<li>key本质是放在了很大的字典表里面，数组的长度是2的n次方，scan命令返回的是第一维数组的位置索引</li>
+<li>scan的遍历是高位加法遍历</li>
+<li>rehash的过程是取模运算，其实是低位与操作<ul>
+<li>例如 011位的元素，可能是3 也可能是11</li>
+<li>那么扩充之后，11可能会分配到11号槽中</li>
+<li>抽象的总结 xxx-&gt;0xxx或者1xxx，xxxx-&gt;0xxxx或者1xxxx</li>
+</ul>
+</li>
+<li>高位加法便利的好处就是：<ul>
+<li>扩容时，只需要在扩容的两个新的槽继续遍历就行，之前的槽都已经遍历过了</li>
+<li>缩容时，也是这样，但是他对于一部分进行了重复遍历，因为是2个插槽合成了一个插槽</li>
+</ul>
+</li>
+<li>渐进式rehash：保存新旧两个hash结构，访问正在rehash的结构时要同时访问2个结构，在后续的定时任务中完成迁移</li>
+<li>zscan可以遍历zset元素，hscan可以遍历hash字典的元素，sscan可以遍历set的元素，因为这三个集合都是字典表结构</li>
+<li>避免大key，因为扩容或者删除时，内存会重新分配，会造成卡顿，使用–bigkeys命令来定位大key，然会重新进行业务设计</li>
 </ul>
 </li>
 </ul>
 
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/Redis.md" target="_blank">编辑文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/RedisBasic.md" target="_blank">编辑文档</a>
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/Redis.md" target="_blank">删除文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/RedisBasic.md" target="_blank">删除文档</a>
   </div>
 </article>
 
@@ -583,17 +598,17 @@ setnx和expire是非原子操作，要是expire也没有执行，则也会造成
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/28/Redis/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/28/Redis/&text=Redis"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/28/Redis/&is_video=false&description=Redis"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Redis&body=Check out this article: http://example.com/2020/12/28/Redis/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/28/Redis/&title=Redis"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/28/Redis/&name=Redis&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/28/Redis/&t=Redis"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/28/RedisBasic/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/28/RedisBasic/&text=RedisBasic"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/28/RedisBasic/&is_video=false&description=RedisBasic"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=RedisBasic&body=Check out this article: http://example.com/2020/12/28/RedisBasic/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/28/RedisBasic/&title=RedisBasic"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/28/RedisBasic/&name=RedisBasic&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/28/RedisBasic/&t=RedisBasic"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
