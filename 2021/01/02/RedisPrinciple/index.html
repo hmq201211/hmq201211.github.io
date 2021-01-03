@@ -14,7 +14,7 @@
 <meta property="og:description" content="线程IO模型非阻塞IO 阻塞式IO 读取多少个字节后返回，要是没读取完成，就会阻塞 写多少字节返回，要是写缓冲区满了，那么写方法就会阻塞，直到缓冲区有空间空出来   非阻塞式IO Non_Blocking true 读写方法都不会阻塞 能读多少取决于读缓冲区的已有字节数 能写多少取决于写缓冲区的空闲字节数 读写都会返回已经操作的字节数    事件轮询  用来解决线程如何知道何时继续读和写的问题（读">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-02T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-03T06:27:22.521Z">
+<meta property="article:modified_time" content="2021-01-03T07:42:30.519Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -111,7 +111,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8BIO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">线程IO模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="toc-number">1.1.</span> <span class="toc-text">非阻塞IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.2.</span> <span class="toc-text">事件轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">指令队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">响应队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">定时任务</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8BIO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">线程IO模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="toc-number">1.1.</span> <span class="toc-text">非阻塞IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.2.</span> <span class="toc-text">事件轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">指令队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">响应队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">定时任务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">通讯协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RESP-Redis%E5%BA%8F%E5%88%97%E5%8C%96%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.1.</span> <span class="toc-text">RESP Redis序列化协议</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -186,7 +186,21 @@
 <li>等有数据了，再把当前的fd加入进去</li>
 <li>避免select返回了写事件，但是发现没有数据可以写，造成的cpu浪费</li>
 </ul>
-<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2>
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><p>  防止响应IO事件时错过定时任务，Redis使用了最小堆来处理</p>
+<ul>
+<li>每个循环周期中，对最小堆中要到期的时间点的任务进行处理</li>
+<li>将最快要执行的任务还需要等待的时间记录下来，作为selct调用的timeout</li>
+</ul>
+<h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><p>  Redis使用了文本协议</p>
+<h2 id="RESP-Redis序列化协议"><a href="#RESP-Redis序列化协议" class="headerlink" title="RESP Redis序列化协议"></a>RESP Redis序列化协议</h2><p>  5种最小单元类型，每个单元结束后加上回车换行符</p>
+<ul>
+<li>单行字符串以+开头</li>
+<li>多行字符串以$开头加上字符串的长度</li>
+<li>整数以：开头</li>
+<li>错误信息以-开头</li>
+<li>数组以*开头加上数组的长度</li>
+</ul>
+
   </div>
   <div>
     <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/RedisPrinciple.md" target="_blank">编辑文档</a>
@@ -217,7 +231,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8BIO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">线程IO模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="toc-number">1.1.</span> <span class="toc-text">非阻塞IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.2.</span> <span class="toc-text">事件轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">指令队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">响应队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">定时任务</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8BIO%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">线程IO模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="toc-number">1.1.</span> <span class="toc-text">非阻塞IO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E4%BB%B6%E8%BD%AE%E8%AF%A2"><span class="toc-number">1.2.</span> <span class="toc-text">事件轮询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E4%BB%A4%E9%98%9F%E5%88%97"><span class="toc-number">1.3.</span> <span class="toc-text">指令队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text">响应队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.5.</span> <span class="toc-text">定时任务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%80%9A%E8%AE%AF%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.</span> <span class="toc-text">通讯协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RESP-Redis%E5%BA%8F%E5%88%97%E5%8C%96%E5%8D%8F%E8%AE%AE"><span class="toc-number">2.1.</span> <span class="toc-text">RESP Redis序列化协议</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
