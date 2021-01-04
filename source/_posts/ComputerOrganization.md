@@ -1,6 +1,6 @@
 ---
 title: ComputerOrganization  
-date: 2021-01-03  
+date: 2021-01-04  
 tags: 
 - 计算机组成原理
 - 硬件
