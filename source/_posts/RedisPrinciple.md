@@ -170,7 +170,53 @@ redis-benchmark -t set -q
   101.200.121.40:0>
   ```
  
- 
+## 优化
+  考虑到事务需要执行的指令比较多，那么可以考虑使用管道来减少IO操作
+  
+## watch
+  watch会在事务开始前盯住一个或者多个关键变量，在exec执行之前会检查自watch之后是否修改了，如果修改了，会给客户端返回失败  
+  利用这种机制可以实现乐观锁  
+  Redis禁止在multi和exec之间执行watch，必须在multi之前
+  ```shell
+  RDM Redis Console // shell 1
+  Connecting...
+  Connected.
+  101.200.121.40:0>flushdb
+  "OK"
+  101.200.121.40:0>set books 100
+  "OK"
+  101.200.121.40:0>watch books
+  "OK"
+  101.200.121.40:0>multi 
+  "OK"
+  101.200.121.40:0>incr books
+  "QUEUED"
+  101.200.121.40:0>exec
+
+  101.200.121.40:0>get books
+  "500"
+  101.200.121.40:0>
+  ```
+  -----------------
+  ```shell
+  RDM Redis Console // shell 2 在shell 1 执行exec之前执行修改watch的值
+  Connecting...
+  Connected.
+  101.200.121.40:0>set books 500
+  "OK"
+  101.200.121.40:0>
+  ```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
  
  
  
