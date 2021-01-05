@@ -119,6 +119,68 @@ redis-benchmark -t set -q
   ```
   所有指令在exec之前不执行，只是缓存在事务队列中
   
+## 不具备原子性（要么全部成功，要么全部失败），但具备隔离性（当前执行的事务不被其他事务打断）
+
+  ```shell
+  RDM Redis Console
+  Connecting...
+  Connected.
+  101.200.121.40:0>multi
+  "OK"
+  101.200.121.40:0>set book string
+  "QUEUED"
+  101.200.121.40:0>incr book
+  "QUEUED"
+  101.200.121.40:0>set node yes
+  "QUEUED"
+  101.200.121.40:0>exec
+  1) "OK"
+  2) "OK"
+  3) "OK"
+  4) "ERR value is not an integer or out of range"
+  5) "OK"
+  6) "OK"
+  7) "OK"
+  101.200.121.40:0>get book
+  "string"
+  101.200.121.40:0>get node
+  "yes"
+  101.200.121.40:0>
+  ```
+  
+## discard 丢弃
+  在exec执行之前，作用是丢弃事务缓存队列里面的所有指令
+
+  ```shell
+  RDM Redis Console
+  Connecting...
+  Connected.
+  101.200.121.40:0>get books
+  null
+  101.200.121.40:0>multi
+  "OK"
+  101.200.121.40:0>incr books
+  "QUEUED"
+  101.200.121.40:0>incr books
+  "QUEUED"
+  101.200.121.40:0>discard
+  "OK"
+  101.200.121.40:0>get books
+  null
+  101.200.121.40:0>
+  ```
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
