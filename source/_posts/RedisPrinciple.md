@@ -208,8 +208,37 @@ redis-benchmark -t set -q
   101.200.121.40:0>
   ```
   
-  
-  
+  通过watch来模拟乐观锁实现账户余额翻倍
+  ```python
+  import redis
+
+  def key_for(uid):
+      return "account_{}".format(uid)
+
+
+  def double_account(redis_client, uid):
+      key = key_for(uid)
+      while True:
+          redis_client.watch(key)
+          value = int(redis_client.get(key))
+          value *= 2
+          pipeline = redis_client.pipeline(transaction=True)
+          pipeline.multi()
+          pipeline.set(key, value)
+          try:
+              pipeline.execute()
+              break
+          except redis.WatchError:
+              print("err")
+              continue
+      return int(redis_client.get(key))
+
+
+  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="Hmq123hmq,.")
+  user_id = "abc"
+  client.setnx(key_for(user_id), 10)
+  print(double_account(client, user_id))
+  ```
   
   
   
