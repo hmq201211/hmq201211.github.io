@@ -381,6 +381,51 @@ redis-benchmark -t set -q
   ```
   
 ## intset
+  紧凑的整数数组结构, 存储元素都是整数,且元素个数较少 
+  
+  ```shell
+  101.200.121.40:0>sadd hello 1 2 3 
+  "3"
+
+  101.200.121.40:0>object encoding hello
+  "intset"
+
+  101.200.121.40:0>
+  ```
+  
+  开始是uint16 -> uint32 -> uint64  
+  
+  头部:
+    - encoding 表明value的位宽
+    - length 表明元素的个数
+    - 后面跟着...value
+  
+  当set里面村的是字符串, sadd会立即升级为hashtable
+  
+  ```shell
+  101.200.121.40:0>sadd hello 1 2 3 
+  "3"
+
+  101.200.121.40:0>object encoding hello
+  "intset"
+
+  101.200.121.40:0>sadd hello yes no
+  "2"
+
+  101.200.121.40:0>object encoding hello
+  "hashtable"
+
+  101.200.121.40:0>
+  ```
+  
+  以下情况会升级为标准结构:
+    - hash-max-ziplist-entries 512 hash的元素个数超过512就必须用标准结构存储
+    - hash-max-ziplist-value 64 hash的任意元素的key/value的长度超过64就必须用标准结构存储
+    - list-max-ziplist-entries 512 list的元素个数超过512就必须用标准结构存储
+    - list-max-ziplist-value 64 list的任意元素的长度超过64就必须用标准结构存储
+    - zset-max-ziplist-entries 128 zset的元素个数超过128就必须用标准结构存储
+    - zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储
+    - set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储
   
 
 
