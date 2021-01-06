@@ -396,9 +396,9 @@ redis-benchmark -t set -q
   开始是uint16 -> uint32 -> uint64  
   
   头部:
-    - encoding 表明value的位宽
-    - length 表明元素的个数
-    - 后面跟着...value
+  - encoding 表明value的位宽
+  - length 表明元素的个数
+  - 后面跟着...value
   
   当set里面村的是字符串, sadd会立即升级为hashtable
   
@@ -419,13 +419,13 @@ redis-benchmark -t set -q
   ```
   
   以下情况会升级为标准结构:
-    - hash-max-ziplist-entries 512 hash的元素个数超过512就必须用标准结构存储
-    - hash-max-ziplist-value 64 hash的任意元素的key/value的长度超过64就必须用标准结构存储
-    - list-max-ziplist-entries 512 list的元素个数超过512就必须用标准结构存储
-    - list-max-ziplist-value 64 list的任意元素的长度超过64就必须用标准结构存储
-    - zset-max-ziplist-entries 128 zset的元素个数超过128就必须用标准结构存储
-    - zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储
-    - set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储
+  - hash-max-ziplist-entries 512 hash的元素个数超过512就必须用标准结构存储
+  - hash-max-ziplist-value 64 hash的任意元素的key/value的长度超过64就必须用标准结构存储
+  - list-max-ziplist-entries 512 list的元素个数超过512就必须用标准结构存储
+  - list-max-ziplist-value 64 list的任意元素的长度超过64就必须用标准结构存储
+  - zset-max-ziplist-entries 128 zset的元素个数超过128就必须用标准结构存储
+  - zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储
+  - set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储
   
 ## 内存回收机制
   操作系统是以页为单位回收内存的,只要有一个key在这一页上并且在使用中,这一页就不能被回收  
