@@ -427,6 +427,9 @@ redis-benchmark -t set -q
     - zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储
     - set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储
   
+## 内存回收机制
+  操作系统是以页为单位回收内存的,只要有一个key在这一页上并且在使用中,这一页就不能被回收  
+  Redis虽然无法保证立即回收被删除的key的内存,但是可以保证重新使用那些尚未回收的空闲内存
 
 
 
