@@ -282,6 +282,73 @@ redis-benchmark -t set -q
         print(msg)
     ```
 
+## 模式订阅
+  ```shell
+  psubscribe com.* // 所有以com.*发生的消息都会收到
+  ```
+  
+## 消息结构
+  - data 消息内容 一个字符串
+  - channel 当前订阅的主题
+  - type 消息的类型
+    - message 普通消息
+    - subscribe 订阅
+    - psubscribe 模式订阅
+    - unsubscribe 取消订阅
+    - unpsubscribe 取消模式订阅
+  - pattern 模式订阅下的匹配规则
+  
+## 缺点
+  - 不保证消费者一定能收到消息(例如消费者down了,那么消息就收不到了,如果一个消费者都没有,那么会直接丢弃)
+  - 自身也没有做持久化,所有消息都被丢弃
+  
+  
+# 小对象压缩
+  如果Redis内部管理的数据结构很小，会使用紧凑存储形式压缩，例如以下的双数组（一维）代替hashmap（数组加链表）
+  
+  ```python
+  class ArrayMap:
+    def __init__(self):
+        self.keys = []
+        self.values = []
+
+    def put(self, key, value):
+        for i in range(len(self.keys)):
+            if key == self.keys[i]:
+                old = self.values[i]
+                self.values[i] = value
+                return old
+        self.keys.append(key)
+        self.values.append(value)
+        return None
+
+    def get(self, key):
+        for i in range(len(self.keys)):
+            if key == self.keys[i]:
+                return self.values[i]
+        return None
+
+    def delete(self, key):
+        for i in range(len(self.keys)):
+            if key == self.keys[i]:
+                old = self.values[i]
+                self.keys.remove(key)
+                self.values.remove(old)
+                return old
+        return None
+
+
+  collection = ArrayMap()
+  print(collection.put(1, 2))
+  print(collection.put(1, 3))
+  print(collection.put(2, 3))
+  print(collection.get(1))
+  print(collection.delete(1))
+  ```
+    
+    
+## 
+
 
 
 
