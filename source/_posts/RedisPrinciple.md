@@ -234,7 +234,7 @@ redis-benchmark -t set -q
       return int(redis_client.get(key))
 
 
-  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="Hmq123hmq,.")
+  client = redis.StrictRedis(host="101.200.121.40", port=6379, password="++++++++")
   user_id = "abc"
   client.setnx(key_for(user_id), 10)
   print(double_account(client, user_id))
