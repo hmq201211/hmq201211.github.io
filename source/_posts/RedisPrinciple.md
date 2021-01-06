@@ -240,6 +240,21 @@ redis-benchmark -t set -q
   print(double_account(client, user_id))
   ```
   
+# PubSub 消息多播
+  运行生产者生产一次消息，由中间件来负责将消息复制到多个消息队列
+
+## 
+
+
+
+
+
+
+
+
+
+
+
   
   
   
