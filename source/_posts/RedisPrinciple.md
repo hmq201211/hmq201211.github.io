@@ -347,7 +347,41 @@ redis-benchmark -t set -q
   ```
     
     
-## 
+## ziplist 紧凑的字节数组结构
+  如果存储的是hash结构, 那么key和value会作为两个entry相邻存储  
+  如果存储的是zset结构, 那么value和score会作为两个entry相邻存储
+  
+  - 头部:
+    - zlbytes 整个压缩列表占用的字节数 4bytes
+    - zltail 最后一个entry的偏移量, 便于直接定位尾部元素 4bytes
+    - zllen entry的数量 2bytes
+  - 中间:
+    - entry的紧凑排列
+  - 尾部:
+    -zlend 魔术整数255 1byte
+    
+  ```shell
+  List of unsupported commands: DUMP, RESTORE, AUTH 
+  Connecting ...
+
+  Connected.
+  101.200.121.40:0>hset hello a 1
+  "1"
+
+  101.200.121.40:0>hset hello b 2
+  "1"
+
+  101.200.121.40:0>hset hello c 3
+  "1"
+
+  101.200.121.40:0>object encoding hello
+  "ziplist"
+
+  101.200.121.40:0>
+  ```
+  
+## intset
+  
 
 
 
