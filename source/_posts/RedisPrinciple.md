@@ -246,8 +246,41 @@ redis-benchmark -t set -q
 ## 生产者消费者模型
 
   - 普通消费者
-  
+    ```python
+    import time
+    import redis
 
+    client = redis.StrictRedis(host="101.200.121.40", port=6379, password="+++++++")
+    p = client.pubsub()
+    p.subscribe("hello")
+    while True:
+        msg = p.get_message()
+        if not msg:
+            time.sleep(1)
+            continue
+        print(msg)
+    ```
+  - 普通生产者
+    ```python
+    import time
+    import redis
+
+    client = redis.StrictRedis(host="101.200.121.40", port=6379, password="")
+    client.publish("hello", "1")
+    client.publish("hello", "2")
+    client.publish("hello", "3")
+    ```
+  - 阻塞消费者
+    ```python
+    import time
+    import redis
+
+    client = redis.StrictRedis(host="101.200.121.40", port=6379, password="H")
+    p = client.pubsub()
+    p.subscribe("hello")
+    for msg in p.listen():
+        print(msg)
+    ```
 
 
 
