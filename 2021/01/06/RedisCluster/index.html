@@ -6,13 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="article">
+    <meta name="description" content="主从同步CAP原理当发生网路分区的时候，一致性和可用性两难全  C：consistent一致性 A：availability可用性 P：partition tolerance分区容忍性  当网路分区发生时，两个不同机器上的节点无法通讯，对一个节点的修改无法同步到另一个节点，数据的一致性无法保证除非我们在发生网路分区的时候不提供修改的服务，直到网路恢复再对外提供服务   最终一致性Redis的主从数">
+<meta property="og:type" content="article">
 <meta property="og:title" content="RedisCluster">
 <meta property="og:url" content="http://example.com/2021/01/06/RedisCluster/index.html">
 <meta property="og:site_name" content="我的笔记">
+<meta property="og:description" content="主从同步CAP原理当发生网路分区的时候，一致性和可用性两难全  C：consistent一致性 A：availability可用性 P：partition tolerance分区容忍性  当网路分区发生时，两个不同机器上的节点无法通讯，对一个节点的修改无法同步到另一个节点，数据的一致性无法保证除非我们在发生网路分区的时候不提供修改的服务，直到网路恢复再对外提供服务   最终一致性Redis的主从数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-07T02:19:02.252Z">
+<meta property="article:modified_time" content="2021-01-07T14:13:01.706Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -107,7 +109,7 @@
 
     </div>
     <div id="toc">
-      
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">主从同步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">CAP原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">最终一致性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E4%B8%8E%E4%BB%8E%E4%BB%8E%E5%90%8C%E6%AD%A5"><span class="toc-number">1.3.</span> <span class="toc-text">主从同步与从从同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E9%87%8F%E5%90%8C%E6%AD%A5"><span class="toc-number">1.4.</span> <span class="toc-text">增量同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7%E5%90%8C%E6%AD%A5"><span class="toc-number">1.5.</span> <span class="toc-text">快照同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E4%BB%8E%E8%8A%82%E7%82%B9"><span class="toc-number">1.6.</span> <span class="toc-text">增加从节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%9B%98%E5%A4%8D%E5%88%B6"><span class="toc-number">1.7.</span> <span class="toc-text">无盘复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait%E6%8C%87%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text">wait指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sentinel-%E5%93%A8%E5%85%B5"><span class="toc-number">2.</span> <span class="toc-text">Sentinel 哨兵</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -156,7 +158,28 @@
   
 
   <div class="content" itemprop="articleBody">
-    
+    <h1 id="主从同步"><a href="#主从同步" class="headerlink" title="主从同步"></a>主从同步</h1><h2 id="CAP原理"><a href="#CAP原理" class="headerlink" title="CAP原理"></a>CAP原理</h2><p>当发生网路分区的时候，一致性和可用性两难全</p>
+<ul>
+<li>C：consistent一致性</li>
+<li>A：availability可用性</li>
+<li>P：partition tolerance分区容忍性</li>
+</ul>
+<p>当网路分区发生时，两个不同机器上的节点无法通讯，对一个节点的修改无法同步到另一个节点，数据的一致性无法保证<br>除非我们在发生网路分区的时候不提供修改的服务，直到网路恢复再对外提供服务  </p>
+<h2 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h2><p>Redis的主从数据是异步同步的，所以分布式的Redis不满足一致性要求<br>Redis保证可用性，因为客户端在Redis的主节点修改了数据后立即返回，即使在主从网路断开的情况下，对外依然可以提供修改服务<br>但Redis保证最终一致性，从节点会追赶主节点，包括网路断开又恢复的情况</p>
+<h2 id="主从同步与从从同步"><a href="#主从同步与从从同步" class="headerlink" title="主从同步与从从同步"></a>主从同步与从从同步</h2><p>减轻主节点的压力，支持从节点从从节点同步数据</p>
+<h2 id="增量同步"><a href="#增量同步" class="headerlink" title="增量同步"></a>增量同步</h2><p>主节点同步的是指令流，修改的指令存储到本地内存buffer，然后异步把指令同步给从节点<br>从节点会反馈自己的偏移量<br><strong><em>但是buffer是环形数组，如果满了，后来的指令会覆盖掉之前的指令</em></strong><br>所以当出现网路不好，从节点无法从主节点复制，当网路恢复的时候，主节点那些没有同步的指令在buffer中可能就已经被后来的指令覆盖掉了</p>
+<h2 id="快照同步"><a href="#快照同步" class="headerlink" title="快照同步"></a>快照同步</h2><p><strong><em>耗资源</em></strong></p>
+<ul>
+<li>bgsave 立即返回ok，主进程fork出一个子进程，然后继续执行业务，子进程将内存中的数据保存到磁盘中，然后退出</li>
+<li>save 阻塞主进程，直到内存中的数据保存到了磁盘里</li>
+</ul>
+<p>快照同步就是先bgsave，然后再把快照文件传送到从节点，从节点收到快照文件，先将内存数据清空，然后全量加载，加载完成后通知主节点后继续增量同步<br>注意，这段时间内主节点的增量同步buffer还是在不停的写入，要是快照同步的时间过长，或者buffer太小，就会导致增量同步是吧，导致陷入快照同步的死循环</p>
+<h2 id="增加从节点"><a href="#增加从节点" class="headerlink" title="增加从节点"></a>增加从节点</h2><p>从节点新加入集群时，先执行快照同步，然后再增量同步 </p>
+<h2 id="无盘复制"><a href="#无盘复制" class="headerlink" title="无盘复制"></a>无盘复制</h2><p>快照同步需要很耗时的IO操作，特别是在当系统正在进行AOF的fsync时，发生快照同步，那么fsync会推迟执行，显著影响了服务效率<br>无盘复制就是主节点直接通过socket将快照内容发送给从节点，生成快照是遍历过程，主节点一边序列化，一边将序列化的内容发送给从节点<br>从节点就是收到所有数据到内存时，再一次性加载  </p>
+<h2 id="wait指令"><a href="#wait指令" class="headerlink" title="wait指令"></a>wait指令</h2><p>同步wait之前的所有写操作，异步变成同步，保证强一致性（不严格）  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wait n t // n代表几个从节点，t代表超时时间 0表示无限等待直到同步完成（要是这时间发生了网路分区，wait指令永远阻塞，丧失可用性）</span><br></pre></td></tr></table></figure>
+
+<h1 id="Sentinel-哨兵"><a href="#Sentinel-哨兵" class="headerlink" title="Sentinel 哨兵"></a>Sentinel 哨兵</h1>
   </div>
   <div>
     <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/RedisCluster.md" target="_blank">编辑文档</a>
@@ -187,7 +210,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5"><span class="toc-number">1.</span> <span class="toc-text">主从同步</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">CAP原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">最终一致性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5%E4%B8%8E%E4%BB%8E%E4%BB%8E%E5%90%8C%E6%AD%A5"><span class="toc-number">1.3.</span> <span class="toc-text">主从同步与从从同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E9%87%8F%E5%90%8C%E6%AD%A5"><span class="toc-number">1.4.</span> <span class="toc-text">增量同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E7%85%A7%E5%90%8C%E6%AD%A5"><span class="toc-number">1.5.</span> <span class="toc-text">快照同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A2%9E%E5%8A%A0%E4%BB%8E%E8%8A%82%E7%82%B9"><span class="toc-number">1.6.</span> <span class="toc-text">增加从节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%9B%98%E5%A4%8D%E5%88%B6"><span class="toc-number">1.7.</span> <span class="toc-text">无盘复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wait%E6%8C%87%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text">wait指令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sentinel-%E5%93%A8%E5%85%B5"><span class="toc-number">2.</span> <span class="toc-text">Sentinel 哨兵</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
