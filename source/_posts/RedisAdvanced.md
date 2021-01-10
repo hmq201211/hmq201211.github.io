@@ -65,10 +65,51 @@ PEL只能够保存了已经发出去的消息ID，只要客户端重启后xreadg
   - Replication 主从复制相关信息 
   - CPU CPU的使用情况
   - Cluster 集群信息
-  - KeySpace 
+  - KeySpace 键值对统计数量信息
   
+- 查询Redis每秒执行多少次指令
+  - redis-cli info stats |grep ops 查看每秒操作数
+  - redis-cli monitor 瞬间吐出巨量的指令文本
   
+- 查询Redis连接了多少客户端
+  - redis-cli info clients
+  - redis-cli info stats |grep reject 查看拒绝的连接数,要是被拒绝的过多,说明设置的最大连接数过少,需要调节maxclients 参数
   
+- 查询Redis内存占用多大
+  - redis-cli info memory |grep used |grep human
+  
+- 查询复制积压缓冲去的大小
+  - redis-cli info replication |grep backlog
+  - 主从增量复制用来存储主的命令的, 环形的
+  - 要是设置的过小, 满了, 新来的命令会覆盖之前的命令
+  - 导致全量复制
+  - redis-cli info stats |grep sync 可以查看主从半同步复制失败的次数
+  
+## 分布式锁
+setnx指令在集群环境下有问题,比如setnx主节点,然后主节点failover从节点,从节点还没有同步过来就成为了主节点,然后其他的线程来获取锁就成功了  
+可以考虑使用redlock算法
+
+## 过期策略
+- 过期的key集合
+  - 过期的key放在一个独立的字典中, 以后会定时遍历字典查找到期的key并删除
+  - 还有惰性删除,在客户端访问这个key的时候,会对过期时间进行检查,如果过期了就删除
+  
+- 定时扫描策略
+  - 策略:
+    1. 从过期字典中随机挑出20key
+    2. 删除这20key中过期的
+    3. 如果比例超过25% 重复步骤1
+    4. 要是循环了,执行的时间上线是25ms
+
+  - 避免同时大量的key过期
+    - 持续扫描过期字典
+    - 内存管理器频繁回收内存页
+    - 如果客户端将超时时间设置的比较短,很有可能超时关闭,并且在慢查询slowlog日志中找不出来(因为不是逻辑处理超时)
+  
+  - 从节点的过期策略是从主节点获取的del指令,所有是异步的,存在信息不同步的现象
+  
+## LRU
+
   
   
   
