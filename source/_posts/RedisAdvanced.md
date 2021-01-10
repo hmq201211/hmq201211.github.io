@@ -159,7 +159,34 @@ for i in range(40):
 print(d)
 ```
   
+## Redis采用的近似LRU算法
+- 给每个key添加额外的字段24bit，保存了最后一次访问的时间戳
+- 近似LRU只有懒惰删除
+- maxmemory-policy 
+  - allkeys 表示从全部的key字典里随机取样后比较删除
+  - volatile 表示从设置了过期时间的key字典里随机取样后比较删除
   
+- maxmemory_samples 表示每次取样多少个key
+- 取样之后与淘汰池融合，比较出最旧的key，删除，留下比较旧的maxmemory_samples个key留在淘汰池中，用作下一次比较
+
+# 懒惰删除
+- unlink 删除key，但是是懒处理，因为如果这个对象很大，删除操作会造成单线程卡顿
+- flushdb和flushall 同理 跟上async参数就行，也会进行异步化
+- 异步队列 
+  - unlink之后，会把这个key的内存回收打包成任务放入异步任务队列，后台线程从这个队列取任务，进行内存回收
+  - 因为要同时被主线程和异步线程处理，这个队列一定得是线程安全的
+  - 要是小的key，unlink会对内存立即回收，像del一样
+  
+- AOF sync
+  - 是一个IO操作，也交给了异步线程来执行，不是懒惰删除的线程
+  - 也有一个自己的任务队列，队列里只存放AOF Sync任务
+  
+- 更多的异步删除点
+  - slave_lazy_flush 从节点接受完了rdb文件后进行的flush操作使用异步删除
+  - lazyfree_lazy_eviction 内存达到maxmemory时淘汰，进行异步删除
+  - lazyfree_lazy_expire key 过期删除key使用异步
+  - lazyfree_lazy_server_del_rename 指令删除
+
   
   
   
