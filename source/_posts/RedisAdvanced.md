@@ -111,7 +111,13 @@ setnx指令在集群环境下有问题,比如setnx主节点,然后主节点failo
 ## LRU
 内存超过物理内存限制时，会出现内存数据和磁盘数据产生频繁的交换，这对于Redis的性能来说是不能接受的  
 为了限制最大使用内存，Redis提供了maxmemory俩限制内存超出期望大小  
-- 
+- noeviction 部继续服务写请求，响应del请求和读请求（默认）
+- volatile-lru 尝试淘汰设置了过期时间的key，用的最少的最先淘汰
+- volatile-ttl 尝试淘汰设置了过期时间的key，ttl越少的越先淘汰
+- volatile-random 尝试淘汰设置了过期时间的key，随机挑选删除
+- allkeys-lru 删除全部的key，最少使用的最先淘汰
+- allkeys-random 删除全部的key，随机挑选删除
+2
   
   
   
