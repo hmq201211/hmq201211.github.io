@@ -55,7 +55,26 @@ PEL只能够保存了已经发出去的消息ID，只要客户端重启后xreadg
 ## 分区
 原生不支持分区，想要分区，必须分配多个Stream
 
-
+# Info 获取Redis内部的运行参数
+- 包括
+  - Server 服务器相关
+  - Clients 客户端相关
+  - Memory 服务器运行内存统计数据
+  - Persistence 持久化信息
+  - Stats 通用统计数据
+  - Replication 主从复制相关信息 
+  - CPU CPU的使用情况
+  - Cluster 集群信息
+  - KeySpace 
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 
