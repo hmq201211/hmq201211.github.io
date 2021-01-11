@@ -316,9 +316,33 @@ print(d)
   }
   ```
 
-
-
-
+## 保护Redis
+- 指令安全
+  - rename-command key alias
+  - 通过这个指令把重命名设置成空可以把指令封杀
+  
+- 端口安全
+  - bind address 绑定监听的IP地址
+  - requirepass yourpassword 表示需要密码
+  - masterauth master'spassword 主从复制中从节点必须在配置文件中指定主节点的密码
+  
+- Lua脚本安全
+  - 禁止UGC（lua脚本由用户输入的内容生成）
+  - Redis以普通用户身份启动，防止恶意提权
+  
+- SSL代理
+  - Redis本身不支持SSL
+  - 常见的代理有SSH和Spiped（对SSH通道进行二次加密）
+  
+## Redis安全通信
+- Spiped原理
+  - 客户端和服务器端都会启动一个spiped进程
+  - 客户端的请求数据被sender的spiped加密，然后发送给receiver的spiped进程
+  - 服务器短的spiped解密，然后给Redis Sever
+  - Redis Sever反走一个流程给Redis Client
+  - 每一个spiped进程都会监听端口（socket server）来接受数据，还会作为客户端（socket client）
+  - spiped进程都是成对出现，相互之间需要使用共享密钥来加密
+  
 
 
 
