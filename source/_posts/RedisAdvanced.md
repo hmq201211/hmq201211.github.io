@@ -264,7 +264,57 @@ print(d)
     }
   }
   ```
+  - - - 
+  ```Java
+  package jedisPool.tryWithResourceFramework;
+  
+  public class Test {
+    public static void main(String[] args) {
+      RedisPool redisPool = new RedisPool();
+      redisPool.execute(jedis -> {
+        jedis.set("hello","try-with-resource-framework");
+      });
+    }
+  }
+  ```
 
+- 封装返回值
+  ```Java
+  package jedisPool.tryWithResourceFramework;
+  public class RedisValueHolder <T>{
+    private T value;
+    public RedisValueHolder(){
+    
+    }
+
+    public RedisValueHolder(T value) {
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+  }
+  ```
+  - - - 
+  ```Java
+  package jedisPool.tryWithResourceFramework;
+
+  public class Test {
+    public static void main(String[] args) {
+      RedisPool redisPool = new RedisPool();
+      final RedisValueHolder<String> redisValueHolder = new RedisValueHolder<>();
+      redisPool.execute(jedis -> {
+        redisValueHolder.setValue(jedis.get("hello"));
+      });
+      System.out.println(redisValueHolder.getValue());
+    }
+  }
+  ```
 
 
 
