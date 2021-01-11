@@ -186,11 +186,84 @@ print(d)
   - lazyfree_lazy_eviction 内存达到maxmemory时淘汰，进行异步删除
   - lazyfree_lazy_expire key 过期删除key使用异步
   - lazyfree_lazy_server_del_rename 指令删除
+  
+## 优雅的使用Jedis
+- JedisPool获取的jedis对象不是线程安全的，我们拿出来之后给一个线程独占，然后归还
 
+- sample demo 执行业务代码会导致归还失败，最后jedisPool会空，然后阻塞所有来获取Jedis的线程
+  ```Java
+  package jedisPool;
+
+  import redis.clients.jedis.Jedis;
+  import redis.clients.jedis.JedisPool;
   
+  public class SimpleUse {
+    public static void main(String[] args) {
+      JedisPool jedisPool = new JedisPool("101.200.121.40",6379);
+      Jedis jedis = jedisPool.getResource();
+      jedis.auth("password");
+      doSomething(jedis);
+      jedis.close();
+    }
+    private static void doSomething(Jedis jedis){
+      jedis.set("hello","world!");
+    }
+  }
+  ```
   
+- 使用try-with-resource来确保归还
+  ```Java
+  package jedisPool;
+
+  import redis.clients.jedis.Jedis;
+  import redis.clients.jedis.JedisPool;
   
+  public class SimpleUseWithTryWithResource {
+    public static void main(String[] args) {
+      JedisPool jedisPool = new JedisPool("101.200.121.40",6379);
+      try( Jedis jedis = jedisPool.getResource()){
+        jedis.auth("password");
+        doSomething(jedis);
+      }
+    }
+    private static void doSomething(Jedis jedis){
+       jedis.set("hello","try-with-resource");
+    }
+  }
+  ```
   
+- 封装try-with-resource框架，强制隐式调用
+  ```Java
+  package jedisPool.tryWithResourceFramework;
+
+  import redis.clients.jedis.Jedis;
+  
+  public interface JedisTask {
+    void call(Jedis jedis);
+  }
+  ```
+  - - -
+  ```Java
+  package jedisPool.tryWithResourceFramework;
+  
+  import redis.clients.jedis.Jedis;
+  import redis.clients.jedis.JedisPool;
+  
+  public class RedisPool {
+    private final JedisPool jedisPool;
+
+    public RedisPool() {
+        this.jedisPool = new JedisPool("101.200.121.40", 6379);
+    }
+
+    public void execute(JedisTask jedisTask) {
+        try (Jedis jedis = jedisPool.getResource()) {
+            jedis.auth("password");
+            jedisTask.call(jedis);
+        }
+    }
+  }
+  ```
 
 
 
