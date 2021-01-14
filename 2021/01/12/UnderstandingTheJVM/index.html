@@ -14,7 +14,7 @@
 <meta property="og:description" content="运行时数据区 虚拟机栈（线程隔离） 本地方法栈（线程隔离） 方法区（所有线程共享） 堆内存（所有线程共享） 程序计数器（线程隔离）  程序计数器当前线程执行的字节码的行号指示器，字节码解释器通过改变这个计数器的值来读取下一条要执行的字节码指令是程序控制流的指示器，分支，循环，跳转，异常处理，线程切换都需要这个计数器如果执行的是Java代码，则指向了虚拟机字节码的指令的地址如果执行的本地方法，则为U">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-12T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-14T07:41:01.369Z">
+<meta property="article:modified_time" content="2021-01-14T09:08:17.400Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="JVM">
 <meta property="article:tag" content="虚拟机">
@@ -107,7 +107,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">虚拟机栈</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">虚拟机栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-number">1.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%A0%86"><span class="toc-number">1.4.</span> <span class="toc-text">Java堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-number">1.6.</span> <span class="toc-text">运行时常量池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-number">1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -161,11 +161,30 @@
 <h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>当前线程执行的字节码的行号指示器，字节码解释器通过改变这个计数器的值来读取下一条要执行的字节码指令<br>是程序控制流的指示器，分支，循环，跳转，异常处理，线程切换都需要这个计数器<br>如果执行的是Java代码，则指向了虚拟机字节码的指令的地址<br>如果执行的本地方法，则为Undefined<br><strong><em>在虚拟机规范中唯一不会OOM情况的区域</em></strong></p>
 <h2 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h2><p>生命周期和线程相同<br>描述的Java方法执行时的线程内存模型<br>每个方法执行的时候，都会同步创建一个栈帧：</p>
 <ul>
-<li>局部变量表</li>
-<li>操作数栈</li>
-<li>动态链接</li>
-<li>方法出口</li>
+<li><p>局部变量表</p>
+<ul>
+<li>存放了基本数据类型</li>
+<li>对象引用<ul>
+<li>一个对象起始地址的引用指针</li>
+<li>或者指向一个代表对象的句柄或者其他与此对象相关的位置</li>
 </ul>
+</li>
+<li>returnAddress 一条字节码指令的地址</li>
+</ul>
+</li>
+<li><p>操作数栈</p>
+</li>
+<li><p>动态链接</p>
+</li>
+<li><p>方法出口</p>
+</li>
+</ul>
+<p>局部变量表所需的空间在编译时期完成分配，当进入一个方法时，这个方法在栈帧中需要分配多大的局部变量表是完全确定的<br>（槽的数量，1个槽位占位32bit），在方法允许期间不会改变局部变量表的大小<br>两种异常：<br>    - 线程请求的栈深度达到虚拟机允许的深度 - StackOverflowError<br>    - 栈扩展无法申请到足够的内存 - OutOfMemoryError</p>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>与虚拟机栈相似，只不过是为本地方法服务<br>也会抛出StackOverflowError和OutOfMemoryError</p>
+<h2 id="Java堆"><a href="#Java堆" class="headerlink" title="Java堆"></a>Java堆</h2><p>所有线程共享的一块内存区域，在虚拟机启动时创建<br>无论在哪个区域，存储的永远都是对象的实例<br>如果在Java堆中没有内存完成实例分配，并且堆也无法再扩展时，抛出OOM异常</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>存储已被虚拟机加载的类型信息，常量，静态变量，即时编译器编译后的代码缓存<br>方法区无法满足新的内存分配需求时，抛出OOM异常</p>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>方法区的一部分<br>class文件的常量池（字面常量+符号引用）+ 运行时产生的常量（String intern）<br>当常量池无法申请到内存时，抛出OOM异常</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域<br>Native函数直接分配堆外内存，然后通过一个存储在Java堆中的DirectByteBuffer来作为这块内存的引用进行操作<br>可以避免堆和Native堆来回复制数据<br>受到物理内存的限制，也会抛出OOM异常</p>
 
   </div>
   <div>
@@ -197,7 +216,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">虚拟机栈</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA"><span class="toc-number">1.</span> <span class="toc-text">运行时数据区</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">程序计数器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="toc-number">1.2.</span> <span class="toc-text">虚拟机栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="toc-number">1.3.</span> <span class="toc-text">本地方法栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Java%E5%A0%86"><span class="toc-number">1.4.</span> <span class="toc-text">Java堆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E5%8C%BA"><span class="toc-number">1.5.</span> <span class="toc-text">方法区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="toc-number">1.6.</span> <span class="toc-text">运行时常量池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98"><span class="toc-number">1.7.</span> <span class="toc-text">直接内存</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
