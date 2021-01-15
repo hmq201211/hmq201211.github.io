@@ -9,12 +9,12 @@
     <meta name="description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ComputerOrganization">
-<meta property="og:url" content="http://example.com/2021/01/04/ComputerOrganization/index.html">
+<meta property="og:url" content="http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/index.html">
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-04T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-15T02:37:33.252Z">
+<meta property="article:modified_time" content="2021-01-15T02:42:05.791Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="计算机组成原理">
 <meta property="article:tag" content="硬件">
@@ -79,10 +79,10 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2021/01/06/RedisCluster/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2021/01/06/Redis/RedisCluster/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2021/01/03/SelectPollEpoll/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2021/01/03/ComputerBasic/SelectPollEpoll/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -95,17 +95,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/04/ComputerOrganization/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/04/ComputerOrganization/&text=ComputerOrganization"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/04/ComputerOrganization/&is_video=false&description=ComputerOrganization"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ComputerOrganization&body=Check out this article: http://example.com/2021/01/04/ComputerOrganization/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/04/ComputerOrganization/&name=ComputerOrganization&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/04/ComputerOrganization/&t=ComputerOrganization"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&text=ComputerOrganization"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&is_video=false&description=ComputerOrganization"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ComputerOrganization&body=Check out this article: http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&name=ComputerOrganization&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&t=ComputerOrganization"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -179,10 +179,10 @@
 
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/ComputerOrganization.md" target="_blank">编辑文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/ComputerBasic/ComputerOrganization.md" target="_blank">编辑文档</a>
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/ComputerOrganization.md" target="_blank">删除文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/ComputerBasic/ComputerOrganization.md" target="_blank">删除文档</a>
   </div>
 </article>
 
@@ -212,17 +212,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/04/ComputerOrganization/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/04/ComputerOrganization/&text=ComputerOrganization"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/04/ComputerOrganization/&is_video=false&description=ComputerOrganization"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=ComputerOrganization&body=Check out this article: http://example.com/2021/01/04/ComputerOrganization/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/04/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/04/ComputerOrganization/&name=ComputerOrganization&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/04/ComputerOrganization/&t=ComputerOrganization"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&text=ComputerOrganization"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&is_video=false&description=ComputerOrganization"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ComputerOrganization&body=Check out this article: http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&title=ComputerOrganization"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&name=ComputerOrganization&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/&t=ComputerOrganization"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

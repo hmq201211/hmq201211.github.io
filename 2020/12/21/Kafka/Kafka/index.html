@@ -9,23 +9,23 @@
     <meta name="description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka">
-<meta property="og:url" content="http://example.com/2020/12/21/Kafka/index.html">
+<meta property="og:url" content="http://example.com/2020/12/21/Kafka/Kafka/index.html">
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
-<meta property="og:image" content="http://example.com/images/picture/KafkaJavaApi.png">
-<meta property="og:image" content="http://example.com/images/picture/KafkaConsumerGroup.png">
-<meta property="og:image" content="http://example.com/images/picture/Kafka%E9%9B%86%E7%BE%A4.png">
-<meta property="og:image" content="http://example.com/images/picture/ISR.png">
-<meta property="og:image" content="http://example.com/images/picture/MessageFormat.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/KafkaJavaApi.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/KafkaConsumerGroup.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/Kafka%E9%9B%86%E7%BE%A4.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/ISR.png">
+<meta property="og:image" content="http://example.com/2020/images/picture/MessageFormat.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-15T02:37:33.252Z">
+<meta property="article:modified_time" content="2021-01-15T02:42:05.791Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="中间件">
 <meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
+<meta name="twitter:image" content="http://example.com/2020/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
     
     
       
@@ -85,10 +85,8 @@
     <span id="actions">
       <ul>
         
-        <li><a class="icon" href="/2020/12/21/EffectiveJava/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        <li><a class="icon" href="/2020/12/21/Java/SpringInAction/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
-        
-        <li><a class="icon" href="/2020/12/21/Spring/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -101,17 +99,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/21/Kafka/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/21/Kafka/&text=kafka"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/21/Kafka/&is_video=false&description=kafka"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=kafka&body=Check out this article: http://example.com/2020/12/21/Kafka/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/21/Kafka/&name=kafka&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/21/Kafka/&t=kafka"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/21/Kafka/Kafka/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/21/Kafka/Kafka/&text=kafka"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/21/Kafka/Kafka/&is_video=false&description=kafka"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=kafka&body=Check out this article: http://example.com/2020/12/21/Kafka/Kafka/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/21/Kafka/Kafka/&name=kafka&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/21/Kafka/Kafka/&t=kafka"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -349,10 +347,10 @@ consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量</code></
 
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/Kafka.md" target="_blank">编辑文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/Kafka/Kafka.md" target="_blank">编辑文档</a>
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/Kafka.md" target="_blank">删除文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/Kafka/Kafka.md" target="_blank">删除文档</a>
   </div>
 </article>
 
@@ -382,17 +380,17 @@ consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量</code></
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/21/Kafka/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/21/Kafka/&text=kafka"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/21/Kafka/&is_video=false&description=kafka"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=kafka&body=Check out this article: http://example.com/2020/12/21/Kafka/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/21/Kafka/&title=kafka"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/21/Kafka/&name=kafka&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/21/Kafka/&t=kafka"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2020/12/21/Kafka/Kafka/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2020/12/21/Kafka/Kafka/&text=kafka"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2020/12/21/Kafka/Kafka/&is_video=false&description=kafka"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=kafka&body=Check out this article: http://example.com/2020/12/21/Kafka/Kafka/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2020/12/21/Kafka/Kafka/&title=kafka"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2020/12/21/Kafka/Kafka/&name=kafka&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2020/12/21/Kafka/Kafka/&t=kafka"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>

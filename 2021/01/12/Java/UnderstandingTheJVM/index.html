@@ -9,12 +9,12 @@
     <meta name="description" content="运行时数据区 虚拟机栈（线程隔离） 本地方法栈（线程隔离） 方法区（所有线程共享） 堆内存（所有线程共享） 程序计数器（线程隔离）  程序计数器当前线程执行的字节码的行号指示器，字节码解释器通过改变这个计数器的值来读取下一条要执行的字节码指令是程序控制流的指示器，分支，循环，跳转，异常处理，线程切换都需要这个计数器如果执行的是Java代码，则指向了虚拟机字节码的指令的地址如果执行的本地方法，则为U">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UnderstandingTheJVM">
-<meta property="og:url" content="http://example.com/2021/01/12/UnderstandingTheJVM/index.html">
+<meta property="og:url" content="http://example.com/2021/01/12/Java/UnderstandingTheJVM/index.html">
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="运行时数据区 虚拟机栈（线程隔离） 本地方法栈（线程隔离） 方法区（所有线程共享） 堆内存（所有线程共享） 程序计数器（线程隔离）  程序计数器当前线程执行的字节码的行号指示器，字节码解释器通过改变这个计数器的值来读取下一条要执行的字节码指令是程序控制流的指示器，分支，循环，跳转，异常处理，线程切换都需要这个计数器如果执行的是Java代码，则指向了虚拟机字节码的指令的地址如果执行的本地方法，则为U">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-12T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-15T02:37:33.256Z">
+<meta property="article:modified_time" content="2021-01-15T02:42:05.791Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="JVM">
 <meta property="article:tag" content="虚拟机">
@@ -79,7 +79,7 @@
       <ul>
         
         
-        <li><a class="icon" href="/2021/01/09/RedisAdvanced/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2021/01/09/Redis/RedisAdvanced/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -92,17 +92,17 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/12/UnderstandingTheJVM/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/12/UnderstandingTheJVM/&text=UnderstandingTheJVM"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/12/UnderstandingTheJVM/&is_video=false&description=UnderstandingTheJVM"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=UnderstandingTheJVM&body=Check out this article: http://example.com/2021/01/12/UnderstandingTheJVM/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/12/UnderstandingTheJVM/&name=UnderstandingTheJVM&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/12/UnderstandingTheJVM/&t=UnderstandingTheJVM"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/12/Java/UnderstandingTheJVM/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&text=UnderstandingTheJVM"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&is_video=false&description=UnderstandingTheJVM"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UnderstandingTheJVM&body=Check out this article: http://example.com/2021/01/12/Java/UnderstandingTheJVM/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&name=UnderstandingTheJVM&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&t=UnderstandingTheJVM"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -227,10 +227,10 @@
 <h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2>
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/UnderstandingTheJVM.md" target="_blank">编辑文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/Java/UnderstandingTheJVM.md" target="_blank">编辑文档</a>
   </div>
   <div>
-    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/UnderstandingTheJVM.md" target="_blank">删除文档</a>
+    <a href="https://github.com/hmq201211/hmq201211.github.io/delete/myblog/source/_posts/Java/UnderstandingTheJVM.md" target="_blank">删除文档</a>
   </div>
 </article>
 
@@ -260,17 +260,17 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/12/UnderstandingTheJVM/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/12/UnderstandingTheJVM/&text=UnderstandingTheJVM"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/12/UnderstandingTheJVM/&is_video=false&description=UnderstandingTheJVM"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=UnderstandingTheJVM&body=Check out this article: http://example.com/2021/01/12/UnderstandingTheJVM/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/12/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/12/UnderstandingTheJVM/&name=UnderstandingTheJVM&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/12/UnderstandingTheJVM/&t=UnderstandingTheJVM"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/12/Java/UnderstandingTheJVM/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&text=UnderstandingTheJVM"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&is_video=false&description=UnderstandingTheJVM"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=UnderstandingTheJVM&body=Check out this article: http://example.com/2021/01/12/Java/UnderstandingTheJVM/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&title=UnderstandingTheJVM"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&name=UnderstandingTheJVM&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/12/Java/UnderstandingTheJVM/&t=UnderstandingTheJVM"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
