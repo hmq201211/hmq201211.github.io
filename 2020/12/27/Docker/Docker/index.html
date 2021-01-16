@@ -13,15 +13,15 @@
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="思想：Linux 为系统内核 加 文件系统Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器Docker 容器使用的是最小定制 例如有ls 但是没有ll 概念：镜像是楼层的概念：   cmd命令 nginx文件 常用命令 linux文件  这样导致很多镜像的楼层下载的时候可以复用 组件： Images：Docker的镜像 用来生成Docker容器的模版 Container">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2020/images/picture/DockerFramework.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/DockerFile.png">
+<meta property="og:image" content="http://example.com/images/picture/DockerFramework.png">
+<meta property="og:image" content="http://example.com/images/picture/DockerFile.png">
 <meta property="article:published_time" content="2020-12-27T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-16T02:36:45.985Z">
+<meta property="article:modified_time" content="2021-01-16T02:39:52.152Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="容器">
 <meta property="article:tag" content="虚拟化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2020/images/picture/DockerFramework.png">
+<meta name="twitter:image" content="http://example.com/images/picture/DockerFramework.png">
     
     
       
@@ -178,7 +178,7 @@
 <li>Registry：<br>仓库用来保存镜像</li>
 <li>Machine：<br>虚拟化指令（命令行工具），简化docker的安装</li>
 </ul>
-<h1 id="架构："><a href="#架构：" class="headerlink" title="架构："></a>架构：</h1><p><img src="../../../../images/picture/DockerFramework.png" alt="架构"></p>
+<h1 id="架构："><a href="#架构：" class="headerlink" title="架构："></a>架构：</h1><p><img src="../../../../../images/picture/DockerFramework.png" alt="架构"></p>
 <ul>
 <li>LowerDir: 镜像的文件目录 只读的</li>
 <li>MergedDir：层叠文件目录</li>
@@ -258,7 +258,7 @@
 <li>docker tag 镜像:版本 ip:port/镜像:版本 创建分支用于push到仓库</li>
 <li>docker push ip:port/镜像:版本 把镜像推送到仓库</li>
 </ul>
-<h1 id="DockerFile-构建自定义镜像"><a href="#DockerFile-构建自定义镜像" class="headerlink" title="DockerFile: 构建自定义镜像"></a>DockerFile: 构建自定义镜像</h1><p><img src="../../../../images/picture/DockerFile.png" alt="DockerFile"></p>
+<h1 id="DockerFile-构建自定义镜像"><a href="#DockerFile-构建自定义镜像" class="headerlink" title="DockerFile: 构建自定义镜像"></a>DockerFile: 构建自定义镜像</h1><p><img src="../../../../../images/picture/DockerFile.png" alt="DockerFile"></p>
 <h1 id="Docker-仓库"><a href="#Docker-仓库" class="headerlink" title="Docker 仓库"></a>Docker 仓库</h1><p>需要启动一个registry服务 来管理镜像默认端口5000</p>
 
   </div>
