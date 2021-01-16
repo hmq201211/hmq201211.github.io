@@ -220,9 +220,9 @@ categories:
 
 
  
-[1]: ../../../../../images/picture/Broker与集群.png
-[2]: ../../../../../images/picture/KafkaJavaApi.png
-[3]: ../../../../../images/picture/KafkaConsumerGroup.png
-[4]: ../../../../../images/picture/Kafka集群.png
-[5]: ../../../../../images/picture/ISR.png
-[6]: ../../../../../images/picture/MessageFormat.png
+[1]: /images/picture/Broker与集群.png
+[2]: /images/picture/KafkaJavaApi.png
+[3]: /images/picture/KafkaConsumerGroup.png
+[4]: /images/picture/Kafka集群.png
+[5]: /images/picture/ISR.png
+[6]: /images/picture/MessageFormat.png
