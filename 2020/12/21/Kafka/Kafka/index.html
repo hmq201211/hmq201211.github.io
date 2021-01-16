@@ -13,19 +13,19 @@
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="优势 天生支持分布式 磁盘存储数据 持久化（但是有保存策略，包括时间和空间） 流处理模式  为什么选择： 多生产者和多消费者模式 天生持久化 高伸缩性 高性能  应用场景： 活动追踪 传递消息 收集指标和日志 提交日志 流处理  基础部分 消息: 字符数组 键:  可选项 批次: 提高效率 (权衡: 时间延迟与吞吐量之间的关系) 主题: 数据库中的表 分区: 相当于分表 生产者: 写消息 消费者:">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2020/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/KafkaJavaApi.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/KafkaConsumerGroup.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/Kafka%E9%9B%86%E7%BE%A4.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/ISR.png">
-<meta property="og:image" content="http://example.com/2020/images/picture/MessageFormat.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/KafkaJavaApi.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/KafkaConsumerGroup.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/Kafka%E9%9B%86%E7%BE%A4.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/ISR.png">
+<meta property="og:image" content="http://example.com/2020/12/21/Kafka/images/MessageFormat.png">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-15T02:42:05.791Z">
+<meta property="article:modified_time" content="2021-01-16T01:46:14.661Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="中间件">
 <meta property="article:tag" content="消息队列">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2020/images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
+<meta name="twitter:image" content="http://example.com/2020/12/21/Kafka/images/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png">
     
     
       
@@ -191,7 +191,7 @@
 <li>消费者: 拉取消息</li>
 <li>偏移量: 每个分区消费到的index</li>
 <li>消费群组: 每个分区只能被消费群组的一个消费者消费, 但是一个消费者可以消费多个分区. 如果消费者down了, 则由其他的消费者分担</li>
-<li>broker和集群: 集群复制, 消息首先传递到每个Broker的特定主题的特点分区的首领, 然后其他的Broker的相同主题的相同分区获得一份复制, 如果首领节点down了, 则其他节点充当首领<br><img src="../../../../images/picture/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png" alt="kafkaBroker与集群"></li>
+<li>broker和集群: 集群复制, 消息首先传递到每个Broker的特定主题的特点分区的首领, 然后其他的Broker的相同主题的相同分区获得一份复制, 如果首领节点down了, 则其他节点充当首领<br><img src="../images/Broker%E4%B8%8E%E9%9B%86%E7%BE%A4.png" alt="kafkaBroker与集群"></li>
 </ol>
 <h1 id="Kafka对硬件的要求"><a href="#Kafka对硬件的要求" class="headerlink" title="Kafka对硬件的要求"></a>Kafka对硬件的要求</h1><ol>
 <li>磁盘：影响最大的是生产者，读写速度和空间大小（每个分区，多个目录，保存几天，几个副本）</li>
@@ -222,7 +222,7 @@
 <li>key值固定，不负载均衡</li>
 <li>key为空，分区器散列</li>
 </ul>
-<h1 id="生产者Java-API"><a href="#生产者Java-API" class="headerlink" title="生产者Java API"></a>生产者Java API</h1><p><img src="../../../../images/picture/KafkaJavaApi.png" alt="生产者JavaAPI"><br>失败重试机制：</p>
+<h1 id="生产者Java-API"><a href="#生产者Java-API" class="headerlink" title="生产者Java API"></a>生产者Java API</h1><p><img src="../images/KafkaJavaApi.png" alt="生产者JavaAPI"><br>失败重试机制：</p>
 <ol>
 <li>连接错误</li>
 <li>首领down了  </li>
@@ -262,7 +262,7 @@
 <ol>
 <li>消费速率的问题 消费者往往比生产者慢</li>
 </ol>
-<p>消费者群组订阅规则:<br><img src="../../../../images/picture/KafkaConsumerGroup.png" alt="消费者群组"></p>
+<p>消费者群组订阅规则:<br><img src="../images/KafkaConsumerGroup.png" alt="消费者群组"></p>
 <ol>
 <li>每个分区只能被一个消费者消费</li>
 <li>要是消费者比分区多, 没订阅的消费者会得不到信息</li>
@@ -313,7 +313,7 @@ consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量</code></
 独立消费者:<br>没有消费者组的概念, 但是需要消费主题和分区<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. consumer.partitionsFor(TOPIC); 获取主题的分区列表</span><br><span class="line">2. 选取要消费的主题 放入list</span><br><span class="line">3. consumer.assign(List&lt;TopicPartition&gt;)</span><br></pre></td></tr></table></figure>
 消费者优雅退出:<br>其他的线程调用消费者的wakeup方法</li>
 </ul>
-<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p><img src="../../../../images/picture/Kafka%E9%9B%86%E7%BE%A4.png" alt="集群"></p>
+<h1 id="集群"><a href="#集群" class="headerlink" title="集群"></a>集群</h1><p><img src="../images/Kafka%E9%9B%86%E7%BE%A4.png" alt="集群"></p>
 <p>控制器：<br>  多个Broker的管理者<br>复制相关：</p>
 <ul>
 <li><p>首领副本 集群的某个分区的管理者，对接生产者和消费者 分配首领遵循最少使用原则</p>
@@ -335,9 +335,9 @@ consumer.seek(TopicPartition, Offset) 指定消费者的消费偏移量</code></
 </li>
 <li><p>生产者批量发送，消费者也是批量消费，或者指定的等待时间到了也会拉取</p>
 </li>
-<li><p>ISR列表: zk维护了一个跟leader信息一致的follower的列表， 用于leader选举<br><img src="../../../../images/picture/ISR.png" alt="ISR"><br>ISR加ACKS=all 保证消息不丢失，但是损失效率</p>
+<li><p>ISR列表: zk维护了一个跟leader信息一致的follower的列表， 用于leader选举<br><img src="../images/ISR.png" alt="ISR"><br>ISR加ACKS=all 保证消息不丢失，但是损失效率</p>
 </li>
-<li><p>消息格式 推荐使用压缩<br><img src="../../../../images/picture/MessageFormat.png" alt="消息格式"></p>
+<li><p>消息格式 推荐使用压缩<br><img src="../images/MessageFormat.png" alt="消息格式"></p>
 </li>
 <li><p>索引：普通索引和时间戳索引，Kafka自己不维护</p>
 </li>
