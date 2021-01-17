@@ -13,12 +13,14 @@
 <meta property="og:site_name" content="我的笔记">
 <meta property="og:description" content="运行时数据区 虚拟机栈（线程隔离） 本地方法栈（线程隔离） 方法区（所有线程共享） 堆内存（所有线程共享） 程序计数器（线程隔离）  程序计数器当前线程执行的字节码的行号指示器，字节码解释器通过改变这个计数器的值来读取下一条要执行的字节码指令是程序控制流的指示器，分支，循环，跳转，异常处理，线程切换都需要这个计数器如果执行的是Java代码，则指向了虚拟机字节码的指令的地址如果执行的本地方法，则为U">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/source/images/picture/MarkWord.png">
 <meta property="article:published_time" content="2021-01-12T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-16T02:42:46.998Z">
+<meta property="article:modified_time" content="2021-01-17T05:30:42.557Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="JVM">
 <meta property="article:tag" content="虚拟机">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/source/images/picture/MarkWord.png">
     
     
       
@@ -215,7 +217,7 @@
 </ul>
 </li>
 <li>对分配到的内存空间（但是不包括对象头）都初始化零值，要是在TLAB分配的话，这项工作可以提前到TLAB分配时顺便执行</li>
-<li>接下来对对象头进行必要的设置，根据虚拟机当前运行状态的不同，如是否启用偏向锁，对象头有不同的设置方式<ul>
+<li>接下来对对象头进行必要地设置，根据虚拟机当前运行状态的不同，如是否启用偏向锁，对象头有不同的设置方式<ul>
 <li>这个对象是哪个类的实例</li>
 <li>如何才能找到类的元数据信息</li>
 <li>对象的哈希码（调用hashcode（）的时候才会计算）</li>
@@ -224,7 +226,26 @@
 </li>
 <li>最后执行构造函数，即Class文件中的<init>()方法，按照程序员的意愿对对象进行初始化，这样一个真正可用的对象才算完全被构造出来</li>
 </ul>
-<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象在堆内存中的存储布局可以划分为三个部分：对象头（Header）、实例数据（Instance Data）、和对齐填充（Padding）</p>
+<ul>
+<li>对象头<ul>
+<li>一类是用于存储对象自身的运行时数据<ul>
+<li>包括<ul>
+<li>哈希码</li>
+<li>GC分代年龄</li>
+<li>锁状态</li>
+<li>线程持有的锁</li>
+<li>偏向线程ID</li>
+<li>偏向时间戳</li>
+</ul>
+</li>
+<li>为了以极小的空间存储更多的数据，根据锁状态标志位的不同，Mark Word表示不同的信息<br><img src="/source/images/picture/MarkWord.png" alt="markword"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   </div>
   <div>
     <a href="https://github.com/hmq201211/hmq201211.github.io/edit/myblog/source/_posts/Java/UnderstandingTheJVM.md" target="_blank">编辑文档</a>
