@@ -14,7 +14,7 @@
 <meta property="og:description" content="Select 把fd（文件描述符）构造成bitmap传递给os的select，操作系统由用户态转内核态，并把bitmap拷贝到内核空间进行操作，要是有事件触发了，这个fd对应的bitmap的位置会被置位，客户端则需要遍历bitmap来查看那些fd有读写事件触发了，复杂度为O（n） select的bitmap有限制 1024 bitmap不可重用 需要用户态转内核态的过程 需要n复杂度的遍历才能直到">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-03T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-19T01:16:22.986Z">
+<meta property="article:modified_time" content="2021-01-19T02:40:41.834Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="操作系统">
 <meta property="article:tag" content="网络通讯">
