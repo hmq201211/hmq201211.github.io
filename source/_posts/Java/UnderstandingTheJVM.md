@@ -1,5 +1,6 @@
 ---
-title: UnderstandingTheJVM date: 2021-01-12  
+title: UnderstandingTheJVM  
+date: 2021-01-12  
 tags:
 
 - JVM
@@ -233,7 +234,6 @@ HotSpot虚拟机在Java堆中对象分配、布局和访问的全过程
             - 还有一种方案是先标记-清除，直到内存的碎片化程度已经大到影响对象分配时，再采用标记-整理算法收集一次（CMS就是在面临空间碎片化过多时采用这种处理方法）
     - HotSpot的算法细节实现
         - 跟节点枚举
-    
 
 [1]: /images/picture/MarkWord.png
 
