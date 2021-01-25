@@ -105,4 +105,4 @@ CPU性能指标
 
 [3]: /images/picture/ArithmeticUnit&ControllerUnit.png
 
-[4]: /images/picture/KMT量词.png
+[4]: /images/picture/KMGT量词.png
