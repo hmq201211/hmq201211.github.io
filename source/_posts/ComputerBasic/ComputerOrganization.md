@@ -88,9 +88,7 @@ tags:
     1. 取指令 从主存中取指令存入IR、PC自动加一
     2. 分析指令 CU从IR中分析指令
     3. 执行指令 CU根据分析出来的指令指挥其他部件进行执行
-    
 
-    
 CPU性能指标
 
 - CPU主频 = 1/CPU时钟周期
@@ -99,9 +97,12 @@ CPU性能指标
 - IPS 每秒执行多少指令 主频/CPI
 - FLOPS Floating-point Operations Per Second 每秒执行多少次浮点运算
 
+![img.png][4]
 
 [1]: /images/picture/MainMemory.png
 
 [2]: /images/picture/MainMemoryBody.png
 
 [3]: /images/picture/ArithmeticUnit&ControllerUnit.png
+
+[4]: /images/picture/KMT量词.png
