@@ -6,20 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）  主存储器的构成包括：  存储体 存储地址寄存器 存储数据寄存器">
+    <meta name="description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）  主存储器的构成包括：  存储体 存储地址寄存器MAR（也可能集成到CPU中） 存储">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ComputerOrganization">
 <meta property="og:url" content="http://example.com/2021/01/04/ComputerBasic/ComputerOrganization/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）  主存储器的构成包括：  存储体 存储地址寄存器 存储数据寄存器">
+<meta property="og:description" content="冯诺伊曼计算机提出了存储程序的概念，把指令以二进制编码的形式事先存储到计算机的主存储器中，然后按顺序执行，直到结束包括了一下的部件：  控制器 存储器 运算器 输入设备 输出设备  特点：  5大组件 数据和指令同时存储 二进制存储 指令包括操作码和地址码 存储程序 以运算器为核心（现代计算机体系以存储器为中心）  主存储器的构成包括：  存储体 存储地址寄存器MAR（也可能集成到CPU中） 存储">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/picture/MainMemory.png">
+<meta property="og:image" content="http://example.com/images/picture/MainMemoryBody.png">
+<meta property="og:image" content="http://example.com/images/picture/ArithmeticUnit&ControllerUnit.png">
 <meta property="article:published_time" content="2021-01-04T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-22T06:02:56.261Z">
+<meta property="article:modified_time" content="2021-01-25T08:45:41.919Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="计算机组成原理">
 <meta property="article:tag" content="硬件">
-<meta property="article:tag" content="补课">
+<meta property="article:tag" content="[object Object]">
+<meta property="article:tag" content="基础专业课">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/images/picture/MainMemory.png">
     
@@ -143,16 +146,11 @@
 
 
       
-    <div class="article-category">
-        <i class="fas fa-archive"></i>
-        <a class="category-link" href="/categories/%E5%9F%BA%E7%A1%80%E4%B8%93%E4%B8%9A%E8%AF%BE/">基础专业课</a>
-    </div>
-
 
       
     <div class="article-tag">
         <i class="fas fa-tag"></i>
-        <a class="tag-link-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a>, <a class="tag-link-link" href="/tags/%E8%A1%A5%E8%AF%BE/" rel="tag">补课</a>, <a class="tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag">计算机组成原理</a>
+        <a class="tag-link-link" href="/tags/object-Object/" rel="tag">[object Object]</a>, <a class="tag-link-link" href="/tags/%E5%9F%BA%E7%A1%80%E4%B8%93%E4%B8%9A%E8%AF%BE/" rel="tag">基础专业课</a>, <a class="tag-link-link" href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag">硬件</a>, <a class="tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag">计算机组成原理</a>
     </div>
 
 
@@ -181,9 +179,59 @@
 <h2 id="主存储器的构成"><a href="#主存储器的构成" class="headerlink" title="主存储器的构成"></a>主存储器的构成</h2><p><img src="/images/picture/MainMemory.png" alt="主存储器"><br>包括：</p>
 <ul>
 <li>存储体</li>
-<li>存储地址寄存器</li>
-<li>存储数据寄存器</li>
+<li>存储地址寄存器MAR（也可能集成到CPU中）</li>
+<li>存储数据寄存器MDR（也可能集成到CPU中）</li>
 </ul>
+<p>读过程：</p>
+<ul>
+<li>写入MAR，要读取的地址</li>
+<li>主存储器从该地址取出数据，存入MDR</li>
+<li>CPU从MDR读取数据</li>
+</ul>
+<p>写过程：</p>
+<ul>
+<li>CPU写入MAR 要操作的地址</li>
+<li>CPU写入MDR 要操作的数据</li>
+<li>CPU通过总线标示写入操作</li>
+<li>主存储器把该数据写入该地址</li>
+</ul>
+<p><img src="/images/picture/MainMemoryBody.png" alt="主存储体"></p>
+<p>主存储体的组成：</p>
+<ul>
+<li>存储单元：存储体按照地址和存储单元来存储数据，每个存储单元存放一串二进制代码</li>
+<li>存储字（word）：存储单元中二进制代码的组合</li>
+<li>存储字长：存储单元中二进制组合的位数</li>
+<li>存储元：存储二进制数据的元件，每个存储元存1bit</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li><strong><em>MAR的位数反应了存储单元的个数</em></strong></li>
+<li><strong><em>MDR的位数和存储单元的位数保持一致</em></strong></li>
+</ul>
+<p><img src="/images/picture/ArithmeticUnit&ControllerUnit.png" alt="运算器与控制器"></p>
+<p>运算器的组成：</p>
+<ul>
+<li>ACC 累加计数器，存放操作数和运算的结果</li>
+<li>MQ 乘商寄存器，进行乘除运算的时候用的到，还可以作为乘法运算的地位辅助存储结果</li>
+<li>X 通用寄存器，存放操作数，可以有多个</li>
+<li>ALU 算数逻辑单元，用电路实现各种算数运算、逻辑运算</li>
+</ul>
+<p>控制器的组成：</p>
+<ul>
+<li>PC 程序计数器，存放下一条指令的地址，且具有自动加一的功能</li>
+<li>IR 指令寄存器，存放当前指令</li>
+<li>CU 控制单元，分析指令，并给出控制信号</li>
+</ul>
+<p>工作过程：</p>
+<ol>
+<li>初始化 指令和数据存入主存，PC指向第一条指令</li>
+<li>取指令，分析指令，执行指令循环执行<ol>
+<li>取指令 从主存中取指令存入IR、PC自动加一</li>
+<li>分析指令 CU从IR中分析指令</li>
+<li>执行指令 CU根据分析出来的指令指挥其他部件进行执行</li>
+</ol>
+</li>
+</ol>
 
   </div>
   <div>
