@@ -90,7 +90,14 @@ tags:
     3. 执行指令 CU根据分析出来的指令指挥其他部件进行执行
     
 
+    
+CPU性能指标
 
+- CPU主频 = 1/CPU时钟周期
+- CPI（clock cycle per instruction）执行一条指令所需要的时钟周期数
+- CPU执行时间 CPI*指令数/CPU主频
+- IPS 每秒执行多少指令 主频/CPI
+- FLOPS Floating-point Operations Per Second 每秒执行多少次浮点运算
 
 
 [1]: /images/picture/MainMemory.png
