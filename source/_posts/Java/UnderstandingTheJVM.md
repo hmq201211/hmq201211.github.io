@@ -5,7 +5,9 @@ tags:
 
 - JVM
 - 虚拟机
-
+  
+categories:
+- JVM
 ---
 
 # 运行时数据区
