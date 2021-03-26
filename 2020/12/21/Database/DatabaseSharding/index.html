@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="垂直分表将一个单表, 按照字段拆分为多个表, 每个表存储其中的一部分字段  带来的提升:  减少锁表的几率 提升热门数据的访问效率, 不会被非热门数据的访问慢而拖累   垂直拆分原则:  不常用的字段单独放一张表 大字段拆出来放一张表 经常组合查询的列放在一张表里   垂直分表示例   商品信息和商品描述分成2张表   垂直分库按照业务将表分类, 分布到不同的服务器上, 核心思想是专库专用  带来">
+    <meta name="description" content="垂直分表将一个单表, 按照字段拆分为多个表, 每个表存储其中的一部分字段  带来的提升:  减少锁表的几率 提升热门数据的访问效率, 不会被非热门数据的访问慢而拖累   垂直拆分原则:  不常用的字段单独放一张表 大字段拆出来放一张表 经常组合查询的列放在一张表里   垂直分表示例   商品信息和商品描述分成2张表  垂直分库按照业务将表分类, 分布到不同的服务器上, 核心思想是专库专用  带来的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DatabaseSharding">
 <meta property="og:url" content="http://example.com/2020/12/21/Database/DatabaseSharding/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="垂直分表将一个单表, 按照字段拆分为多个表, 每个表存储其中的一部分字段  带来的提升:  减少锁表的几率 提升热门数据的访问效率, 不会被非热门数据的访问慢而拖累   垂直拆分原则:  不常用的字段单独放一张表 大字段拆出来放一张表 经常组合查询的列放在一张表里   垂直分表示例   商品信息和商品描述分成2张表   垂直分库按照业务将表分类, 分布到不同的服务器上, 核心思想是专库专用  带来">
+<meta property="og:description" content="垂直分表将一个单表, 按照字段拆分为多个表, 每个表存储其中的一部分字段  带来的提升:  减少锁表的几率 提升热门数据的访问效率, 不会被非热门数据的访问慢而拖累   垂直拆分原则:  不常用的字段单独放一张表 大字段拆出来放一张表 经常组合查询的列放在一张表里   垂直分表示例   商品信息和商品描述分成2张表  垂直分库按照业务将表分类, 分布到不同的服务器上, 核心思想是专库专用  带来的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-25T09:55:09.235Z">
+<meta property="article:modified_time" content="2021-03-26T03:01:08.890Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -51,7 +51,7 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -173,11 +173,10 @@
 </ol>
 </li>
 <li><p>垂直分表示例</p>
-<pre><code>  商品信息和商品描述分成2张表</code></pre>
-</li>
-</ul>
+<pre><code>  商品信息和商品描述分成2张表
+</code></pre>
 <h1 id="垂直分库"><a href="#垂直分库" class="headerlink" title="垂直分库"></a>垂直分库</h1><p>按照业务将表分类, 分布到不同的服务器上, 核心思想是专库专用</p>
-<ul>
+</li>
 <li><p>带来的提升:</p>
 <ol>
 <li>解决业务层面的耦合</li>
@@ -186,11 +185,10 @@
 </ol>
 </li>
 <li><p>垂直分库示例:</p>
-<pre><code> (店铺信息)与(商品信息和商品描述)相对独立, 拆分成2个数据库来存储</code></pre>
+<pre><code> (店铺信息)与(商品信息和商品描述)相对独立, 拆分成2个数据库来存储
+</code></pre>
+<h1 id="水平分表"><a href="#水平分表" class="headerlink" title="水平分表"></a>水平分表</h1><p>同一个数据库中, 把同一个表的数据拆分到2个表中</p>
 </li>
-</ul>
-<h1 id="水平分表"><a href="#水平分表" class="headerlink" title="水平分表"></a>水平分表</h1><p> 同一个数据库中, 把同一个表的数据拆分到2个表中</p>
-<ul>
 <li><p>带来的提升:</p>
 <ol>
 <li>单表数据量过大带来的性能问题</li>
@@ -198,11 +196,11 @@
 </ol>
 </li>
 <li><p>水平分表的示例:</p>
-<pre><code> 同一张表, 按照主键ID来进行取模和拆分</code></pre>
+<pre><code> 同一张表, 按照主键ID来进行取模和拆分
+ 
+</code></pre>
+<h1 id="水平分库"><a href="#水平分库" class="headerlink" title="水平分库"></a>水平分库</h1><p>把一张表, 按照一定的规则拆分到不同的数据库的表中</p>
 </li>
-</ul>
-<h1 id="水平分库"><a href="#水平分库" class="headerlink" title="水平分库"></a>水平分库</h1><p> 把一张表, 按照一定的规则拆分到不同的数据库的表中</p>
-<ul>
 <li><p>带来的提升:</p>
 <ol>
 <li>解决单表过大带来的性能问题</li>
@@ -210,10 +208,12 @@
 </ol>
 </li>
 <li><p>水平分库示例:</p>
-<pre><code> 把店铺表按照主键ID取模, 分布到不同的库的表中</code></pre>
-</li>
+<pre><code> 把店铺表按照主键ID取模, 分布到不同的库的表中
+ 
+</code></pre>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1></li>
 </ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<ol>
 <li>垂直分表要按访问频率和访问字段的是否为大字段进行拆分, 来提升性能. 同时也要避免联查</li>
 <li>垂直分库要按业务将表分别存放在不同的数据库中, 减小服务器负荷, 提升性能, 业务逻辑清晰. 但也带来了跨库的复杂问题</li>
 <li>水平分表要按行来把大表拆分成小表, 小幅提升性能, 作为水平分库的补充</li>

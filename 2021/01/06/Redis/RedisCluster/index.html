@@ -14,7 +14,7 @@
 <meta property="og:description" content="主从同步CAP原理当发生网路分区的时候，一致性和可用性两难全  C：consistent一致性 A：availability可用性 P：partition tolerance分区容忍性  当网路分区发生时，两个不同机器上的节点无法通讯，对一个节点的修改无法同步到另一个节点，数据的一致性无法保证除非我们在发生网路分区的时候不提供修改的服务，直到网路恢复再对外提供服务   最终一致性Redis的主从数">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-25T09:55:09.235Z">
+<meta property="article:modified_time" content="2021-03-26T03:01:08.890Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -54,7 +54,7 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -83,7 +83,7 @@
         <li><a class="icon" href="/2021/01/09/Redis/RedisAdvanced/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
         
         
-        <li><a class="icon" href="/2021/01/04/ComputerBasic/ComputerOrganization/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        <li><a class="icon" href="/2021/01/04/ComputerBasic/ComputerBasicHardCoreKnowledge/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
         <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
         <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
@@ -180,6 +180,7 @@
 <h2 id="无盘复制"><a href="#无盘复制" class="headerlink" title="无盘复制"></a>无盘复制</h2><p>快照同步需要很耗时的IO操作，特别是在当系统正在进行AOF的fsync时，发生快照同步，那么fsync会推迟执行，显著影响了服务效率<br>无盘复制就是主节点直接通过socket将快照内容发送给从节点，生成快照是遍历过程，主节点一边序列化，一边将序列化的内容发送给从节点<br>从节点就是收到所有数据到内存时，再一次性加载  </p>
 <h2 id="wait指令"><a href="#wait指令" class="headerlink" title="wait指令"></a>wait指令</h2><p>同步wait之前的所有写操作，异步变成同步，保证强一致性（不严格）  </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wait n t // n代表几个从节点，t代表超时时间 0表示无限等待直到同步完成（要是这时间发生了网路分区，wait指令永远阻塞，丧失可用性）</span><br></pre></td></tr></table></figure>
+
 <h1 id="Sentinel-哨兵"><a href="#Sentinel-哨兵" class="headerlink" title="Sentinel 哨兵"></a>Sentinel 哨兵</h1><p>一般是3-5个节点组成的哨兵集群，来监控主从节点的状态<br>当主节点挂掉时，自动选一个最优的从节点成为主节点<br>客户端来连接的时候会先连接哨兵，然后获取主节点地址，再进行数据交互<br>要是主节点挂掉，客户端会重新向哨兵要地址，哨兵会告诉客户端新的主节点地址<br>这样就完成了无需重启的节点切换<br>当主节点重启来之后，会成为新的主节点的从节点，会从新的主节点同步数据</p>
 <h1 id="Cluster-集群"><a href="#Cluster-集群" class="headerlink" title="Cluster 集群"></a>Cluster 集群</h1><h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><ul>
 <li>去中心化</li>
@@ -202,12 +203,9 @@
 <li>客户端收到这个错误信息后会更新本地的槽位映射表</li>
 </ul>
 <h2 id="迁移"><a href="#迁移" class="headerlink" title="迁移"></a>迁移</h2><ul>
-<li><p>最小单位是槽</p>
-</li>
-<li><p>迁移之前，标注源节点槽位为migrating，目标节点槽位为importing，表示这两个槽位为中间过渡状态</p>
-</li>
-<li><p>redis-trib 获取源节点的所有key列表（keysinslot，也可以部分获取），然后逐个key进行迁移</p>
-<ol>
+<li>最小单位是槽</li>
+<li>迁移之前，标注源节点槽位为migrating，目标节点槽位为importing，表示这两个槽位为中间过渡状态</li>
+<li>redis-trib 获取源节点的所有key列表（keysinslot，也可以部分获取），然后逐个key进行迁移<ol>
 <li>源节点作为目标节点的客户端</li>
 <li>源节点对key执行dump获得序列化内容</li>
 <li>然后通过客户端向目标节点发送restore 挂这个序列化内容为参</li>
@@ -215,24 +213,17 @@
 <li>源节点删除该key</li>
 </ol>
 </li>
-<li><p>迁移过程是同步的，也就是阻塞的，所以key要尽量小，否则会对性能有影响</p>
+<li>迁移过程是同步的，也就是阻塞的，所以key要尽量小，否则会对性能有影响</li>
+<li>要是迁移过程中出现了网络故障，这两个节点仍是中间过渡状态，等到迁移工具重新连上的时候会提示用户继续进行迁移</li>
+<li>迁移过程中客户端的访问：<ol>
+<li>访问旧节点，要是存在，正常返回</li>
+<li>要是不存在，可能key就是不存在，还有可能在新节点上</li>
+<li>向客户端返回-ASK targetNodeAddr指令，客户端向目标节点发送ASKING（无参）指令，这个指令要求目标节点对于下一条指令不能不管，当成自己的槽位处理</li>
+<li>然后在目标节点再重新执行原先的指令<pre><code>这是考虑到迁移没完成之前，这个槽位不属于新节点管理，新节点不认这个key是自己的，于是向客户端返回-MOVED错位指令，让他去源节点执行
+这样就构成了重定向循环
+</code></pre>
 </li>
-<li><p>要是迁移过程中出现了网络故障，这两个节点仍是中间过渡状态，等到迁移工具重新连上的时候会提示用户继续进行迁移</p>
-</li>
-<li><p>迁移过程中客户端的访问：</p>
-<ol>
-<li><p>访问旧节点，要是存在，正常返回</p>
-</li>
-<li><p>要是不存在，可能key就是不存在，还有可能在新节点上</p>
-</li>
-<li><p>向客户端返回-ASK targetNodeAddr指令，客户端向目标节点发送ASKING（无参）指令，这个指令要求目标节点对于下一条指令不能不管，当成自己的槽位处理</p>
-</li>
-<li><p>然后在目标节点再重新执行原先的指令</p>
-<pre><code>这是考虑到迁移没完成之前，这个槽位不属于新节点管理，新节点不认这个key是自己的，于是向客户端返回-MOVED错位指令，让他去源节点执行
-这样就构成了重定向循环</code></pre>
-</li>
-<li><p><strong><em>MOVED会刷新客户端节点槽位映射表，ASKING不会，只是临时纠正槽位信息</em></strong></p>
-</li>
+<li><strong><em>MOVED会刷新客户端节点槽位映射表，ASKING不会，只是临时纠正槽位信息</em></strong></li>
 </ol>
 </li>
 </ul>
@@ -257,33 +248,36 @@
 <li>然后向集群广播这个节点确定下线的信息，强迫其他节点认为这个节点下线了，并且立即进行主从切换</li>
 </ul>
 <h2 id="槽位迁移感知"><a href="#槽位迁移感知" class="headerlink" title="槽位迁移感知"></a>槽位迁移感知</h2><ul>
-<li>MOVED <ul>
+<li><p>MOVED </p>
+<ul>
 <li>将指令发送到了错位的节点，该节点发现该槽位不属于自己管理</li>
 <li>将目标节点的地址随同MOVED指令返回给客户端，让客户端访问目标节点</li>
 <li>客户端会刷新自己的槽位关系表，然后重试指令</li>
 <li>后序所有的该槽位的指令都会走目标节点</li>
 </ul>
 </li>
-<li>ASKING<ul>
+<li><p>ASKING</p>
+<ul>
 <li>纠正槽位的</li>
 <li>旧节点迁移中，且该key不存在旧节点（1.在新节点 2.真不存在）</li>
 <li>旧节点会通知客户端去新节点拿数据-&gt;给客户端返回asking error 并附带目标节点的地址</li>
 <li>客户端去目标节点尝试 但是不会刷新槽位映射表，只是临时纠正，不影响后序指令</li>
 </ul>
 </li>
-<li>重试两次<ol>
+<li><p>重试两次</p>
+<ol>
 <li>错误节点-&gt;MOVED</li>
 <li>目标节点在迁移中-&gt;ASKING</li>
 </ol>
-</li>
-</ul>
-<h2 id="集群变更感知"><a href="#集群变更感知" class="headerlink" title="集群变更感知"></a>集群变更感知</h2><ul>
-<li>目标节点挂掉 <ul>
+<h2 id="集群变更感知"><a href="#集群变更感知" class="headerlink" title="集群变更感知"></a>集群变更感知</h2></li>
+<li><p>目标节点挂掉 </p>
+<ul>
 <li>客户端抛出ConnectionError， 随机挑选一个节点地址来重试</li>
 <li>被重试的节点通过MOVED指令告知目标槽位被分配到了新的节点的地址</li>
 </ul>
 </li>
-<li>ops手动修改将主节点切换到了其他节点，并将旧的主节点移除出集群<ul>
+<li><p>ops手动修改将主节点切换到了其他节点，并将旧的主节点移除出集群</p>
+<ul>
 <li>打在旧的主节点上的指令会收到ClusterDown的错误</li>
 <li>告诉当前节点所在的集群不可用</li>
 <li>客户端关闭所有连接，清空槽位映射关系表，向上层报错</li>

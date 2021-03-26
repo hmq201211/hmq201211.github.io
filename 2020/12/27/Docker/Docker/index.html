@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="思想：Linux 为系统内核 加 文件系统Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器Docker 容器使用的是最小定制 例如有ls 但是没有ll 概念：镜像是楼层的概念：   cmd命令 nginx文件 常用命令 linux文件  这样导致很多镜像的楼层下载的时候可以复用 组件： Images：Docker的镜像 用来生成Docker容器的模版 Container">
+    <meta name="description" content="思想：Linux 为系统内核 加 文件系统Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器Docker 容器使用的是最小定制 例如有ls 但是没有ll 概念：镜像是楼层的概念：   cmd命令  nginx文件  常用命令  linux文件 这样导致很多镜像的楼层下载的时候可以复用   组件： Images：Docker的镜像 用来生成Docker容器的模版  Cont">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker">
 <meta property="og:url" content="http://example.com/2020/12/27/Docker/Docker/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="思想：Linux 为系统内核 加 文件系统Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器Docker 容器使用的是最小定制 例如有ls 但是没有ll 概念：镜像是楼层的概念：   cmd命令 nginx文件 常用命令 linux文件  这样导致很多镜像的楼层下载的时候可以复用 组件： Images：Docker的镜像 用来生成Docker容器的模版 Container">
+<meta property="og:description" content="思想：Linux 为系统内核 加 文件系统Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器Docker 容器使用的是最小定制 例如有ls 但是没有ll 概念：镜像是楼层的概念：   cmd命令  nginx文件  常用命令  linux文件 这样导致很多镜像的楼层下载的时候可以复用   组件： Images：Docker的镜像 用来生成Docker容器的模版  Cont">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/picture/DockerFramework.png">
 <meta property="og:image" content="http://example.com/images/picture/DockerFile.png">
 <meta property="article:published_time" content="2020-12-27T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-25T09:55:09.235Z">
+<meta property="article:modified_time" content="2021-03-26T03:01:08.890Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="容器">
 <meta property="article:tag" content="虚拟化">
@@ -55,7 +55,7 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -164,25 +164,36 @@
     <h1 id="思想："><a href="#思想：" class="headerlink" title="思想："></a>思想：</h1><p>Linux 为系统内核 加 文件系统<br>Docker 复用了Linux的系统内核，加定制的文件系统，组成了虚拟化容器<br>Docker 容器使用的是最小定制 例如有ls 但是没有ll</p>
 <h1 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h1><p>镜像是楼层的概念： </p>
 <ol>
-<li>cmd命令</li>
-<li>nginx文件</li>
-<li>常用命令</li>
-<li>linux文件</li>
-</ol>
+<li><p>cmd命令</p>
+</li>
+<li><p>nginx文件</p>
+</li>
+<li><p>常用命令</p>
+</li>
+<li><p>linux文件</p>
 <p>这样导致很多镜像的楼层下载的时候可以复用</p>
+</li>
+</ol>
 <h1 id="组件："><a href="#组件：" class="headerlink" title="组件："></a>组件：</h1><ul>
-<li>Images：<br>Docker的镜像 用来生成Docker容器的模版</li>
-<li>Container:<br>Docker的实际运行的容器</li>
-<li>Client：<br>客户端，通过docker api与docker守护进程进行通讯</li>
-<li>Host：<br>主机，用来运行docker的守护进程和doucker容器</li>
-<li>Registry：<br>仓库用来保存镜像</li>
-<li>Machine：<br>虚拟化指令（命令行工具），简化docker的安装</li>
-</ul>
+<li><p>Images：<br>Docker的镜像 用来生成Docker容器的模版</p>
+</li>
+<li><p>Container:<br>Docker的实际运行的容器</p>
+</li>
+<li><p>Client：<br>客户端，通过docker api与docker守护进程进行通讯</p>
+</li>
+<li><p>Host：<br>主机，用来运行docker的守护进程和doucker容器</p>
+</li>
+<li><p>Registry：<br>仓库用来保存镜像</p>
+</li>
+<li><p>Machine：<br>虚拟化指令（命令行工具），简化docker的安装</p>
 <h1 id="架构："><a href="#架构：" class="headerlink" title="架构："></a>架构：</h1><p><img src="/images/picture/DockerFramework.png" alt="架构"></p>
-<ul>
-<li>LowerDir: 镜像的文件目录 只读的</li>
-<li>MergedDir：层叠文件目录</li>
-<li>UpperDir：容器文件目录</li>
+</li>
+<li><p>LowerDir: 镜像的文件目录 只读的</p>
+</li>
+<li><p>MergedDir：层叠文件目录</p>
+</li>
+<li><p>UpperDir：容器文件目录</p>
+</li>
 </ul>
 <h1 id="docker-安装"><a href="#docker-安装" class="headerlink" title="docker 安装:"></a>docker 安装:</h1><ul>
 <li>yum仓库配置路径: /etc/yum.repos.d/</li>
@@ -191,12 +202,18 @@
 <li>yum install docker-ce-18.09.9 docker-ce-cli-18.09.9 containerd.io -y</li>
 </ul>
 <h1 id="docker-命令："><a href="#docker-命令：" class="headerlink" title="docker 命令："></a>docker 命令：</h1><ul>
-<li>systemctl start docker 启动docker</li>
-<li>systemctl enable docker 开机自动启动docker</li>
-<li>systemctl deamon-reload 重新加载systemctl所管理的服务的配置文件</li>
-<li>systemctl restart docker 重启docker</li>
-<li>docker pull 从仓库拉去镜像</li>
-<li>docker run 启动一个容器 <ul>
+<li><p>systemctl start docker 启动docker</p>
+</li>
+<li><p>systemctl enable docker 开机自动启动docker</p>
+</li>
+<li><p>systemctl deamon-reload 重新加载systemctl所管理的服务的配置文件</p>
+</li>
+<li><p>systemctl restart docker 重启docker</p>
+</li>
+<li><p>docker pull 从仓库拉去镜像</p>
+</li>
+<li><p>docker run 启动一个容器 </p>
+<ul>
 <li>d 后台运行</li>
 <li>name 容器名称</li>
 <li>再加 镜像名称：版本</li>
@@ -218,47 +235,63 @@
 <li>要是加上自己的命令，则会把默认命令覆盖掉， 如echo 111</li>
 </ul>
 </li>
-<li>docker images 查看已有的镜像</li>
-<li>docker ps 查看容器状态(alive)<ul>
+<li><p>docker images 查看已有的镜像</p>
+</li>
+<li><p>docker ps 查看容器状态(alive)</p>
+<ul>
 <li>a all 所有的</li>
 </ul>
 </li>
-<li>docker info 查看docker信息</li>
-<li>docker version 查看docker版本</li>
-<li>docker inspect +容器名称或者id 查看容器信息</li>
-<li>docker rm -fv +容器名称或者id 删除容器<ul>
+<li><p>docker info 查看docker信息</p>
+</li>
+<li><p>docker version 查看docker版本</p>
+</li>
+<li><p>docker inspect +容器名称或者id 查看容器信息</p>
+</li>
+<li><p>docker rm -fv +容器名称或者id 删除容器</p>
+<ul>
 <li>f 强制删除</li>
 <li>v 附带的数据也删除</li>
 </ul>
 </li>
-<li>docker rmi 删除镜像</li>
-<li>docker exec -it 容器的名称或者id /bin/bash 进入容器 ctrl+shift+p+q 退出交互但容器不关闭<ul>
+<li><p>docker rmi 删除镜像</p>
+</li>
+<li><p>docker exec -it 容器的名称或者id /bin/bash 进入容器 ctrl+shift+p+q 退出交互但容器不关闭</p>
+<ul>
 <li>i 即使没有附加, 也保持stdin打开</li>
 <li>t 分配一个伪终端</li>
 <li>d 分离模式, 在后台运行</li>
 <li>exit 退出</li>
 </ul>
 </li>
-<li>docker cp 源容器name或id：路径 目标路径 复制文件</li>
-<li>docker logs 容器name或者id 查看容器日志</li>
-<li>docker search 镜像名 查找镜像</li>
-<li>docker commit 将容器转换为镜像<ul>
+<li><p>docker cp 源容器name或id：路径 目标路径 复制文件</p>
+</li>
+<li><p>docker logs 容器name或者id 查看容器日志</p>
+</li>
+<li><p>docker search 镜像名 查找镜像</p>
+</li>
+<li><p>docker commit 将容器转换为镜像</p>
+<ul>
 <li>a author 作者</li>
 <li>m 备注</li>
 <li>加上容器名称</li>
 <li>加上镜像名称：版本</li>
 </ul>
 </li>
-<li>docker build 创建镜像<ul>
+<li><p>docker build 创建镜像</p>
+<ul>
 <li>t 镜像名称：版本号</li>
 <li>加.表示当前目录下的DockerFile</li>
 </ul>
 </li>
-<li>docker history 查看容器楼层</li>
-<li>docker tag 镜像:版本 ip:port/镜像:版本 创建分支用于push到仓库</li>
-<li>docker push ip:port/镜像:版本 把镜像推送到仓库</li>
-</ul>
+<li><p>docker history 查看容器楼层</p>
+</li>
+<li><p>docker tag 镜像:版本 ip:port/镜像:版本 创建分支用于push到仓库</p>
+</li>
+<li><p>docker push ip:port/镜像:版本 把镜像推送到仓库</p>
 <h1 id="DockerFile-构建自定义镜像"><a href="#DockerFile-构建自定义镜像" class="headerlink" title="DockerFile: 构建自定义镜像"></a>DockerFile: 构建自定义镜像</h1><p><img src="/images/picture/DockerFile.png" alt="DockerFile"></p>
+</li>
+</ul>
 <h1 id="Docker-仓库"><a href="#Docker-仓库" class="headerlink" title="Docker 仓库"></a>Docker 仓库</h1><p>需要启动一个registry服务 来管理镜像默认端口5000</p>
 
   </div>

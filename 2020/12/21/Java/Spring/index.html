@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
+    <meta name="description" content="spring framework支持几个模块 支持IOC和AOP的容器  支持JDBC和ORM数据访问模块  支持声明式事务的模块  支持基于Servlet的MVC开发  支持基于Reactive的WEB开发  以及集成JMS、JavaMail、JMX、缓存等其他模块。 IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring">
 <meta property="og:url" content="http://example.com/2020/12/21/Java/Spring/index.html">
 <meta property="og:site_name" content="我的笔记">
-<meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器 支持JDBC和ORM数据访问模块 支持声明式事务的模块 支持基于Servlet的MVC开发 支持基于Reactive的WEB开发 以及集成JMS、JavaMail、JMX、缓存等其他模块。  IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务">
+<meta property="og:description" content="spring framework支持几个模块 支持IOC和AOP的容器  支持JDBC和ORM数据访问模块  支持声明式事务的模块  支持基于Servlet的MVC开发  支持基于Reactive的WEB开发  以及集成JMS、JavaMail、JMX、缓存等其他模块。 IOC容器管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-12-21T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-25T09:55:09.235Z">
+<meta property="article:modified_time" content="2021-03-26T03:01:08.890Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="Java">
 <meta property="article:tag" content="Spring">
@@ -52,7 +52,7 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -159,15 +159,19 @@
 
   <div class="content" itemprop="articleBody">
     <h1 id="spring-framework支持几个模块"><a href="#spring-framework支持几个模块" class="headerlink" title="spring framework支持几个模块"></a>spring framework支持几个模块</h1><ul>
-<li>支持IOC和AOP的容器</li>
-<li>支持JDBC和ORM数据访问模块</li>
-<li>支持声明式事务的模块</li>
-<li>支持基于Servlet的MVC开发</li>
-<li>支持基于Reactive的WEB开发</li>
-<li>以及集成JMS、JavaMail、JMX、缓存等其他模块。</li>
-</ul>
+<li><p>支持IOC和AOP的容器</p>
+</li>
+<li><p>支持JDBC和ORM数据访问模块</p>
+</li>
+<li><p>支持声明式事务的模块</p>
+</li>
+<li><p>支持基于Servlet的MVC开发</p>
+</li>
+<li><p>支持基于Reactive的WEB开发</p>
+</li>
+<li><p>以及集成JMS、JavaMail、JMX、缓存等其他模块。</p>
 <h1 id="IOC容器"><a href="#IOC容器" class="headerlink" title="IOC容器"></a>IOC容器</h1><p>管理所有的轻量级JavaBean组件, 支持组件的生命周期管理、配置和组装, 提供AOP的支持, 以及AOP基础上的声明式事务  </p>
-<ul>
+</li>
 <li><p>传统new的方式有以下缺点:</p>
 <ol>
 <li>实力化一个组件很难, 很多组件可能涉及到配置解析, 费时费力</li>
@@ -269,29 +273,31 @@
 <li><p>@Value(“${app.zone:Z}”)来注入属性为app.zone的值 如果不存在 则这个值为Z</p>
 </li>
 <li><p>也可以先把配置读取到javaBean中，然后通过#{smtpConfig.host}来调用smtpConfig这个bean的getHost方法来注入值</p>
-<pre><code>这样做的好处是只需要在这个javaBean中一处修改（例如更换数据源），其他的依赖的这个javaBean的@Value 不需要修改</code></pre>
+<pre><code>这样做的好处是只需要在这个javaBean中一处修改（例如更换数据源），其他的依赖的这个javaBean的@Value 不需要修改
+</code></pre>
 </li>
 </ol>
 </li>
 <li><p>使用条件装配</p>
 <ol>
-<li>@Profile注解<ol>
+<li><p>@Profile注解</p>
+<ol>
 <li>JVM启动时加参数-Dspring.profiles.active=test,master来指定以test和master环境来启动</li>
 <li>@Bean @Profile({ “test”, “master” })（同时满足test和master才自动装配该bean） 或者@Bean @Profile(“!test”) （不是test环境才自动装配该bean）</li>
 </ol>
 </li>
-<li>@Conditional注解<ol>
+<li><p>@Conditional注解</p>
+<ol>
 <li>@Conditional(OnSmtpEnvCondition.class)</li>
 <li>实现Condition接口<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class OnSmtpEnvCondition implements Condition &#123;</span><br><span class="line">  public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) &#123;</span><br><span class="line">     return &quot;true&quot;.equalsIgnoreCase(System.getenv(&quot;smtp&quot;));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>只有Condition这个类返回true时才会加载bean</li>
 </ol>
+<h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>为了解决权限检查，日志记录，事务管理的重复代码而设计的面向切面编程技术<br>原理：基于jvm的动态代理，要是实现了接口，就可以使用jdk动态代理，要是没有可以使用CGLIB来实现</p>
 </li>
 </ol>
 </li>
-</ul>
-<h1 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h1><p>为了解决权限检查，日志记录，事务管理的重复代码而设计的面向切面编程技术<br>原理：基于jvm的动态代理，要是实现了接口，就可以使用jdk动态代理，要是没有可以使用CGLIB来实现</p>
-<ul>
-<li>装配AOP<ol>
+<li><p>装配AOP</p>
+<ol>
 <li>基本概念:<ol>
 <li>Aspect 切面, 即一个横跨多个核心逻辑的功能,即系统的关切点</li>
 <li>JoinPoint 连接点, 即定义在应用程序的何时, 插入切面的执行</li>
@@ -320,13 +326,15 @@
 </li>
 </ol>
 </li>
-<li>使用自定义注解来进行装配aop<ol>
+<li><p>使用自定义注解来进行装配aop</p>
+<ol>
 <li>自定义注解类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Target(METHOD)</span><br><span class="line">@Retention(RUNTIME)</span><br><span class="line">public @interface MetricTime &#123;</span><br><span class="line">    String value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>被拦截的方法上加上注解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public class UserService &#123;</span><br><span class="line">    &#x2F;&#x2F; 监控register()方法性能:</span><br><span class="line">    @MetricTime(&quot;register&quot;)</span><br><span class="line">    public User register(String email, String password, String name) &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>编写执行方法<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@Aspect</span><br><span class="line">@Component</span><br><span class="line">public class MetricAspect &#123;</span><br><span class="line">    @Around(&quot;@annotation(metricTime)&quot;)</span><br><span class="line">    public Object metric(ProceedingJoinPoint joinPoint, MetricTime metricTime) throws Throwable &#123;</span><br><span class="line">        String name &#x3D; metricTime.value();</span><br><span class="line">        long start &#x3D; System.currentTimeMillis();</span><br><span class="line">        try &#123;</span><br><span class="line">            return joinPoint.proceed();</span><br><span class="line">        &#125; finally &#123;</span><br><span class="line">            long t &#x3D; System.currentTimeMillis() - start;</span><br><span class="line">            &#x2F;&#x2F; 写入日志或发送至JMX:</span><br><span class="line">            System.err.println(&quot;[Metrics] &quot; + name + &quot;: &quot; + t + &quot;ms&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 </li>
-<li><strong>Spring通过CGLIB创建的代理类，不会初始化代理类自身继承的任何成员变量，包括final类型的成员变量！</strong><ol>
+<li><p><strong>Spring通过CGLIB创建的代理类，不会初始化代理类自身继承的任何成员变量，包括final类型的成员变量！</strong></p>
+<ol>
 <li>访问被注入的Bean时，总是调用方法而非直接访问字段；即要调用访问方法</li>
 <li>编写bean的时候, 如果这个类可能被代理, 那么就要避免使用public final来修饰</li>
 </ol>

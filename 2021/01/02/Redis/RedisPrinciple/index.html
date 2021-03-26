@@ -14,7 +14,7 @@
 <meta property="og:description" content="线程IO模型非阻塞IO 阻塞式IO 读取多少个字节后返回，要是没读取完成，就会阻塞 写多少字节返回，要是写缓冲区满了，那么写方法就会阻塞，直到缓冲区有空间空出来   非阻塞式IO Non_Blocking true 读写方法都不会阻塞 能读多少取决于读缓冲区的已有字节数 能写多少取决于写缓冲区的空闲字节数 读写都会返回已经操作的字节数    事件轮询用来解决线程如何知道何时继续读和写的问题（读缓冲">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-02T00:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-25T09:55:09.235Z">
+<meta property="article:modified_time" content="2021-03-26T03:01:08.890Z">
 <meta property="article:author" content="HMQ">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="中间件">
@@ -54,7 +54,7 @@
     <!-- rss -->
     
     
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="max-width mx-auto px3 ltr">
     
@@ -188,38 +188,52 @@
 </ul>
 <h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><p>防止响应IO事件时错过定时任务，Redis使用了最小堆来处理</p>
 <ul>
-<li>每个循环周期中，对最小堆中要到期的时间点的任务进行处理</li>
-<li>将最快要执行的任务还需要等待的时间记录下来，作为selct调用的timeout</li>
-</ul>
+<li><p>每个循环周期中，对最小堆中要到期的时间点的任务进行处理</p>
+</li>
+<li><p>将最快要执行的任务还需要等待的时间记录下来，作为selct调用的timeout</p>
 <h1 id="通讯协议"><a href="#通讯协议" class="headerlink" title="通讯协议"></a>通讯协议</h1><p>Redis使用了文本协议</p>
 <h2 id="RESP-Redis序列化协议"><a href="#RESP-Redis序列化协议" class="headerlink" title="RESP Redis序列化协议"></a>RESP Redis序列化协议</h2><p>5种最小单元类型，每个单元结束后加上回车换行符</p>
-<ul>
-<li>单行字符串以+开头</li>
-<li>多行字符串以$开头加上字符串的长度</li>
-<li>整数以：开头</li>
-<li>错误信息以-开头</li>
-<li>数组以*开头加上数组的长度</li>
+</li>
+<li><p>单行字符串以+开头</p>
+</li>
+<li><p>多行字符串以$开头加上字符串的长度</p>
+</li>
+<li><p>整数以：开头</p>
+</li>
+<li><p>错误信息以-开头</p>
+</li>
+<li><p>数组以*开头加上数组的长度</p>
+</li>
 </ul>
 <h1 id="持久化"><a href="#持久化" class="headerlink" title="持久化"></a>持久化</h1><h2 id="快照-RDB"><a href="#快照-RDB" class="headerlink" title="快照 RDB"></a>快照 RDB</h2><ul>
-<li>全量备份</li>
-<li>内存数据的二进制序列化</li>
-<li>在进行rdb持久化的时候调用系统的glibc的函数fork来产生子进程，由子进程完全负责持久化的进行</li>
-<li>子进程和父进程完全共享代码段和数据段</li>
-<li>采用copy on write的机制，父进程在对内存进行修改的时候复制出要修改的内存的那一页，这样最多有2倍的数据内存大小</li>
-<li>子进程在进程产生的一瞬间，数据就不会变化，只需要遍历持久化就行</li>
-</ul>
-<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2><ul>
-<li>存储的是顺序指令序列，只存修改的操作</li>
-<li>恢复的时候通过重放这些指令来实现数据恢复</li>
-<li>但是随着Redis的运行，AOF会越来越大，AOF恢复会很耗时</li>
-<li>AOF重写 bgrewriteaof<ul>
+<li><p>全量备份</p>
+</li>
+<li><p>内存数据的二进制序列化</p>
+</li>
+<li><p>在进行rdb持久化的时候调用系统的glibc的函数fork来产生子进程，由子进程完全负责持久化的进行</p>
+</li>
+<li><p>子进程和父进程完全共享代码段和数据段</p>
+</li>
+<li><p>采用copy on write的机制，父进程在对内存进行修改的时候复制出要修改的内存的那一页，这样最多有2倍的数据内存大小</p>
+</li>
+<li><p>子进程在进程产生的一瞬间，数据就不会变化，只需要遍历持久化就行</p>
+<h2 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h2></li>
+<li><p>存储的是顺序指令序列，只存修改的操作</p>
+</li>
+<li><p>恢复的时候通过重放这些指令来实现数据恢复</p>
+</li>
+<li><p>但是随着Redis的运行，AOF会越来越大，AOF恢复会很耗时</p>
+</li>
+<li><p>AOF重写 bgrewriteaof</p>
+<ul>
 <li>开辟一个新的子进程对内存进行遍历</li>
 <li>转化成一系列的Redis的操作指令</li>
 <li>序列化到一个新的aof日志文件中</li>
 <li>再把这段操作时间中的增量AOF日志追加到这个文件中</li>
 </ul>
 </li>
-<li>fsync<ul>
+<li><p>fsync</p>
+<ul>
 <li>AOF日志是文件形式，当程序对日志进行写操作实际是把内容写到了内核为文件描述符分配的一个内存缓存里面，内核会异步将脏数据刷回硬盘</li>
 <li>要是突然宕机这时日志就会丢失</li>
 <li>glibc中的fsync函数可以将指定文件的内容强制刷回硬盘</li>
@@ -227,48 +241,57 @@
 <li><strong><em>sync方法是将修改过的快缓存区排入写队列，不管磁盘操作是否执行完成，直接返回</em></strong></li>
 </ul>
 </li>
-<li>从机进行持久化，这是因为从机没有客户端请求的压力，但是要注意数据不一致的情况</li>
-<li>混合持久化：RDB恢复加AOF增量日志重放</li>
+<li><p>从机进行持久化，这是因为从机没有客户端请求的压力，但是要注意数据不一致的情况</p>
+</li>
+<li><p>混合持久化：RDB恢复加AOF增量日志重放</p>
+</li>
 </ul>
 <h1 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h1><p>管道并不是服务器提供的特有的技术，而是客户端提供的<br>2次指令对应请求为写读写读，为2次网络请求， 通过调整指令顺序为写写读读后，减少为1次网络请求</p>
 <h2 id="压测命令"><a href="#压测命令" class="headerlink" title="压测命令"></a>压测命令</h2><p>redis-benchmark -t set -q</p>
 <h2 id="深入了解管道本质"><a href="#深入了解管道本质" class="headerlink" title="深入了解管道本质"></a>深入了解管道本质</h2><ul>
-<li>write操作将数据写入内核写缓冲区然后就返回了，要是缓冲区满了才阻塞；  </li>
-<li>read操作从内核读缓冲区读数据，要是缓冲区没数据才阻塞； </li>
-<li>对于管道来说，连续的写操作根本不耗时，第一个读操作会等待一个网络请求的时间，之后的读操作都是从内核的读缓冲中取数据</li>
+<li><p>write操作将数据写入内核写缓冲区然后就返回了，要是缓冲区满了才阻塞；  </p>
+</li>
+<li><p>read操作从内核读缓冲区读数据，要是缓冲区没数据才阻塞； </p>
+</li>
+<li><p>对于管道来说，连续的写操作根本不耗时，第一个读操作会等待一个网络请求的时间，之后的读操作都是从内核的读缓冲中取数据</p>
+<h1 id="事务（弱事务）"><a href="#事务（弱事务）" class="headerlink" title="事务（弱事务）"></a>事务（弱事务）</h1></li>
 </ul>
-<h1 id="事务（弱事务）"><a href="#事务（弱事务）" class="headerlink" title="事务（弱事务）"></a>事务（弱事务）</h1><h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><ul>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><ul>
 <li>multi 事务开始</li>
 <li>exec 事务执行</li>
 <li>discard 事务丢弃</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;multi</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;incr books</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;incr books</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;exec</span><br><span class="line">1) &quot;OK&quot;</span><br><span class="line">2) &quot;1&quot;</span><br><span class="line">3) &quot;OK&quot;</span><br><span class="line">4) &quot;2&quot;</span><br><span class="line">5) &quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
-
 <p>所有指令在exec之前不执行，只是缓存在事务队列中</p>
 <h2 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h2><p>不具备原子性（要么全部成功，要么全部失败），但具备隔离性（当前执行的事务不被其他事务打断）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;multi</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;set book string</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;incr book</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;set node yes</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;exec</span><br><span class="line">1) &quot;OK&quot;</span><br><span class="line">2) &quot;OK&quot;</span><br><span class="line">3) &quot;OK&quot;</span><br><span class="line">4) &quot;ERR value is not an integer or out of range&quot;</span><br><span class="line">5) &quot;OK&quot;</span><br><span class="line">6) &quot;OK&quot;</span><br><span class="line">7) &quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;get book</span><br><span class="line">&quot;string&quot;</span><br><span class="line">101.200.121.40:0&gt;get node</span><br><span class="line">&quot;yes&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+
 <h2 id="discard-丢弃"><a href="#discard-丢弃" class="headerlink" title="discard 丢弃"></a>discard 丢弃</h2><p>在exec执行之前，作用是丢弃事务缓存队列里面的所有指令</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;get books</span><br><span class="line">null</span><br><span class="line">101.200.121.40:0&gt;multi</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;incr books</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;incr books</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;discard</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;get books</span><br><span class="line">null</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
-
 <h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>考虑到事务需要执行的指令比较多，那么可以考虑使用管道来减少IO操作</p>
 <h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p>watch会在事务开始前盯住一个或者多个关键变量，在exec执行之前会检查自watch之后是否修改了，如果修改了，会给客户端返回失败<br>利用这种机制可以实现乐观锁<br>Redis禁止在multi和exec之间执行watch，必须在multi之前</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console // shell 1</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;flushdb</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;set books 100</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;watch books</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;multi </span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;incr books</span><br><span class="line">&quot;QUEUED&quot;</span><br><span class="line">101.200.121.40:0&gt;exec</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;get books</span><br><span class="line">&quot;500&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
 <hr>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RDM Redis Console // shell 2 在shell 1 执行exec之前执行修改watch的值</span><br><span class="line">Connecting...</span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;set books 500</span><br><span class="line">&quot;OK&quot;</span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
-
 <p>通过watch来模拟乐观锁实现账户余额翻倍</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">key_for</span>(<span class="params">uid</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;account_&#123;&#125;&quot;</span>.<span class="built_in">format</span>(uid)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double_account</span>(<span class="params">redis_client, uid</span>):</span></span><br><span class="line">    key = key_for(uid)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        redis_client.watch(key)</span><br><span class="line">        value = <span class="built_in">int</span>(redis_client.get(key))</span><br><span class="line">        value *= <span class="number">2</span></span><br><span class="line">        pipeline = redis_client.pipeline(transaction=<span class="literal">True</span>)</span><br><span class="line">        pipeline.multi()</span><br><span class="line">        pipeline.<span class="built_in">set</span>(key, value)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            pipeline.execute()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span> redis.WatchError:</span><br><span class="line">            print(<span class="string">&quot;err&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(redis_client.get(key))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;++++++++&quot;</span>)</span><br><span class="line">user_id = <span class="string">&quot;abc&quot;</span></span><br><span class="line">client.setnx(key_for(user_id), <span class="number">10</span>)</span><br><span class="line">print(double_account(client, user_id))</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">key_for</span>(<span class="params">uid</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;account_&#123;&#125;&quot;</span>.<span class="built_in">format</span>(uid)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">double_account</span>(<span class="params">redis_client, uid</span>):</span></span><br><span class="line">    key = key_for(uid)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        redis_client.watch(key)</span><br><span class="line">        value = <span class="built_in">int</span>(redis_client.get(key))</span><br><span class="line">        value *= <span class="number">2</span></span><br><span class="line">        pipeline = redis_client.pipeline(transaction=<span class="literal">True</span>)</span><br><span class="line">        pipeline.multi()</span><br><span class="line">        pipeline.<span class="built_in">set</span>(key, value)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            pipeline.execute()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">except</span> redis.WatchError:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;err&quot;</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(redis_client.get(key))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;++++++++&quot;</span>)</span><br><span class="line">user_id = <span class="string">&quot;abc&quot;</span></span><br><span class="line">client.setnx(key_for(user_id), <span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span>(double_account(client, user_id))</span><br></pre></td></tr></table></figure>
 <h1 id="PubSub-消息多播"><a href="#PubSub-消息多播" class="headerlink" title="PubSub 消息多播"></a>PubSub 消息多播</h1><p>运行生产者生产一次消息，由中间件来负责将消息复制到多个消息队列</p>
 <h2 id="生产者消费者模型"><a href="#生产者消费者模型" class="headerlink" title="生产者消费者模型"></a>生产者消费者模型</h2><ul>
-<li>普通消费者<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;+++++++&quot;</span>)</span><br><span class="line">p = client.pubsub()</span><br><span class="line">p.subscribe(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    msg = p.get_message()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> msg:</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    print(msg)</span><br></pre></td></tr></table></figure></li>
+<li>普通消费者<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;+++++++&quot;</span>)</span><br><span class="line">p = client.pubsub()</span><br><span class="line">p.subscribe(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    msg = p.get_message()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> msg:</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="built_in">print</span>(msg)</span><br></pre></td></tr></table></figure></li>
 <li>普通生产者<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;&quot;</span>)</span><br><span class="line">client.publish(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;1&quot;</span>)</span><br><span class="line">client.publish(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;2&quot;</span>)</span><br><span class="line">client.publish(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;3&quot;</span>)</span><br></pre></td></tr></table></figure></li>
-<li>阻塞消费者<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;H&quot;</span>)</span><br><span class="line">p = client.pubsub()</span><br><span class="line">p.subscribe(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> msg <span class="keyword">in</span> p.listen():</span><br><span class="line">    print(msg)</span><br></pre></td></tr></table></figure>
+<li>阻塞消费者<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">client = redis.StrictRedis(host=<span class="string">&quot;101.200.121.40&quot;</span>, port=<span class="number">6379</span>, password=<span class="string">&quot;H&quot;</span>)</span><br><span class="line">p = client.pubsub()</span><br><span class="line">p.subscribe(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> msg <span class="keyword">in</span> p.listen():</span><br><span class="line">    <span class="built_in">print</span>(msg)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
 <h2 id="模式订阅"><a href="#模式订阅" class="headerlink" title="模式订阅"></a>模式订阅</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psubscribe com.* // 所有以com.*发生的消息都会收到</span><br></pre></td></tr></table></figure>
-<h2 id="消息结构"><a href="#消息结构" class="headerlink" title="消息结构"></a>消息结构</h2></li>
-<li>data 消息内容 一个字符串</li>
-<li>channel 当前订阅的主题</li>
-<li>type 消息的类型<ul>
+
+<h2 id="消息结构"><a href="#消息结构" class="headerlink" title="消息结构"></a>消息结构</h2><ul>
+<li><p>data 消息内容 一个字符串</p>
+</li>
+<li><p>channel 当前订阅的主题</p>
+</li>
+<li><p>type 消息的类型</p>
+<ul>
 <li>message 普通消息</li>
 <li>subscribe 订阅</li>
 <li>psubscribe 模式订阅</li>
@@ -276,32 +299,36 @@
 <li>unpsubscribe 取消模式订阅</li>
 </ul>
 </li>
-<li>pattern 模式订阅下的匹配规则</li>
-</ul>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
-<li>不保证消费者一定能收到消息(例如消费者down了,那么消息就收不到了,如果一个消费者都没有,那么会直接丢弃)</li>
-<li>自身也没有做持久化,所有消息都被丢弃</li>
-</ul>
+<li><p>pattern 模式订阅下的匹配规则</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2></li>
+<li><p>不保证消费者一定能收到消息(例如消费者down了,那么消息就收不到了,如果一个消费者都没有,那么会直接丢弃)</p>
+</li>
+<li><p>自身也没有做持久化,所有消息都被丢弃</p>
 <h1 id="小对象压缩"><a href="#小对象压缩" class="headerlink" title="小对象压缩"></a>小对象压缩</h1><p>如果Redis内部管理的数据结构很小，会使用紧凑存储形式压缩，例如以下的双数组（一维）代替hashmap（数组加链表）</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArrayMap</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">      self.keys = []</span><br><span class="line">      self.values = []</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              old = self.values[i]</span><br><span class="line">              self.values[i] = value</span><br><span class="line">              <span class="keyword">return</span> old</span><br><span class="line">      self.keys.append(key)</span><br><span class="line">      self.values.append(value)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, key</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              <span class="keyword">return</span> self.values[i]</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, key</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              old = self.values[i]</span><br><span class="line">              self.keys.remove(key)</span><br><span class="line">              self.values.remove(old)</span><br><span class="line">              <span class="keyword">return</span> old</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">collection = ArrayMap()</span><br><span class="line">print(collection.put(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">print(collection.put(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line">print(collection.put(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line">print(collection.get(<span class="number">1</span>))</span><br><span class="line">print(collection.delete(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArrayMap</span>:</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">      self.keys = []</span><br><span class="line">      self.values = []</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">put</span>(<span class="params">self, key, value</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              old = self.values[i]</span><br><span class="line">              self.values[i] = value</span><br><span class="line">              <span class="keyword">return</span> old</span><br><span class="line">      self.keys.append(key)</span><br><span class="line">      self.values.append(value)</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">get</span>(<span class="params">self, key</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              <span class="keyword">return</span> self.values[i]</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">delete</span>(<span class="params">self, key</span>):</span></span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.keys)):</span><br><span class="line">          <span class="keyword">if</span> key == self.keys[i]:</span><br><span class="line">              old = self.values[i]</span><br><span class="line">              self.keys.remove(key)</span><br><span class="line">              self.values.remove(old)</span><br><span class="line">              <span class="keyword">return</span> old</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">collection = ArrayMap()</span><br><span class="line"><span class="built_in">print</span>(collection.put(<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(collection.put(<span class="number">1</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(collection.put(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(collection.get(<span class="number">1</span>))</span><br><span class="line"><span class="built_in">print</span>(collection.delete(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
 
 <h2 id="ziplist-紧凑的字节数组结构"><a href="#ziplist-紧凑的字节数组结构" class="headerlink" title="ziplist 紧凑的字节数组结构"></a>ziplist 紧凑的字节数组结构</h2><p>如果存储的是hash结构, 那么key和value会作为两个entry相邻存储<br>如果存储的是zset结构, 那么value和score会作为两个entry相邻存储</p>
+</li>
+<li><p>头部:</p>
 <ul>
-<li>头部:<ul>
 <li>zlbytes 整个压缩列表占用的字节数 4bytes</li>
 <li>zltail 最后一个entry的偏移量, 便于直接定位尾部元素 4bytes</li>
 <li>zllen entry的数量 2bytes</li>
 </ul>
 </li>
-<li>中间:<ul>
+<li><p>中间:</p>
+<ul>
 <li>entry的紧凑排列</li>
 </ul>
 </li>
-<li>尾部:<br>-zlend 魔术整数255 1byte</li>
+<li><p>尾部:<br>-zlend 魔术整数255 1byte</p>
+</li>
 </ul>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">List of unsupported commands: DUMP, RESTORE, AUTH </span><br><span class="line">Connecting ...</span><br><span class="line"></span><br><span class="line">Connected.</span><br><span class="line">101.200.121.40:0&gt;hset hello a 1</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;hset hello b 2</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;hset hello c 3</span><br><span class="line">&quot;1&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;object encoding hello</span><br><span class="line">&quot;ziplist&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+
 <h2 id="intset"><a href="#intset" class="headerlink" title="intset"></a>intset</h2><p>紧凑的整数数组结构, 存储元素都是整数,且元素个数较少 </p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;sadd hello 1 2 3 </span><br><span class="line">&quot;3&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;object encoding hello</span><br><span class="line">&quot;intset&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+
 <p>开始是uint16 -&gt; uint32 -&gt; uint64  </p>
 <p>头部:</p>
 <ul>
@@ -311,17 +338,25 @@
 </ul>
 <p>当set里面村的是字符串, sadd会立即升级为hashtable</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">101.200.121.40:0&gt;sadd hello 1 2 3 </span><br><span class="line">&quot;3&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;object encoding hello</span><br><span class="line">&quot;intset&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;sadd hello yes no</span><br><span class="line">&quot;2&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;object encoding hello</span><br><span class="line">&quot;hashtable&quot;</span><br><span class="line"></span><br><span class="line">101.200.121.40:0&gt;</span><br></pre></td></tr></table></figure>
+
 <p>以下情况会升级为标准结构:</p>
 <ul>
-<li>hash-max-ziplist-entries 512 hash的元素个数超过512就必须用标准结构存储</li>
-<li>hash-max-ziplist-value 64 hash的任意元素的key/value的长度超过64就必须用标准结构存储</li>
-<li>list-max-ziplist-entries 512 list的元素个数超过512就必须用标准结构存储</li>
-<li>list-max-ziplist-value 64 list的任意元素的长度超过64就必须用标准结构存储</li>
-<li>zset-max-ziplist-entries 128 zset的元素个数超过128就必须用标准结构存储</li>
-<li>zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储</li>
-<li>set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储</li>
-</ul>
+<li><p>hash-max-ziplist-entries 512 hash的元素个数超过512就必须用标准结构存储</p>
+</li>
+<li><p>hash-max-ziplist-value 64 hash的任意元素的key/value的长度超过64就必须用标准结构存储</p>
+</li>
+<li><p>list-max-ziplist-entries 512 list的元素个数超过512就必须用标准结构存储</p>
+</li>
+<li><p>list-max-ziplist-value 64 list的任意元素的长度超过64就必须用标准结构存储</p>
+</li>
+<li><p>zset-max-ziplist-entries 128 zset的元素个数超过128就必须用标准结构存储</p>
+</li>
+<li><p>zset-max-ziplist-value 64 zset的任意元素的长度超过64就必须用标准结构存储</p>
+</li>
+<li><p>set-max-intset-entries 512 set的整数元素的个数超过512就必须用标准结构存储</p>
 <h2 id="内存回收机制"><a href="#内存回收机制" class="headerlink" title="内存回收机制"></a>内存回收机制</h2><p>操作系统是以页为单位回收内存的,只要有一个key在这一页上并且在使用中,这一页就不能被回收<br>Redis虽然无法保证立即回收被删除的key的内存,但是可以保证重新使用那些尚未回收的空闲内存</p>
+</li>
+</ul>
 
   </div>
   <div>
