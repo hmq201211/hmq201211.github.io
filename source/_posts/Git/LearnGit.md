@@ -2,8 +2,8 @@
 title: LearnGit  
 date: 2021-04-08  
 tags:
--Git
--Tools
+- Git
+- Tools
 
 categories:
 - 版本管理
